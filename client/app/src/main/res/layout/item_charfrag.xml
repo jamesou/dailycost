@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10sp">
+    <ImageView android:layout_width="35sp" android:layout_height="35sp"
+               android:id="@+id/item_charfrag_iv"
+               android:src="@mipmap/ic_bars_fs"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/item_charfrag_tv_type"
+              android:text="bar"
+              android:layout_toRightOf="@id/item_charfrag_iv"
+              android:layout_centerVertical="true"
+              android:textSize="16sp"
+              android:textColor="@color/black"
+              android:paddingLeft="10sp"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/item_charfrag_tv_pert"
+              android:text="22.3%"
+              android:textSize="16sp"
+              android:textColor="@color/black"
+              android:layout_centerInParent="true"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/item_charfrag_tv_sum"
+              android:text="$ 0"
+              android:layout_alignParentRight="true"
+              android:layout_centerVertical="true"
+              android:layout_marginRight="10sp"
+              android:textSize="16sp"
+              android:textColor="@color/black"/>
+
+</RelativeLayout>

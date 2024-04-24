@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:padding="10sp"
+                android:background="@color/white">
+    <ImageView android:layout_width="45sp" android:layout_height="45sp"
+               android:id="@+id/item_mainlv_iv"
+               android:src="@mipmap/ic_bars_fs"/>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_toRightOf="@id/item_mainlv_iv"
+                  android:layout_marginLeft="10sp"
+                  android:orientation="vertical">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/item_mainlv_tv_title"
+                  android:text="bars"
+                  android:textStyle="bold"
+                  android:textSize="16sp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/item_mainlv_tv_comment"
+                  android:text="Cigerette"
+                  android:layout_marginTop="5sp"
+                  android:textSize="12sp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_alignParentRight="true"
+                  android:layout_marginLeft="10sp"
+                  android:orientation="vertical">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/item_mainlv_tv_money"
+                  android:layout_gravity="right"
+                  android:text="$25.0"
+                  android:textStyle="bold"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/item_mainlv_tv_time"
+                  android:text="Today 18:10"
+                  android:layout_marginTop="5sp"/>
+    </LinearLayout>
+</RelativeLayout>

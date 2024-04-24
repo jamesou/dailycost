@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:padding="10sp"
+                android:background="@color/white">
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:id="@+id/item_categorylv_iv"
+               android:src="@mipmap/ic_bars_fs"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/item_categorylv_tv_title"
+              android:text="education"
+              android:textStyle="bold"
+              android:paddingLeft="40sp"
+              android:layout_centerVertical="true"
+              android:textSize="16sp"/>
+    <ImageView
+            android:id="@+id/CategoryBean_iv_mvup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="130sp"
+            android:src="@mipmap/category_moveup"
+            android:layout_alignParentRight="true"
+            android:onClick="onClick"/>
+    <ImageView
+            android:id="@+id/CategoryBean_iv_mvdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="90sp"
+            android:src="@mipmap/category_movedown"
+            android:layout_alignParentRight="true"
+            android:onClick="onClick"/>
+    <ImageView
+            android:id="@+id/CategoryBean_iv_eidt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50sp"
+            android:src="@mipmap/category_edit"
+            android:layout_alignParentRight="true"
+            android:onClick="onClick"/>
+    <ImageView
+            android:id="@+id/CategoryBean_iv_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10sp"
+            android:src="@mipmap/category_remove"
+            android:layout_alignParentRight="true"
+            android:onClick="onClick"/>
+</RelativeLayout>

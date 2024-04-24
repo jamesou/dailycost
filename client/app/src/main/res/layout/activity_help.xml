@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                   android:id="@+id/about_iv_back"
+                   android:src="@mipmap/it_back"
+                   android:onClick="onClick"
+                   android:layout_marginLeft="10sp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="@string/app_help"
+                  android:textSize="18sp"
+                  android:textStyle="bold"
+                  android:textColor="@color/black"/>
+    </RelativeLayout>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarThumbVertical="@color/colorAccent"
+            android:scrollbars="vertical">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical"
+                      android:padding="20sp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/help_record"
+                      android:layout_marginTop="10sp"
+                      android:textStyle="bold"
+                      android:textSize="16sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/help_record_detail"
+                      android:layout_marginTop="8sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginTop="10sp"
+                      android:text="@string/help_record_oper"
+                      android:textSize="16sp"
+                      android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/help_record_oper_detail"
+                      android:layout_marginTop="8sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginTop="10sp"
+                      android:text="@string/help_record_search"
+                      android:textSize="16sp"
+                      android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/help_record_search_detail"
+                      android:layout_marginTop="8sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginTop="10sp"
+                      android:text="@string/help_category_manage"
+                      android:textSize="16sp"
+                      android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/help_category_manage_detail"
+                      android:layout_marginTop="8sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginTop="10sp"
+                      android:text="@string/help_record_ana"
+                      android:textSize="16sp"
+                      android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/help_record_ana_detail"
+                      android:layout_marginTop="8sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginTop="10sp"
+                      android:text="@string/help_record_view"
+                      android:textSize="16sp"
+                      android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/help_record_view_detail"
+                      android:layout_marginTop="8sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginTop="10sp"
+                      android:text="@string/help_record_cal"
+                      android:textSize="16sp"
+                      android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/help_record_cal_detail"
+                      android:layout_marginTop="8sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginTop="10sp"
+                      android:text="@string/help_budget"
+                      android:textSize="16sp"
+                      android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/help_budget_detail"
+                      android:layout_marginTop="8sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginTop="10sp"
+                      android:text="@string/help_display_money"
+                      android:textSize="16sp"
+                      android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/help_display_money_detail"
+                      android:layout_marginTop="8sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginTop="10sp"
+                      android:text="@string/help_data_bak"
+                      android:textSize="16sp"
+                      android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/help_data_bak_detail"
+                      android:layout_marginTop="8sp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
