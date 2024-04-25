@@ -40,24 +40,24 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private void insertCategory(SQLiteDatabase db) {
         String sql = "insert into categorytb(categoryName , imageId , sImageId , kind) values (? , ? , ? , ?)";
         db.execSQL(sql , new Object[]{"Catering" , R.mipmap.ic_catering, R.mipmap.ic_catering_fs, 0});
-        db.execSQL(sql , new Object[]{"Transport" , R.mipmap.ic_transport, R.mipmap.ic_snacks_fs, 0});
+        db.execSQL(sql , new Object[]{"Transp." , R.mipmap.ic_transport, R.mipmap.ic_snacks_fs, 0});
         db.execSQL(sql , new Object[]{"Shopping" , R.mipmap.ic_shopping, R.mipmap.ic_shopping_fs, 0});
         db.execSQL(sql , new Object[]{"Clothes" , R.mipmap.ic_clothes, R.mipmap.ic_clothes_fs, 0});
-        db.execSQL(sql , new Object[]{"DailyNecessities" , R.mipmap.ic_dailynecessarities, R.mipmap.ic_dailynecessarities_fs, 0});
-        db.execSQL(sql , new Object[]{"Entertainment" , R.mipmap.ic_entertainment, R.mipmap.ic_entertainment_fs, 0});
+        db.execSQL(sql , new Object[]{"DailyNec." , R.mipmap.ic_dailynecessarities, R.mipmap.ic_dailynecessarities_fs, 0});
+        db.execSQL(sql , new Object[]{"Entertain." , R.mipmap.ic_entertainment, R.mipmap.ic_entertainment_fs, 0});
         db.execSQL(sql , new Object[]{"Snack" , R.mipmap.ic_snacks, R.mipmap.ic_snacks_fs, 0});
         db.execSQL(sql , new Object[]{"Bar" , R.mipmap.ic_bars, R.mipmap.ic_bars_fs, 0});
-        db.execSQL(sql , new Object[]{"Education" , R.mipmap.ic_education, R.mipmap.ic_education_fs, 0});
-        db.execSQL(sql , new Object[]{"Medicine" , R.mipmap.ic_medicine, R.mipmap.ic_medicine_fs, 0});
+        db.execSQL(sql , new Object[]{"Educ." , R.mipmap.ic_education, R.mipmap.ic_education_fs, 0});
+        db.execSQL(sql , new Object[]{"Medic." , R.mipmap.ic_medicine, R.mipmap.ic_medicine_fs, 0});
         db.execSQL(sql , new Object[]{"HouseRent" , R.mipmap.ic_houserent, R.mipmap.ic_houserent_fs, 0});
         db.execSQL(sql , new Object[]{"Bill" , R.mipmap.ic_bills, R.mipmap.ic_bills_fs, 0});
-        db.execSQL(sql , new Object[]{"Telecommunication" , R.mipmap.ic_telecommunication, R.mipmap.ic_telecommunication_fs, 0});
+        db.execSQL(sql , new Object[]{"Telecoms." , R.mipmap.ic_telecommunication, R.mipmap.ic_telecommunication_fs, 0});
         db.execSQL(sql , new Object[]{"Others" , R.mipmap.ic_others, R.mipmap.ic_others_fs, 0});
         db.execSQL(sql , new Object[]{"Wages" , R.mipmap.in_wage, R.mipmap.in_wage_fs, 1});
         db.execSQL(sql , new Object[]{"Bonus" , R.mipmap.in_bonus, R.mipmap.in_bonus_fs, 1});
         db.execSQL(sql , new Object[]{"Borrow" , R.mipmap.in_borrow, R.mipmap.in_borrow_fs, 1});
-        db.execSQL(sql , new Object[]{"Investment" , R.mipmap.in_investment , R.mipmap.in_investment_fs , 1});
-        db.execSQL(sql , new Object[]{"others" , R.mipmap.in_others, R.mipmap.in_others_fs, 1});
+        db.execSQL(sql , new Object[]{"Invest." , R.mipmap.in_investment , R.mipmap.in_investment_fs , 1});
+        db.execSQL(sql , new Object[]{"Others" , R.mipmap.in_others, R.mipmap.in_others_fs, 1});
 
 
     }

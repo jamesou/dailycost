@@ -10,42 +10,39 @@ import androidx.viewpager.widget.ViewPager;
 import com.jamesou.dailycost.adapter.RecordPageAdapter;
 import com.jamesou.dailycost.db.AccountBean;
 import com.jamesou.dailycost.fragrecord.IncomeFragment;
-import com.jamesou.dailycost.fragrecord.ExpenditureFragment;
+import com.jamesou.dailycost.fragrecord.ExpenseFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //@todo refine
-public class RecordActivity extends AppCompatActivity {
+public class NewEntryActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_record);
+        setContentView(R.layout.activity_new_entry);
         //init components
-        init();
+        initLayout();
         initPage();
     }
 
     private void initPage() {
         List<Fragment> fragmentList = new ArrayList<>();
-
-        ExpenditureFragment outcomeFragment = new ExpenditureFragment();
+        ExpenseFragment expenseFragment = new ExpenseFragment();
         IncomeFragment incomeFragment = new IncomeFragment();
-        fragmentList.add(outcomeFragment);
+        fragmentList.add(expenseFragment);
         fragmentList.add(incomeFragment);
 
-
         RecordPageAdapter adapter = new RecordPageAdapter(getSupportFragmentManager(), fragmentList);
-
         viewPager.setAdapter(adapter);
-
         tabLayout.setupWithViewPager(viewPager);
 
-        ArrayList<String> stringList = (ArrayList<String>) getIntent().getStringArrayListExtra("ListString");
+        ArrayList<String> stringList = (ArrayList<String>) getIntent().getStringArrayListExtra("RecordInfo");
+        //modify record
         if(stringList != null&&stringList.size()!=0) {
             AccountBean accountBean = new AccountBean();
             accountBean.setId(Integer.parseInt(stringList.get(0)));
@@ -59,19 +56,19 @@ public class RecordActivity extends AppCompatActivity {
             accountBean.setDay(Integer.parseInt(stringList.get(8)));
             accountBean.setKind(Integer.parseInt(stringList.get(9)));
             if(accountBean.getKind()==0) {
-                outcomeFragment.setAccountBeanBean(accountBean);
-                outcomeFragment.setDirection(stringList.get(10));
+                expenseFragment.setAccountBeanBean(accountBean);
+                expenseFragment.setDirection(stringList.get(10));
             }else {
                 incomeFragment.setAccountBeanBean(accountBean);
                 incomeFragment.setDirection(stringList.get(10));
-                tabLayout.getTabAt(1).select();//默认选中第二个
+                tabLayout.getTabAt(1).select();//choose tab
                 viewPager.setCurrentItem(1);
             }
         }
     }
 
 
-    private void init() {
+    private void initLayout() {
         tabLayout = findViewById(R.id.record_tabs);
         viewPager = findViewById(R.id.record_vp);
     }
@@ -80,6 +77,7 @@ public class RecordActivity extends AppCompatActivity {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.record_iv_back:
+//                Log.d("NewEntriActivity", "Click back icon");
                 finish();
                 break;
         }

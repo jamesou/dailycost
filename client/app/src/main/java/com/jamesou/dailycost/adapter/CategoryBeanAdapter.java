@@ -26,7 +26,7 @@ public class CategoryBeanAdapter extends BaseAdapter {
         this.selectPos = selectPos;
     }
 
-    int selectPos = 0; // 表示选中的位置
+    int selectPos = 0; // selected index
 
     public CategoryBeanAdapter(Context context, List<CategoryBean> categoryBeanList) {
         this.context = context;
@@ -50,6 +50,7 @@ public class CategoryBeanAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        //@todo need to adjust it while developing categories management
         convertView = LayoutInflater.from(context).inflate(R.layout.item_recordfrag_gv, parent, false);
         ImageView iv = convertView.findViewById(R.id.item_recordfrag_iv);
         TextView tv = convertView.findViewById(R.id.item_recordfrag_tv);

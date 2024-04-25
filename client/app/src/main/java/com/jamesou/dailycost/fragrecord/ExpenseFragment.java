@@ -1,27 +1,31 @@
 package com.jamesou.dailycost.fragrecord;
 
 
-import android.widget.Toast;
-
 //import com.jamesou.dailycost.HistoryActivity;
+import android.util.Log;
+
 import com.jamesou.dailycost.R;
-import com.jamesou.dailycost.db.DBManager;
+        import com.jamesou.dailycost.db.DBManager;
 import com.jamesou.dailycost.db.CategoryBean;
+import com.jamesou.dailycost.utils.PromptMsgUtil;
 
-import java.util.List;
+        import java.util.List;
 
-public class IncomeFragment extends BaseRecordFragment {
+
+public class ExpenseFragment extends BaseRecordFragment {
 
     @Override
     public void loadDataToGridView(){
         super.loadDataToGridView();
-        List<CategoryBean> incomeList = DBManager.getCategoryList(1);
-        categoryBeanList.addAll(incomeList);
+        List<CategoryBean> expenseList = DBManager.getCategoryList(0);
+        categoryBeanList.addAll(expenseList);
         categoryBeanAdapter.notifyDataSetChanged();
         if(!paramBean) {
-            categoryTv.setText("Wage");
-            categoryIv.setImageResource(R.mipmap.in_wage_fs);
+            //new entry
+            categoryTv.setText("Catering");
+            categoryIv.setImageResource(R.mipmap.ic_catering_fs);
         }else{
+            //modify record
             categoryTv.setText(accountBean.getCategoryName());
             categoryIv.setImageResource(accountBean.getsImageId());
         }
@@ -29,18 +33,19 @@ public class IncomeFragment extends BaseRecordFragment {
 
     @Override
     public void saveAccountToDb() {
-        accountBean.setKind(1);
+        accountBean.setKind(0);
         if(!paramBean) {
+            Log.d("ExpenseFragment","accountBean.getCategoryName():"+accountBean.getCategoryName());
             //if select nothing
             if(accountBean.getCategoryName()==null||accountBean.getCategoryName().trim().equals("")) {
-                accountBean.setCategoryName("Wage");
-                accountBean.setsImageId(R.mipmap.in_wage_fs);
+                accountBean.setCategoryName("Catering");
+                accountBean.setsImageId(R.mipmap.ic_catering_fs);
             }
             DBManager.insertItemToAccounttb(accountBean);
         }else {
             DBManager.updateItemToAccounttb(accountBean);
         }
-        Toast.makeText(getContext() , "Save successfully" , Toast.LENGTH_SHORT).show();
+        PromptMsgUtil.promptMsg(getContext() , "Save successfully");
     }
 
 }

@@ -260,7 +260,7 @@ public class DBManager {
 
     public static List<AccountBean> getAccountListOneMonthFromAccounttb(int year , int month , int day){
         List<AccountBean> list = new ArrayList<>();
-        String sql = "select * from accounttb where year=? and month=? and day=? order by time asc";
+        String sql = "select * from accounttb where year=? and month=? and day=? order by time desc";
         Cursor cursor = db.rawQuery(sql ,
                 new String[]{String.valueOf(year), String.valueOf(month), String.valueOf(day)});
         // 遍历符合要求的每一行数据

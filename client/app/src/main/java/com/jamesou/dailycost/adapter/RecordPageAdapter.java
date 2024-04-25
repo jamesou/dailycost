@@ -9,7 +9,7 @@ import java.util.List;
 
 public class RecordPageAdapter extends FragmentPagerAdapter {
     List<Fragment> fragmentList;
-    String[] titles = {"expenditure" , "income"};
+    String[] titles = {"expense" , "income"};
     public RecordPageAdapter(@NonNull FragmentManager fm , List<Fragment> fragmentList) {
         super(fm);
         this.fragmentList = fragmentList;

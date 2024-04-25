@@ -3,6 +3,7 @@ package com.jamesou.dailycost.fragrecord;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,6 +25,7 @@ import com.jamesou.dailycost.dialog.CommentDialog;
 import com.jamesou.dailycost.utils.FormatNumberUtil;
 import com.jamesou.dailycost.utils.KeyBoardUtils;
 import com.jamesou.dailycost.dialog.SelectTimeDialog;
+import com.jamesou.dailycost.utils.PromptMsgUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,10 +44,10 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
     ImageView categoryIv;
     TextView categoryTv, comment , timeTv;
     GridView categoryGv;
-    List<CategoryBean> categoryBeanList;// GridView 的数据源
+    List<CategoryBean> categoryBeanList;// GridView data from Categories
     CategoryBeanAdapter categoryBeanAdapter;
-    AccountBean accountBean;//将需要插入到记账本中的数据保存成对象的形式
-    Boolean paramBean = false;  //判断是否是值传递过来了
+    AccountBean accountBean;
+    Boolean paramBean = false;  //determine modify or add
     private String direction = "";
     private String commentStr = null;
     private String timeStr = null;
@@ -54,35 +55,26 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!paramBean) {
-            accountBean = new AccountBean();
-            accountBean.setCategoryName("Others");
-            accountBean.setsImageId(R.mipmap.ic_others_fs);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_expenditure, container, false);
+        View view =  inflater.inflate(R.layout.fragment_record, container, false);
         initView(view);
         loadDataToGridView();
         getGridViewListener();
-        if(!paramBean) {
-            setInitTime();
-        }
         return view;
-
     }
 
-    private void setInitTime() {
+    private void initTime() {
+        accountBean = new AccountBean();
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         String time = sdf.format(date);
         timeTv.setText(time);
         accountBean.setTime(time);
-
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
@@ -92,18 +84,20 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         accountBean.setDay(day);
     }
 
-    /*获取GV的点击事件*/
+    /*pick category icon*/
     private void getGridViewListener() {
         categoryGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 categoryBeanAdapter.setSelectPos(position);
-                categoryBeanAdapter.notifyDataSetChanged(); //显示绘制
-                CategoryBean categoryBean = categoryBeanList.get(position);
-                String typeName = categoryBean.getCategoryName();
-                categoryTv.setText(typeName);
-                accountBean.setCategoryName(typeName);
-                int sImageId = categoryBean.getsImageId();
+                categoryBeanAdapter.notifyDataSetChanged();
+                CategoryBean selectedCategoryBean = categoryBeanList.get(position);
+                String categoryName = selectedCategoryBean.getCategoryName();
+                Log.d("BaseRecordFragment","categoryName:"+categoryName);
+
+                categoryTv.setText(categoryName);
+                accountBean.setCategoryName(categoryName);
+                int sImageId = selectedCategoryBean.getsImageId();
                 categoryIv.setImageResource(sImageId);
                 accountBean.setsImageId(sImageId);
             }
@@ -119,7 +113,6 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         categoryBeanList = new ArrayList<>();
         categoryBeanAdapter = new CategoryBeanAdapter(getContext(), categoryBeanList);
         categoryGv.setAdapter(categoryBeanAdapter);
-
     }
 
     private void initView(View view) {
@@ -127,7 +120,7 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         moneyEt = view.findViewById(R.id.frag_record_et_money);
         categoryIv = view.findViewById(R.id.frag_record_iv);
         categoryGv = view.findViewById(R.id.frag_record_gv);
-        categoryTv = view.findViewById(R.id.frag_record_tv_type);
+        categoryTv = view.findViewById(R.id.frag_record_tv_category);
         comment = view.findViewById(R.id.frag_record_tv_comment);
         timeTv = view.findViewById(R.id.frag_record_tv_time);
         comment.setOnClickListener(this);
@@ -138,73 +131,69 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
             categoryTv.setText(accountBean.getCategoryName());
             moneyEt.setText(FormatNumberUtil.formatFloat(accountBean.getMoney()));
             moneyEt.setSelection(String.valueOf(FormatNumberUtil.formatFloat(accountBean.getMoney())).length());
-            if(accountBean.getComment()==null||accountBean.getComment().equals("")) {
-                comment.setText("Add comment");
-            }else {
+            if(accountBean.getComment()!=null&&!accountBean.getComment().trim().equals("")) {
                 comment.setText(accountBean.getComment());
                 commentStr = accountBean.getComment();
             }
             timeStr = accountBean.getTime();
             timeTv.setText(accountBean.getTime());
+        }else{
+            initTime();
         }
 
-
-        // 让自定义的键盘显示出来
+        // Display defined keyboard
         KeyBoardUtils keyBoardUtils = new KeyBoardUtils(keyboardView, moneyEt);
         keyBoardUtils.showKeyboard();
-        // 设置接口，监听确定键盘被点击
+        // register keyboard listener
         keyBoardUtils.setOnEnsureListener(new KeyBoardUtils.OnEnsureListener() {
             @Override
             public void onEnsure() {
-                // 获取输入钱数
                 String moneyStr = moneyEt.getText().toString();
                 if (TextUtils.isEmpty(moneyStr) ) {
-                    //getActivity().finish();
-                    //这里不在默认结束本层会话，而是添加提示
-                    Toast.makeText(getActivity(), "Amount can't be empty", Toast.LENGTH_LONG).show();
+                    PromptMsgUtil.promptMsg(getActivity(),"Amount can't be empty");
                     return;
                 }else {
                     String regex = "[0]+";
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(moneyStr);
                     if(matcher.matches()){
-                        Toast.makeText(getActivity(), "Amount can't be zero", Toast.LENGTH_LONG).show();
+                        PromptMsgUtil.promptMsg(getActivity(),"Amount can't be zero");
                         return;
                     }
                 }
                 float money = Float.parseFloat(moneyStr);
                 accountBean.setMoney(money);
-                // 获取记录的信息，插入到数据库中
                 saveAccountToDb();
-                // 返回上一级
+                //destroy current activity and go to main activity
                 getActivity().finish();
             }
         });
     }
 
-    /*让子类必须重写该方法*/
+
     public abstract void saveAccountToDb();
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.frag_record_tv_time:
-                showTimeDialog();
+                PromptMsgUtil.promptMsg(getActivity(),"The next app version supports setting datetime");
+//                showTimeDialog();
                 break;
             case R.id.frag_record_tv_comment:
-                showDialog();
+                PromptMsgUtil.promptMsg(getActivity(),"The next app version supports writing comment");
+//                showCommentDialog();
                 break;
         }
     }
 
     /**
-     * 弹出显示时间的对话框
+     * show datetime dialog
      */
     private void showTimeDialog(){
         SelectTimeDialog selectTimeDialog = new SelectTimeDialog(getContext());
         selectTimeDialog.setTime(timeStr);
         selectTimeDialog.show();
-        // 设定确定按钮被点击的监听
         selectTimeDialog.setOnEnsureListener(new SelectTimeDialog.OnEnsureListener() {
             @Override
             public void onEnsure(String time, int year, int month, int day) {
@@ -217,8 +206,7 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         });
     }
 
-    public void showDialog(){
-        /*弹出备注对话框*/
+    public void showCommentDialog(){
         CommentDialog dialog = new CommentDialog(getContext());
         dialog.show();
         if(commentStr !=null) {

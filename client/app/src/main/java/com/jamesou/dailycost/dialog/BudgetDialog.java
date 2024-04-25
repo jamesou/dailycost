@@ -14,11 +14,6 @@ import androidx.annotation.NonNull;
 
 import com.jamesou.dailycost.R;
 
-/**
- * @author:0.2℃
- * @date： 2021-07-15 12:29
- * @Description ：
- */
 
 public class BudgetDialog extends Dialog implements View.OnClickListener {
     ImageView cancelIv;

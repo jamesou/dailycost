@@ -11,7 +11,7 @@ public class AccountBean {
     int year;
     int month;
     int day;
-    // income -1 ， expense -0
+    // income:1 ， expense:0
     int kind;
 
     public int getId() {

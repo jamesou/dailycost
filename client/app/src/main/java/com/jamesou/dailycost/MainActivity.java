@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -34,6 +33,7 @@ import com.jamesou.dailycost.db.AccountBean;
 import com.jamesou.dailycost.db.DBManager;
 import com.jamesou.dailycost.dialog.BudgetDialog;
 import com.jamesou.dailycost.utils.FormatNumberUtil;
+import com.jamesou.dailycost.utils.PromptMsgUtil;
 
 /**
  * @Author: Jamesou
@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            finish();
         }
     }
 
@@ -150,12 +151,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 stringList.add(bean.getDay()+"");
                 stringList.add(bean.getKind()+"");
                 stringList.add("recode");   //the jump direction of page
-                promptMsg();
-                //todo
-//                Intent intent = new Intent();
-//                intent.setClass(this, RecordActivity.class);
-//                intent.putStringArrayListExtra("ListString", stringList);
-//                this.startActivity(intent);
+                Intent intent = new Intent();
+                intent.setClass(this, NewEntryActivity.class);
+                intent.putStringArrayListExtra("RecordInfo", stringList);
+                startActivity(intent);
                 break;
             case 1:
                 showDeleteItemDialog(bean);
@@ -164,9 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onContextItemSelected(item);
     }
 
-    private void promptMsg(){
-        Toast.makeText(getApplicationContext(), PROMPT_MSG, Toast.LENGTH_SHORT).show();
-    }
+
     private void setScrollListener() {
         //scroll list view
         todayLv.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -291,13 +288,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.main_iv_search:
 //                intent = new Intent(this, SearchActivity.class);
 //                startActivity(intent);
-                promptMsg();
+                PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
                 break;
             case R.id.main_btn_add:
-                //@todo add record, and add scan button
-//                intent = new Intent(this, RecordActivity.class);
-//                startActivity(intent);
-                promptMsg();
+                //@todo  add scan button
+                intent = new Intent(this, NewEntryActivity.class);
+                startActivity(intent);
                 break;
             case R.id.main_btn_more:
                 //show left menu
@@ -314,19 +310,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 toggleShow();
                 break;
             case R.id.dialog_more_btn_record:
-                promptMsg();
+                PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
                 break;
             case R.id.item_mainlv_top_analysis_text:
-                promptMsg();
+                PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
                 break;
             case R.id.dialog_more_btn_setting:
-                promptMsg();
+                PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
                 break;
             case R.id.dialog_more_btn_help:
-                promptMsg();
+                PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
                 break;
             case R.id.dialog_more_btn_about:
-                promptMsg();
+                PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
                 break;
         }
     }

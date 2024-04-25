@@ -45,7 +45,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Expenditure:0 Income:0"
+                android:text="Expense:0 Income:0"
         />
     </RelativeLayout>
     <FrameLayout

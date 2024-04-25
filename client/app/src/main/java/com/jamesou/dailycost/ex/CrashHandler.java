@@ -24,46 +24,29 @@ import java.util.Map;
  * customised exception handler
  */
 public class CrashHandler implements UncaughtExceptionHandler {
-
     public static final String TAG = "CrashHandler";
-
-
     private UncaughtExceptionHandler mDefaultHandler;
-    //CrashHandler实例
     private static CrashHandler INSTANCE = new CrashHandler();
-    //程序的Context对象
     private Context mContext;
     String filePath="";
-    /**
-     * 保证只有一个CrashHandler实例
-     */
-    private CrashHandler() {
-    }
 
-    /**
-     * 获取CrashHandler实例 ,单例模式
-     */
     public static CrashHandler getInstance() {
         return INSTANCE;
     }
     private DateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-    /**
-     * 初始化
-     *
-     * @param context
-     */
+
     public void init(Context context) {
         mContext = context;
-        //获取系统默认的UncaughtException处理器
+        //OS system's UncaughtException
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
-        //设置该CrashHandler为程序的默认处理器
+
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         if (!handleException(ex) && mDefaultHandler != null) {
-            //如果用户没有处理则让系统默认的异常处理器来处理
+            //uncaught exception handled by os system
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
             try {
@@ -71,7 +54,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
             } catch (InterruptedException e) {
                 Log.e(TAG, "error : ", e);
             }
-            //退出程序
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(1);
         }
@@ -82,28 +64,21 @@ public class CrashHandler implements UncaughtExceptionHandler {
         if (ex == null) {
             return false;
         }
-        //使用Toast来显示异常信息
+        //add a thread to display exception msg
         new Thread() {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出", Toast.LENGTH_LONG).show();
-                // Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出"+ex.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Sorry, the program has an exception", Toast.LENGTH_LONG).show();
                 Looper.loop();
             }
         }.start();
 
-        //在此可执行其它操作，如获取设备信息、执行异常登出请求、保存错误日志到本地或发送至服务端
-        //需要注意andriod  权限的分配
         Map<String,String>  infos = collectDeviceInfo(mContext);
         saveCrashInfo2File(ex,infos);
         return true;
     }
 
-    /**
-     * 收集设备参数信息
-     * @param ctx
-     */
     public Map<String,String> collectDeviceInfo(Context ctx) {
         Map<String,String> infos = new HashMap<>();
         try {
@@ -131,13 +106,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
         return infos;
     }
 
-
-    /**
-     * 保存错误信息到文件中
-     *
-     * @param ex
-     * @return  返回文件名称,便于将文件传送到服务器
-     */
     private String saveCrashInfo2File(Throwable ex,Map<String,String> infos) {
 
         StringBuffer sb = new StringBuffer();
@@ -194,46 +162,4 @@ public class CrashHandler implements UncaughtExceptionHandler {
             return "";
         }
     }
-//    private String saveCrashInfo2File(Throwable ex,Map<String,String> infos) {
-//
-//        StringBuffer sb = new StringBuffer();
-//        for (Map.Entry<String, String> entry : infos.entrySet()) {
-//            String key = entry.getKey();
-//            String value = entry.getValue();
-//            sb.append(key + "=" + value + " ");
-//        }
-//
-//        Writer writer = new StringWriter();
-//        PrintWriter printWriter = new PrintWriter(writer);
-//        ex.printStackTrace(printWriter);
-//        Throwable cause = ex.getCause();
-//        while (cause != null) {
-//            cause.printStackTrace(printWriter);
-//            cause = cause.getCause();
-//        }
-//        printWriter.close();
-//        String result = writer.toString();
-//        sb.append(result);
-//        try {
-//            long timestamp = System.currentTimeMillis();
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//            String time = formatter.format(new Date());
-//            String fileName = "crash-" + time + "-" + timestamp + ".log";
-//            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-//                String path = "/dailycost/crash/";
-//                File dir = new File(path);
-//                if (!dir.exists()) {
-//                    dir.mkdirs();
-//                }
-//                FileOutputStream fos = new FileOutputStream(path + fileName);
-//                fos.write(sb.toString().getBytes());
-//                fos.close();
-//            }
-//            return fileName;
-//        } catch (Exception e) {
-//            Log.e(TAG, "an error occured while writing file...", e);
-//        }
-//        return null;
-//    }
-
 }
