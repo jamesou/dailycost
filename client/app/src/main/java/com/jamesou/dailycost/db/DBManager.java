@@ -259,7 +259,7 @@ public class DBManager {
 
     public static List<AccountBean> getOneMonthAccountList(int year , int month , int day){
         List<AccountBean> list = new ArrayList<>();
-        String sql = "select * from accounttb where year=? and month=? and day=? order by time,id desc";
+        String sql = "select * from accounttb where year=? and month=? and day=? order by id desc";
         Cursor cursor = db.rawQuery(sql ,
                 new String[]{String.valueOf(year), String.valueOf(month), String.valueOf(day)});
         while(cursor.moveToNext()){
