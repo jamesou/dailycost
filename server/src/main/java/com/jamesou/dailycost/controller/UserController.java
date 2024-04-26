@@ -19,8 +19,7 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserDAO userDAO;
-    //@todo 用token来进行免登录验证, 在页面显示错误提示
-    @GetMapping(value = {"/", "/index"})
+    @GetMapping(value = { "/index"})
     public String profile() {
         return "profile";
     }
@@ -28,8 +27,6 @@ public class UserController {
     @PostMapping("/modify")
     @ResponseBody
     public Object modify(@RequestBody RegisterDTO registerDTO, HttpServletRequest request) {
-        System.out.println(registerDTO);
-
         User user = new User();
         user.setName(registerDTO.getName());
         user.setId(registerDTO.getId());
@@ -38,7 +35,7 @@ public class UserController {
         String token = TokenUtil.getTokenSecret(user.getName(), user.getPassword());
         user.setToken(token);
         int i = userDAO.updateById(user);
-        ResultDTO resultDTO = ResultDTO.errorOf(i, "修改成功");
+        ResultDTO resultDTO = ResultDTO.errorOf(i, "Modify successfully");
         request.getSession().setAttribute("user", user);
         return resultDTO;
     }

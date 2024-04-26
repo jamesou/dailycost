@@ -35,12 +35,12 @@ public class ExpenseFragment extends BaseRecordFragment {
     public void saveAccountToDb() {
         accountBean.setKind(0);
         if(!paramBean) {
-            Log.d("ExpenseFragment","accountBean.getCategoryName():"+accountBean.getCategoryName());
             //if select nothing
             if(accountBean.getCategoryName()==null||accountBean.getCategoryName().trim().equals("")) {
                 accountBean.setCategoryName("Catering");
                 accountBean.setsImageId(R.mipmap.ic_catering_fs);
             }
+            Log.d("ExpenseFragment","accountBean.toString():"+accountBean.toString());
             DBManager.insertItemToAccounttb(accountBean);
         }else {
             DBManager.updateItemToAccounttb(accountBean);

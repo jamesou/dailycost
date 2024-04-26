@@ -14,19 +14,17 @@ import java.util.Map;
  */
 public class TokenUtil {
 
-    /**
-     * 设置延期的时间
-     */
+
     private static final long EXPIR_DATE = 360000;
 
     /**
-     * 设置token的秘钥
+     * token's security key
      */
     private static final String TOKEN_SECRET = "b7f2a1ed-c29f-48fc-b13e-5089938bbff4";
 
 
     /**
-     * 获取token
+     * get Token
      * @param userName
      * @param passWord
      * @return

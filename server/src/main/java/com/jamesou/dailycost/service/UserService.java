@@ -9,19 +9,9 @@ import com.jamesou.dailycost.model.User;
 public interface UserService {
 
 
-
-    /**
-     * 根据输出的用户注册
-     * @param registerDTO
-     * @return
-     */
     User register(RegisterDTO registerDTO);
+    User search(String email);
 
-    /**
-     * 登录
-     * @param email  用户的邮箱
-     * @param password  用户的密码
-     * @return  结果
-     */
+
     User login(String email, String password);
 }

@@ -3,8 +3,6 @@ package com.jamesou.dailycost.dto;
 import lombok.Data;
 
 /**
- * 返回登录注册后的结果
- *
  * @author jamesou
  */
 @Data

@@ -70,10 +70,11 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
 
     private void initTime() {
         accountBean = new AccountBean();
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        String time = sdf.format(date);
+        String time = getCurrentDateTime();
         timeTv.setText(time);
+        refreshTime(accountBean,time);
+    }
+    private void refreshTime(AccountBean accountBean,String time){
         accountBean.setTime(time);
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -82,6 +83,15 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         accountBean.setYear(year);
         accountBean.setMonth(month);
         accountBean.setDay(day);
+    }
+    private void refreshTime(AccountBean accountBean){
+        String time = getCurrentDateTime();
+        refreshTime(accountBean,time);
+    }
+    private String getCurrentDateTime(){
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        return sdf.format(date);
     }
 
     /*pick category icon*/
@@ -163,6 +173,7 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
                 }
                 float money = Float.parseFloat(moneyStr);
                 accountBean.setMoney(money);
+                refreshTime(accountBean);
                 saveAccountToDb();
                 //destroy current activity and go to main activity
                 getActivity().finish();

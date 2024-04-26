@@ -27,13 +27,24 @@
     <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="/plugins/iCheck/square/blue.css">
+    <style>
+      .required {
+        display: flex;
+        align-items: center;
+      }
+      .required::before {
+        content: "*";
+        color: red;
+        margin-right: 5px;
+      }
 
+    </style>
   </head>
 
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-
+        <img src="/img/ic_launcher.png">
 
         Daily Cost Tracker
 
@@ -41,22 +52,24 @@
       </div>
       <!-- /.login-logo -->
       <div class="login-box-body">
-        <p class="login-box-msg"></p>
+        <p class="login-box-msg" style="color:red" id="login-box-msg" th:text="${session.errorMsg}"></p>
 
         <form action="all-admin-index.html" method="post">
           <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="Email" name="email" id="email">
+            <label for="email" class="required">Email: </label>
+            <input type="email" class="form-control"  name="email" id="email">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="密码" name="password" id="password">
+            <label for="password" class="required">Password: </label>
+            <input type="password" class="form-control"  name="password" id="password">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
         </form>
         <div class="row">
           <div class="col-xs-8">
             <div class="checkbox icheck">
-              <label><input type="checkbox">Remember login</label>
+              <label><input type="checkbox"><span>   Remember login</span></label>
             </div>
           </div>
           <!-- /.col -->
@@ -69,7 +82,7 @@
         <!-- /.social-auth-links -->
 
 <!--        <a href="#">Forget Password</a><br>-->
-        <a th:href="@{/register}" class="text-center">Sign up</a>
+        <a href="/register_page" class="text-center">Sign up</a>
 
       </div>
       <!-- /.login-box-body -->
@@ -95,17 +108,18 @@
                 var eamil = $("#email").val();
                 var password = $("#password").val();
                 var strRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
-                if (password == '') {
-                    alert("Please input required entry");
+                var boxmsg = $("#login-box-msg");
+
+              if (password == ''|| eamil== '') {
+                    boxmsg.text("Please input required entry")
                 } else {
                     if (!strRegex.test(eamil)) {
-                        alert("Incorrect email format");
+                      boxmsg.text("Incorrect email format")
                     } else {
                         var list = {
                             "email": eamil,
                             "password": password
                         };
-                        //
                         $.ajax({
                             type: "POST",
                             contentType: "application/json;charset=UTF-8",
@@ -114,13 +128,13 @@
                             success: function (result) {
                                 if (result['code'] == 1) {
                                     location.href = "/index";
-                                } else {
-                                  //todo 错误信息显示在页面,alter的地方都替换掉
-                                    alert(result["message"]);
+                                }else{
+                                  boxmsg.text(result["message"])
                                 }
                             },
                             error: function (e) {
-                                alert("sign in failure");
+                                 console.log('exception:',e)
+                                 boxmsg.text(result["message"])
                             }
                         });
                     }

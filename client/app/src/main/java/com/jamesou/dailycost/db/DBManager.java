@@ -1,5 +1,6 @@
 package com.jamesou.dailycost.db;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * @Description ：it is used to manipulate DB
  */
-
+@SuppressLint("Range")
 public class DBManager {
     private static SQLiteDatabase db;
 
@@ -41,7 +42,6 @@ public class DBManager {
             sql = "select * from categorytb  order by id";
         }
         Cursor cursor = db.rawQuery(sql, null);
-        // 循环读取游标内容，存储到对象中
         while(cursor.moveToNext()){
             String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
             int imageId = cursor.getInt(cursor.getColumnIndex("imageId"));
@@ -147,7 +147,6 @@ public class DBManager {
         String[] selectionArgs = { String.valueOf(bean.getId()) };
         db.update("categorytb", updateValues, selection, selectionArgs);
 
-
         updateValues.clear();
         updateValues.put("categoryName", tempBean.getCategoryName());
         updateValues.put("imageId", tempBean.getImageId());
@@ -234,7 +233,7 @@ public class DBManager {
         float total = 0.0f;
         String sql = "select sum(money) from accounttb where year=? and kind=?";
         Cursor cursor = db.rawQuery(sql, new String[]{year + "", kind + ""});
-        // 遍历，因为求出来的是总数，所以应该只有一行
+
         if (cursor.moveToFirst()) {
             float money = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
             total = money;
@@ -258,12 +257,11 @@ public class DBManager {
         db.insert("accounttb" , null , values);
     }
 
-    public static List<AccountBean> getAccountListOneMonthFromAccounttb(int year , int month , int day){
+    public static List<AccountBean> getOneMonthAccountList(int year , int month , int day){
         List<AccountBean> list = new ArrayList<>();
-        String sql = "select * from accounttb where year=? and month=? and day=? order by time desc";
+        String sql = "select * from accounttb where year=? and month=? and day=? order by time,id desc";
         Cursor cursor = db.rawQuery(sql ,
                 new String[]{String.valueOf(year), String.valueOf(month), String.valueOf(day)});
-        // 遍历符合要求的每一行数据
         while(cursor.moveToNext()){
             int id = cursor.getInt(cursor.getColumnIndex("id"));
             String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
@@ -295,23 +293,19 @@ public class DBManager {
         db.update("accounttb", values, selection, selectionArgs);
     }
 
-    /**
-     * 根据传入的id删除accountb表中的一条数据
-     */
-    public static int deleteItemFromAccounttbById(int id){
+
+    public static int deleteItemById(int id){
         int i = db.delete("accounttb" , "id=?" , new String[]{id+""});
         return i;
     }
 
-    /**
-     * 搜索方法：根据备注模糊查询
-     */
+
     public static List<AccountBean> getAccountListByRemarkFromAccounttb(String comment){
         List<AccountBean> list = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         int yeardefault = calendar.get(Calendar.YEAR);
         int monthdefault = calendar.get(Calendar.MONTH) + 1;
-        //默认为本月
+        //default current month
         String sql = "select * from accounttb where (comment like '%"+ comment +"%'  or categoryName like '%"+ comment +"%') and year = "+yeardefault+" and month = "+monthdefault;
         Cursor cursor = db.rawQuery(sql, null);
         float summoney = 0;
@@ -331,15 +325,15 @@ public class DBManager {
             list.add(accountBean);
         }
         AccountBean sumaccountBean = new AccountBean();
-        sumaccountBean.setCategoryName("合计");
+        sumaccountBean.setCategoryName("Total");
         summoney = Math.round(summoney * 100) / 100f;
         sumaccountBean.setMoney(summoney);
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         String time = sdf.format(date);
-        sumaccountBean.setTime("今天 "+time);
-        sumaccountBean.setsImageId(R.mipmap.ic_icon1);
-        sumaccountBean.setComment("系统自动计算");
+        sumaccountBean.setTime("Today "+time);
+        sumaccountBean.setsImageId(R.mipmap.ic_dollar);
+        sumaccountBean.setComment("Automatic Calculation");
         list.add(0,sumaccountBean);
         return list;
     }
@@ -365,25 +359,25 @@ public class DBManager {
             list.add(accountBean);
         }
         AccountBean sumaccountBean = new AccountBean();
-        sumaccountBean.setCategoryName("合计");
+        sumaccountBean.setCategoryName("Total");
         summoney = Math.round(summoney * 100) / 100f;
         sumaccountBean.setMoney(summoney);
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         String time = sdf.format(date);
-        sumaccountBean.setTime("今天 "+time);
-        sumaccountBean.setsImageId(R.mipmap.ic_icon1);
-        sumaccountBean.setComment("系统自动计算");
+        sumaccountBean.setTime("Today "+time);
+        sumaccountBean.setsImageId(R.mipmap.ic_dollar);
+        sumaccountBean.setComment("Automatic Calculation");
         list.add(0,sumaccountBean);
         return list;
     }
-    /**获取某一个月份的所有收入或者支出*/
-    public static List<AccountBean> getAccountListOneMonthFromAccounttb(int year , int month){
+
+    public static List<AccountBean> getOneMonthAccountList(int year , int month){
         List<AccountBean> list = new ArrayList<>();
         String sql = "select * from accounttb where year=? and month=? order by time asc";
         Cursor cursor = db.rawQuery(sql ,
                 new String[]{String.valueOf(year), String.valueOf(month)});
-        // 遍历符合要求的每一行数据
+
         while(cursor.moveToNext()){
             int id = cursor.getInt(cursor.getColumnIndex("id"));
             String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
@@ -405,7 +399,7 @@ public class DBManager {
         String sql = "select * from accounttb where year=? and month=? and day=? order by time asc";
         Cursor cursor = db.rawQuery(sql ,
                 new String[]{String.valueOf(year), String.valueOf(month), String.valueOf(dayparam)});
-        // 遍历符合要求的每一行数据
+
         while(cursor.moveToNext()){
             int id = cursor.getInt(cursor.getColumnIndex("id"));
             String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
@@ -422,7 +416,7 @@ public class DBManager {
         return list;
     }
 
-    /**查询记账的表当中有几个年份信息*/
+
     public static List<Integer> yearListFromAccounttb(){
         List<Integer> list = new ArrayList<>();
         String sql = "select distinct(year) from accounttb order by year asc";
@@ -433,13 +427,11 @@ public class DBManager {
         }
         return list;
     }
-    /**删除accounttb表格当中的所有数据*/
+
     public static void deleteAllAccounttb(){
         String sql = "delete from accounttb";
         db.execSQL(sql);
     }
-
-
 
 
     public static float getMaxMoneyOneDayInMonth(int year , int month , int kind){
@@ -467,8 +459,6 @@ public class DBManager {
     }
 
 
-
-
     public static List<AccountBean> getSumMoneyOneDay(int year , int month , int day){
         List<AccountBean> list = new ArrayList<>();
         String sql = "select kind ,sum(money) from accounttb where year=? and month=?  " +
@@ -484,117 +474,6 @@ public class DBManager {
             list.add(bean);
         }
         return list;
-    }
-
-    public static void exportDataToTxt() {
-        try {
-            /*//传入路径 + 文件名
-            File mFile = new File(mStrPath);
-            //判断文件是否存在，存在就删除
-            if (!mFile.exists()) {
-                mFile.createNewFile();
-            }else {
-                mFile.delete();
-                mFile.createNewFile();
-            }*/
-            //FileOutputStream osw = new FileOutputStream(mStrPath);
-            /*
-            Context.MODE_PRIVATE：为默认操作模式，代表该文件是私有数据，只能被应用本身访问，在该模式下，写入的内容会覆盖原文件的内容，如果想把新写入的内容追加到原文件中，可以使用Context.MODE_APPEND。
-        　　 Context.MODE_APPEND：模式会检查文件是否存在，存在就往文件追加内容，否则就创建新文件。
-        　　 Context.MODE_WORLD_READABLE和Context.MODE_WORLD_WRITEABLE用来控制其他应用是否有权限读写该文件。
-        　　 MODE_WORLD_READABLE：表示当前文件可以被其他应用读取；MODE_WORLD_WRITEABLE：表示当前文件可以被其他应用写入。
-            */
-            FileOutputStream osw = mContext.openFileOutput(mStrPath, Context.MODE_PRIVATE);
-            //循环读取两张表,写入到文件中
-            String sql = "select * from accounttb ";
-            Cursor cursor = db.rawQuery(sql, null);
-            // 遍历符合要求的每一行数据
-            while(cursor.moveToNext()){
-                int id = cursor.getInt(cursor.getColumnIndex("id"));
-                String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
-                String beizhu = cursor.getString(cursor.getColumnIndex("beizhu"));
-                String time = cursor.getString(cursor.getColumnIndex("time"));
-                int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
-                int kind = cursor.getInt(cursor.getColumnIndex("kind"));
-                float money = cursor.getFloat(cursor.getColumnIndex("money"));
-                money = Math.round(money * 100) / 100f;
-                int year = cursor.getInt(cursor.getColumnIndex("year"));
-                int month = cursor.getInt(cursor.getColumnIndex("month"));
-                int day = cursor.getInt(cursor.getColumnIndex("day"));
-                AccountBean accountBean = new AccountBean(id, categoryName, sImageId, beizhu, money, time, year, month, day, kind);
-                osw.write((accountBean.toString()+"\n").getBytes());
-            }
-
-            sql = "select * from categorytb ";
-            cursor = db.rawQuery(sql, null);
-            // 循环读取游标内容，存储到对象中
-            while(cursor.moveToNext()){
-                String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
-                int imageId = cursor.getInt(cursor.getColumnIndex("imageId"));
-                int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
-                int kind1 = cursor.getInt(cursor.getColumnIndex("kind"));
-                int id = cursor.getInt(cursor.getColumnIndex("id"));
-                CategoryBean categoryBean = new CategoryBean(id , categoryName, imageId, sImageId, kind1);
-                osw.write((categoryBean.toString()+"\n").getBytes());
-            }
-            osw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static String importDatafromTxt() throws IOException {
-
-        FileInputStream input = mContext.openFileInput(mStrPath);
-        String sql = "delete from accounttb";
-        db.execSQL(sql);
-
-        sql = "delete from categorytb";
-        db.execSQL(sql);
-
-        InputStreamReader inputStreamReader = null;
-        BufferedReader br = null;
-        try {
-            inputStreamReader = new InputStreamReader(input);
-            br = new BufferedReader(inputStreamReader);
-            String line;
-            while (null != (line = br.readLine())){
-                if (!"".equals(line)){
-                    String[] strArray = line.split(",");
-                    if("CategoryBean".equals(strArray[0])){
-                        ContentValues values = new ContentValues();
-                        values.put("id" , strArray[1]);
-                        values.put("categoryName" , strArray[2]);
-                        values.put("imageId" , strArray[3]);
-                        values.put("sImageId" , strArray[4]);
-                        values.put("kind" , strArray[5]);
-                        db.insert("categorytb" , null , values);
-                    }else {
-                        ContentValues values = new ContentValues();
-                        values.put("id" , strArray[1]);
-                        values.put("categoryName" , strArray[2]);
-                        values.put("sImageId" , strArray[3]);
-                        values.put("beizhu" , strArray[4].contains("null")?"":strArray[4]);
-                        values.put("money" , strArray[5]);
-                        values.put("time" , strArray[6]);
-                        values.put("year" ,strArray[7]);
-                        values.put("month" , strArray[8]);
-                        values.put("day" , strArray[9]);
-                        values.put("kind" , strArray[10]);
-                        db.insert("accounttb" , null , values);
-                    }
-                }
-            }
-        }finally {
-            if (null != br){
-                br.close();
-            }
-            if (null != inputStreamReader){
-                inputStreamReader.close();
-            }
-        }
-
-        return "import sucess";
     }
 }
 

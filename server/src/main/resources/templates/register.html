@@ -33,27 +33,29 @@
   <body class="hold-transition register-page">
     <div class="register-box">
       <div class="register-logo">
-        <a href="all-admin-index.html"> Daily Cost Tracker </a>
+        <img src="/img/ic_launcher.png">
+        Daily Cost Tracker
       </div>
 
       <div class="register-box-body">
-        <p class="login-box-msg">User register</p>
+        <p class="login-box-msg" style="font-size: x-large">User register</p>
+        <p class="login-box-msg" style="color:red" id="box-msg"></p>
 
         <form action="all-admin-index.html" method="get">
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Fullname" id="name">
+            <input type="text" class="form-control" placeholder="*UserName" id="name">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="Email" id="email">
+            <input type="email" class="form-control" placeholder="*Email" id="email">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Password" id="password1">
+            <input type="password" class="form-control" placeholder="*Password" id="password1">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Confirm Password" id="password2">
+            <input type="password" class="form-control" placeholder="*Confirm Password" id="password2">
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
           </div>
         </form>
@@ -61,7 +63,7 @@
           <div class="col-xs-8">
             <div class="checkbox icheck">
               <label>
-                <input type="checkbox"><a href="#">  Terms and Conditions</a>
+                <input type="checkbox" id="term_condition"><a href="#">  Terms and Conditions</a>
               </label>
             </div>
           </div>
@@ -100,21 +102,24 @@
                 var password2 = $("#password2").val();
                 var name = $("#name").val();
                 var strRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
-                if (eamil == '' || name == '' || password1 == '' || password2 == '') {
-                    alert("Please enter required entries");
+                var boxmsg = $("#box-msg");
+                var term_condition = $("#term_condition")
+
+              if (eamil == '' || name == '' || password1 == '' || password2 == '') {
+                    boxmsg.text("Please enter required entries")
                 } else {
                     if (!strRegex.test(eamil)) {
-                        alert("Incorrect email format");
+                      boxmsg.text("Incorrect email format")
                     } else if (password2 != password1) {
-                        alert("Password is inconsistent, please re-enter");
+                      boxmsg.text("Password is inconsistent, please re-enter")
+                    }else if (!term_condition.prop('checked')) {
+                      boxmsg.text("Please tick the Terms and Conditions")
                     } else {
-                        //请求参数
                         var list = {
                             "email": eamil,
                             "password": password1,
                             "name": name
                         };
-                        //
                         $.ajax({
                             type: "POST",
                             contentType: "application/json;charset=UTF-8",
@@ -122,15 +127,10 @@
                             data: JSON.stringify(list),
                             success: function (result) {
                                 console.log(result);
-                                console.log(result);
-                                if (result['code'] == 1) {
-                                    location.href = "/login";
-                                } else {
-                                    alert(result["message"]);
-                                }
+                                boxmsg.text(result["message"])
                             },
                             error: function (e) {
-                                alert(result["message"]);
+                                boxmsg.text(result["message"])
                                 console.log(e);
                             }
                         });

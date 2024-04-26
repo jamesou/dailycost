@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                         int click_id = clickBean.getId();
                         //Delete record in local database
-                        DBManager.deleteItemFromAccounttbById(click_id);
+                        DBManager.deleteItemById(click_id);
                         mDatas.remove(clickBean);
                         adapter.notifyDataSetChanged(); // refresh list view
                         setTopTvShow(); // refresh display amount shown on the top view
@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadDBData() {
-        List<AccountBean> list = DBManager.getAccountListOneMonthFromAccounttb(year, month, day);
+        List<AccountBean> list = DBManager.getOneMonthAccountList(year, month, day);
         mDatas.clear();
         mDatas.addAll(list);
         adapter.notifyDataSetChanged();

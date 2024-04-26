@@ -1,6 +1,5 @@
 package com.jamesou.dailycost.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,7 @@ import com.jamesou.dailycost.utils.FormatNumberUtil;
 import java.util.Calendar;
 import java.util.List;
 
-
+//@todo line break for comment field
 public class AccountAdapter extends BaseAdapter {
     Context context;
     List<AccountBean> mDatas;
@@ -50,7 +49,7 @@ public class AccountAdapter extends BaseAdapter {
         return position;
     }
 
-    @SuppressLint("SetTextI18n")
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
@@ -59,10 +58,6 @@ public class AccountAdapter extends BaseAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }else{
-            /**
-             * 不管是if还是else，我们都对holder进行初始化
-             * holder的作用就是convertView当中的一些控件统一管理
-             */
             holder = (ViewHolder) convertView.getTag();
         }
         AccountBean bean = mDatas.get(position);

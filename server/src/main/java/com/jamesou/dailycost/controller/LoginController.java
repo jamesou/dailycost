@@ -1,5 +1,7 @@
 package com.jamesou.dailycost.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jamesou.dailycost.dto.RegisterDTO;
 import com.jamesou.dailycost.dto.ResultDTO;
 import com.jamesou.dailycost.model.User;
@@ -12,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
  * @author jamesou
+ * @todo MD5 encrypt
  */
 @Controller
 public class LoginController {
@@ -23,24 +27,11 @@ public class LoginController {
     @Qualifier("userServiceImpl")
     private UserService userService;
 
-    /**
-     * 跳转到登录页面
-     *
-     * @return
-     */
-    @GetMapping("/login")
+    @GetMapping(value={"/","/login"})
     public String login() {
         return "login";
     }
 
-    /**
-     * 处理登录页面传来的json，
-     * 如果用户不存在，则返回错误
-     * 如果用户存在， 返回表示登录成功的json， 并把用户信息存入 session
-     *
-     * @param map
-     * @return
-     */
     @PostMapping("/login")
     @ResponseBody
     public Object login(@RequestBody Map<String, String> map, HttpServletResponse response,
@@ -51,50 +42,36 @@ public class LoginController {
         User user = userService.login(email, password);
         ResultDTO resultDTO = null;
         if (user == null) {
-            resultDTO = ResultDTO.errorOf(0, "用户密码错误");
+            resultDTO = ResultDTO.errorOf(0, "Email Or Password incorrect");
         } else {
             Cookie cookie = new Cookie("token", user.getToken());
             response.addCookie(cookie);
-            resultDTO = ResultDTO.errorOf(1, "");
-            //如果登录，则把用户存入session
+            resultDTO = ResultDTO.errorOf(1, "Sign in successfully");
             request.getSession().setAttribute("user", user);
         }
 
         return resultDTO;
     }
 
-    /**
-     * 跳转到登录页面
-     *
-     * @return
-     */
-    @GetMapping("/register")
+
+    @GetMapping("/register_page")
     public String register() {
         return "register";
     }
 
-    /**
-     * 处理注册页面传来的json信息, 以json返回
-     *
-     * @param registerDTO
-     * @return
-     */
+
     @PostMapping("/register")
     @ResponseBody
     public Object register(@RequestBody RegisterDTO registerDTO,
                            HttpServletResponse response,
                            HttpServletRequest request) {
-        System.out.println(registerDTO);
-        User user = userService.register(registerDTO);
+        User user = userService.search(registerDTO.getEmail());
         ResultDTO resultDTO;
-        if (user == null) {
-            resultDTO = ResultDTO.errorOf(0, "email 已注册");
+        if (user != null) {
+            resultDTO = ResultDTO.errorOf(0, "User existed already");
         } else {
-            Cookie cookie = new Cookie("token", user.getToken());
-            response.addCookie(cookie);
-            resultDTO = ResultDTO.errorOf(1, "");
-            //如果注册，则把用户存入session
-            request.getSession().setAttribute("user", user);
+            userService.register(registerDTO);
+            resultDTO = ResultDTO.errorOf(1, "User register successfully, Please sign in!");
         }
         return resultDTO;
     }
@@ -102,6 +79,12 @@ public class LoginController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute("user");
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0); //set it invalid
         return "/login";
     }
 

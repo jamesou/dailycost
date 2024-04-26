@@ -23,21 +23,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(RegisterDTO registerDTO) {
+        User user = new User();
+        user.setEmail(registerDTO.getEmail());
+        user.setName(registerDTO.getName());
+        user.setPassword(registerDTO.getPassword());
+        String token = TokenUtil.getTokenSecret(user.getName(), user.getPassword());
+        user.setToken(token);
+        userDAO.insert(user);
+        return user;
+    }
+
+    @Override
+    public User search(String email) {
         LambdaQueryWrapper<User> queryWrapper = new QueryWrapper<User>().lambda();
-        queryWrapper.eq(User::getEmail, registerDTO.getEmail());
+        queryWrapper.eq(User::getEmail, email);
         User user = userDAO.selectOne(queryWrapper);
-
-        if (user == null) {
-            user = new User();
-            user.setEmail(registerDTO.getEmail());
-            user.setName(registerDTO.getName());
-            user.setPassword(registerDTO.getPassword());
-            String token = TokenUtil.getTokenSecret(user.getName(), user.getPassword());
-            user.setToken(token);
-            userDAO.insert(user);
-
-        }
-
         return user;
     }
 
