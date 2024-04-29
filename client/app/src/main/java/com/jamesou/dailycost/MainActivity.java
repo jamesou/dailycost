@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //calculate the balance , use budget minus monthly expense
                 float monthlyExpense = DBManager.getSumMoneyOneMonth(year, month, 0);
                 float balance = money - monthlyExpense;
-                topBudgetTv.setText("$ " + balance);
+                topBudgetTv.setText("$ " + FormatNumberUtil.formatFloat(balance));
             }
         });
     }
