@@ -5,9 +5,7 @@ package com.jamesou.dailycost.db;
  */
 
 public class CategoryBean {
-    /**
-     * 类型名称
-     */
+
     int id;
     String categoryName;
     // 未被选中的图片ID
