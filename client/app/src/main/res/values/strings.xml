@@ -3,7 +3,7 @@
     <string name="add_one">New Entry</string>
     <string name="month_expense">Expense Monthly</string>
     <string name="month_income">Income Monthly</string>
-    <string name="budget">Budget Balance</string>
+    <string name="budget">Budget</string>
     <string name="set_budget">Set Budget</string>
     <string name="see_excel">Chart Analysis</string>
     <string name="add_comment">Add comment</string>
@@ -65,5 +65,5 @@
     <string name="close">Close</string>
     <string name="go_turn"><![CDATA[>]]></string>
     <string name="introduce">Track your spending</string>
-    <string name="web_login_url">http://192.168.68.58:8080/</string>
+    <string name="web_login_url">http://148.100.78.14:8080/</string>
 </resources>
