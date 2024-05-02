@@ -337,9 +337,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 SharedPreferences.Editor edit = preferences.edit();
                 edit.putFloat("bmoney" , money);
                 edit.commit();
-                //calculate the balance , use budget minus monthly expense
-                float monthlyExpense = DBManager.getSumMoneyOneMonth(year, month, 0);
-                float balance = money - monthlyExpense;
+                float balance = 0;
+                if (money == 0){
+                    balance = money;
+                }else {
+                    //calculate the balance , use budget minus monthly expense
+                    float monthlyExpense = DBManager.getSumMoneyOneMonth(year, month, 0);
+                    balance = money - monthlyExpense;
+                }
                 topBudgetTv.setText("$ " + FormatNumberUtil.formatFloat(balance));
             }
         });

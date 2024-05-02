@@ -47,18 +47,17 @@ public class BudgetDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_budget_iv_error:
-                cancel();   // 取消对话框
+                cancel();
                 break;
             case R.id.dialog_budget_btn_ensure:
-                // 获取输入的数值
                 String moneyStr = moneyEt.getText().toString();
                 if(TextUtils.isEmpty(moneyStr)){
-                    Toast.makeText(getContext(), "输入数据不能为空" , Toast.LENGTH_SHORT ).show();
+                    Toast.makeText(getContext(), "Budget can not be empty" , Toast.LENGTH_SHORT ).show();
                     return;
                 }
                 float moneyFlo = Float.parseFloat(moneyStr);
-                if(moneyFlo <= 0){
-                    Toast.makeText(getContext() , "预算金额不能小于0" , Toast.LENGTH_SHORT).show();
+                if(moneyFlo < 0){
+                    Toast.makeText(getContext() , "Budget must be greater than 0" , Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (onEnsureListener != null) {

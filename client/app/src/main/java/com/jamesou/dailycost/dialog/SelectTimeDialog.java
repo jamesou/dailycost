@@ -61,11 +61,11 @@ public class SelectTimeDialog extends Dialog implements OnClickListener {
 
     private void setSelectTime(){
         if(timeStr!=null) {
-            int year = Integer.parseInt(timeStr.substring(0,timeStr.indexOf("年")));
-            int month = Integer.parseInt(timeStr.substring(timeStr.indexOf("年")+1,timeStr.indexOf("月")));
-            int day = Integer.parseInt(timeStr.substring(timeStr.indexOf("月")+1,timeStr.indexOf("日")));
-            //老版本的日后面没有空格，需要加个trim兼容一下
-            int hour = Integer.parseInt(timeStr.substring(timeStr.indexOf("日")+1,timeStr.indexOf(":")).trim());
+            int year = Integer.parseInt(timeStr.substring(0,timeStr.indexOf("Year")));
+            int month = Integer.parseInt(timeStr.substring(timeStr.indexOf("Year")+1,timeStr.indexOf("Month")));
+            int day = Integer.parseInt(timeStr.substring(timeStr.indexOf("Month")+1,timeStr.indexOf("Day")));
+
+            int hour = Integer.parseInt(timeStr.substring(timeStr.indexOf("Day")+1,timeStr.indexOf(":")).trim());
             int minute = Integer.parseInt(timeStr.substring(timeStr.indexOf(":")+1));
 
             datePicker.updateDate(year,month-1,day);
@@ -92,7 +92,7 @@ public class SelectTimeDialog extends Dialog implements OnClickListener {
                 if(dayOfMonth < 10){
                     dayStr = "0" + dayOfMonth;
                 }
-                // 获取小时和分钟
+
                 String hourStr = et_hour.getText().toString();
                 String minuteStr = et_minute.getText().toString();
                 int hour = 0;
@@ -113,7 +113,7 @@ public class SelectTimeDialog extends Dialog implements OnClickListener {
                 if(minute < 10){
                     minuteStr = "0" + minuteStr;
                 }
-                String timeFormat = year + "年" + monthStr + "月" + dayStr + "日 " + hourStr + ":" + minuteStr;
+                String timeFormat = year + "Year" + monthStr + "Month" + dayStr + "Day " + hourStr + ":" + minuteStr;
 
                 if(onEnsureListener != null){
                     onEnsureListener.onEnsure(timeFormat , year , month , dayOfMonth);
@@ -122,9 +122,7 @@ public class SelectTimeDialog extends Dialog implements OnClickListener {
                 break;
         }
     }
-    /**
-     * 隐藏DatePicker的头布局
-     */
+
     public void hideDatePickerHeader(){
         ViewGroup rootView = (ViewGroup) datePicker.getChildAt(0);
         if (rootView == null) {
@@ -137,7 +135,7 @@ public class SelectTimeDialog extends Dialog implements OnClickListener {
         // 5.0+
         int headerId = getContext().getResources().getIdentifier("day_picker_selector_layout" , "id" , "android");
         if(headerId == headerView.getId()){
-            headerView.setVisibility(View.GONE);    // 隐藏且占位置
+            headerView.setVisibility(View.GONE);    // hide it but conquer the space
 
             ViewGroup.LayoutParams params = rootView.getLayoutParams();
             params.width = ViewGroup.LayoutParams.WRAP_CONTENT;

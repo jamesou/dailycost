@@ -3,7 +3,7 @@ package com.jamesou.dailycost.utils;
 import android.widget.Toast;
 import android.content.Context;
 /**
- * Created by jamesou on
+ * Created by jamesou
  * Describe:
  */
 public class PromptMsgUtil {
