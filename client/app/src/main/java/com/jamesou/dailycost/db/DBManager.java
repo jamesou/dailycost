@@ -338,9 +338,9 @@ public class DBManager {
         return list;
     }
 
-    public static List<AccountBean> getAccountListByRemarkFromAccounttbYearMonth(String beizhu,int yearparam, int monthparam){
+    public static List<AccountBean> getAccountListByRemarkFromAccounttbYearMonth(String comment,int yearparam, int monthparam){
         List<AccountBean> list = new ArrayList<>();
-        String sql = "select * from accounttb where (beizhu like '%"+ beizhu +"%'  or categoryName like '%"+ beizhu +"%') and year = "+yearparam+" and month = "+monthparam;
+        String sql = "select * from accounttb where (comment like '%"+ comment +"%'  or categoryName like '%"+ comment +"%') and year = "+yearparam+" and month = "+monthparam;
         Cursor cursor = db.rawQuery(sql, null);
         float summoney = 0;
         while (cursor.moveToNext()){
@@ -351,11 +351,11 @@ public class DBManager {
             int kind = cursor.getInt(cursor.getColumnIndex("kind"));
             float money = cursor.getFloat(cursor.getColumnIndex("money"));
             summoney += money;
-            String beizhu1 = cursor.getString(cursor.getColumnIndex("beizhu"));
+            String dbComment = cursor.getString(cursor.getColumnIndex("comment"));
             int year = cursor.getInt(cursor.getColumnIndex("year"));
             int month = cursor.getInt(cursor.getColumnIndex("month"));
             int day = cursor.getInt(cursor.getColumnIndex("day"));
-            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, beizhu1, money, time, year, month, day, kind);
+            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, dbComment, money, time, year, month, day, kind);
             list.add(accountBean);
         }
         AccountBean sumaccountBean = new AccountBean();
@@ -381,14 +381,14 @@ public class DBManager {
         while(cursor.moveToNext()){
             int id = cursor.getInt(cursor.getColumnIndex("id"));
             String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
-            String beizhu = cursor.getString(cursor.getColumnIndex("beizhu"));
+            String comment = cursor.getString(cursor.getColumnIndex("comment"));
             String time = cursor.getString(cursor.getColumnIndex("time"));
             int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
             int kind = cursor.getInt(cursor.getColumnIndex("kind"));
             float money = cursor.getFloat(cursor.getColumnIndex("money"));
             money = Math.round(money * 100) / 100f;
             int day = cursor.getInt(cursor.getColumnIndex("day"));
-            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, beizhu, money, time, year, month, day, kind);
+            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, comment, money, time, year, month, day, kind);
             list.add(accountBean);
         }
         return list;
@@ -403,14 +403,14 @@ public class DBManager {
         while(cursor.moveToNext()){
             int id = cursor.getInt(cursor.getColumnIndex("id"));
             String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
-            String beizhu = cursor.getString(cursor.getColumnIndex("beizhu"));
+            String comment = cursor.getString(cursor.getColumnIndex("comment"));
             String time = cursor.getString(cursor.getColumnIndex("time"));
             int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
             int kind = cursor.getInt(cursor.getColumnIndex("kind"));
             float money = cursor.getFloat(cursor.getColumnIndex("money"));
             money = Math.round(money * 100) / 100f;
             int day = cursor.getInt(cursor.getColumnIndex("day"));
-            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, beizhu, money, time, year, month, day, kind);
+            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, comment, money, time, year, month, day, kind);
             list.add(accountBean);
         }
         return list;

@@ -188,12 +188,10 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.frag_record_tv_time:
-                PromptMsgUtil.promptMsg(getActivity(),"The next app version supports setting datetime");
-//                showTimeDialog();
+                showTimeDialog();
                 break;
             case R.id.frag_record_tv_comment:
-                PromptMsgUtil.promptMsg(getActivity(),"The next app version supports writing comment");
-//                showCommentDialog();
+                showCommentDialog();
                 break;
         }
     }

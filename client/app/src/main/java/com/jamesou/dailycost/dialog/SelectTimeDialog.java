@@ -113,7 +113,7 @@ public class SelectTimeDialog extends Dialog implements OnClickListener {
                 if(minute < 10){
                     minuteStr = "0" + minuteStr;
                 }
-                String timeFormat = year + "Year" + monthStr + "Month" + dayStr + "Day " + hourStr + ":" + minuteStr;
+                String timeFormat = year + "/" + monthStr + "/" + dayStr + " " + hourStr + ":" + minuteStr;
 
                 if(onEnsureListener != null){
                     onEnsureListener.onEnsure(timeFormat , year , month , dayOfMonth);
