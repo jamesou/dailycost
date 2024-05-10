@@ -12,6 +12,7 @@
     <string name="cancel">Cancel</string>
     <string name="please_input_time">Please input time（24-hour）</string>
     <string name="please_search_info">Please input search</string>
+    <string name="select_date">Select Date</string>
     <string name="data_empty">No data exists</string>
     <string name="about">About</string>
     <string name="about_appinfo">App Info</string>

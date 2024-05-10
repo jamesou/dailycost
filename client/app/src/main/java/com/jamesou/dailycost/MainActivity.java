@@ -286,9 +286,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent();;
         switch (v.getId()) {
             case R.id.main_iv_search:
-//                intent = new Intent(this, SearchActivity.class);
-//                startActivity(intent);
-                PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
+                intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
                 break;
             case R.id.main_btn_add:
                 //@todo  add scan button
