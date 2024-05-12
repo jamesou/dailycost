@@ -254,13 +254,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /*Set the top view data*/
     private void setTopTvShow() {
-        float incomeOneDay = DBManager.setSumMoneyOneDay(year, month, day, 1);
-        float outcomeOneDay = DBManager.setSumMoneyOneDay(year, month, day, 0);
+        float incomeOneDay = DBManager.getSumMoneyByDay(year, month, day, 1);
+        float outcomeOneDay = DBManager.getSumMoneyByDay(year, month, day, 0);
         String dailycost = "Today's expense: $" + FormatNumberUtil.formatFloat(outcomeOneDay) + " income: $" + FormatNumberUtil.formatFloat(incomeOneDay);
         topDailyTv.setText(dailycost);
         // monthly cost
-        float incomeOneMonth = DBManager.getSumMoneyOneMonth(year, month, 1);
-        float outcomeOneMonth = DBManager.getSumMoneyOneMonth(year, month, 0);
+        float incomeOneMonth = DBManager.getSumMoneyByMonth(year, month, 1);
+        float outcomeOneMonth = DBManager.getSumMoneyByMonth(year, month, 0);
         topIncomeTv.setText("$" + FormatNumberUtil.formatFloat(incomeOneMonth));
         topExpenseTv.setText("$" + FormatNumberUtil.formatFloat(outcomeOneMonth));
         // display budget
@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadDBData() {
-        List<AccountBean> list = DBManager.getOneMonthAccountList(year, month, day);
+        List<AccountBean> list = DBManager.getAccountListByDate(year, month, day);
         mDatas.clear();
         mDatas.addAll(list);
         adapter.notifyDataSetChanged();
@@ -309,10 +309,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 toggleShow();
                 break;
             case R.id.dialog_more_btn_record:
-                PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
+                intent = new Intent(this, RecordActivity.class);
+                this.startActivity(intent);
+                break;
+            case R.id.dialog_more_btn_ana:
+                intent = new Intent(this, ChartActivity.class);
+                this.startActivity(intent);
                 break;
             case R.id.item_mainlv_top_analysis_text:
-                PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
+                intent = new Intent(this, ChartActivity.class);
+                this.startActivity(intent);
                 break;
             case R.id.dialog_more_btn_setting:
                 PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
@@ -341,7 +347,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     balance = money;
                 }else {
                     //calculate the balance , use budget minus monthly expense
-                    float monthlyExpense = DBManager.getSumMoneyOneMonth(year, month, 0);
+                    float monthlyExpense = DBManager.getSumMoneyByMonth(year, month, 0);
                     balance = money - monthlyExpense;
                 }
                 topBudgetTv.setText("$ " + FormatNumberUtil.formatFloat(balance));

@@ -19,7 +19,7 @@
                   android:textSize="16sp"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:id="@+id/item_mainlv_tv_comment"
-                  android:maxWidth="235dp"
+                  android:maxWidth="242dp"
                   android:text="r  Vi t  matically r  Vi t  matically Your  Vi t  matically in TextView"
                   android:layout_marginTop="5sp"
                   android:textSize="12sp"/>

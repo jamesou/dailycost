@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.jamesou.dailycost.adapter.RecordPageAdapter;
+import com.jamesou.dailycost.adapter.RecordEntryAdapter;
 import com.jamesou.dailycost.db.AccountBean;
-import com.jamesou.dailycost.fragrecord.IncomeFragment;
-import com.jamesou.dailycost.fragrecord.ExpenseFragment;
+import com.jamesou.dailycost.fragment.IncomeFragment;
+import com.jamesou.dailycost.fragment.ExpenseFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class NewEntryActivity extends AppCompatActivity {
         fragmentList.add(expenseFragment);
         fragmentList.add(incomeFragment);
 
-        RecordPageAdapter adapter = new RecordPageAdapter(getSupportFragmentManager(), fragmentList);
+        RecordEntryAdapter adapter = new RecordEntryAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
