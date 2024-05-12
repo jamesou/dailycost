@@ -1,4 +1,4 @@
-package com.jamesou.dailycost.fragrecord;
+package com.jamesou.dailycost.fragment;
 
 
 //import com.jamesou.dailycost.HistoryActivity;

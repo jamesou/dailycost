@@ -57,7 +57,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     PromptMsgUtil.promptMsg(this , "Can't search empty context");
                     return;
                 }
-                List<AccountBean> beans = DBManager.getAccountListByRemarkFromAccounttb(mgs);
+                List<AccountBean> beans = DBManager.getAccountListByComment(mgs);
                 mData.clear();
                 mData.addAll(beans);
                 adapter.notifyDataSetChanged();
@@ -74,7 +74,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             PromptMsgUtil.promptMsg(SearchActivity.this , "Can't search empty context");
                             return;
                         }
-                        List<AccountBean> beans = DBManager.getAccountListByRemarkFromAccounttbYearMonth(mgs,year,month);
+                        List<AccountBean> beans = DBManager.getAccountListBySearchCondition(mgs,year,month);
                         mData.clear();
                         mData.addAll(beans);
                         adapter.notifyDataSetChanged();

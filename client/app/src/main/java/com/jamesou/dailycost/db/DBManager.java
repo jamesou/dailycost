@@ -6,13 +6,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.jamesou.dailycost.R;
+import com.jamesou.dailycost.utils.FormatNumberUtil;
+import com.jamesou.dailycost.utils.StringUtil;
 
-import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * @Description ：it is used to manipulate DB
@@ -46,35 +48,33 @@ public class DBManager {
             String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
             int imageId = cursor.getInt(cursor.getColumnIndex("imageId"));
             int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
-            int kind1 = cursor.getInt(cursor.getColumnIndex("kind"));
+            int kindDB = cursor.getInt(cursor.getColumnIndex("kind"));
             int id = cursor.getInt(cursor.getColumnIndex("id"));
-            CategoryBean categoryBean = new CategoryBean(id , categoryName, imageId, sImageId, kind1);
+            CategoryBean categoryBean = new CategoryBean(id , categoryName, imageId, sImageId, kindDB);
             list.add(categoryBean);
         }
         return list;
     }
 
     public static void insertItemTocategorytb(CategoryBean categoryBean){
-        ContentValues values = new ContentValues();
-        values.put("categoryName" , categoryBean.getCategoryName());
-        values.put("imageId" , categoryBean.getImageId());
-        values.put("sImageId" , categoryBean.getsImageId());
-        values.put("kind" , categoryBean.getKind());
-
+        ContentValues values = convertCategoryBeanToDBbean(categoryBean);
         db.insert("categorytb" , null , values);
     }
 
     public static void updateItemTocategorytb(CategoryBean categoryBean) {
+        ContentValues values = convertCategoryBeanToDBbean(categoryBean);
+        String selection = "id = ?";
+        String[] selectionArgs = { String.valueOf(categoryBean.getId()) };
+        db.update("categorytb", values, selection, selectionArgs);
+    }
+    private static ContentValues convertCategoryBeanToDBbean(CategoryBean categoryBean){
         ContentValues updateValues = new ContentValues();
         updateValues.put("categoryName", categoryBean.getCategoryName());
         updateValues.put("imageId", categoryBean.getImageId());
         updateValues.put("sImageId", categoryBean.getsImageId());
         updateValues.put("kind", categoryBean.getKind());
-        String selection = "id = ?";
-        String[] selectionArgs = { String.valueOf(categoryBean.getId()) };
-        db.update("categorytb", updateValues, selection, selectionArgs);
+        return updateValues;
     }
-
     public static List<CategoryBean> getTypeListBydry(int kind){
         List<CategoryBean> list = new ArrayList<>();
         if(kind == 0) {
@@ -101,7 +101,6 @@ public class DBManager {
         }
         return list;
     }
-
     public static String updateCategoryBeanById(int selectId,int kind,int flag,List<CategoryBean> list) {
         int count = 0;
         int objindex = 0;
@@ -113,7 +112,6 @@ public class DBManager {
             }
             count++;
         }
-
         // flag 0 move down，1 move up
         if(flag == 0) {
             if((objindex)+1 == list.size()) {
@@ -124,7 +122,6 @@ public class DBManager {
                 return "first";
             }
         }
-
         CategoryBean bean = list.get(objindex);
         CategoryBean bean2 = null;
         if(flag == 0) {
@@ -132,32 +129,18 @@ public class DBManager {
         }else {
             bean2 = list.get(objindex-1);
         }
-
-        ContentValues updateValues = new ContentValues();
-        updateValues.put("categoryName", bean2.getCategoryName());
-        updateValues.put("imageId", bean2.getImageId());
-        updateValues.put("sImageId", bean2.getsImageId());
-        updateValues.put("kind", bean2.getKind());
-        CategoryBean tempBean = new CategoryBean(bean.getId() , bean.getCategoryName(), bean.getImageId(), bean.getsImageId(), kind);
-        bean.setCategoryName(bean2.getCategoryName());
-        bean.setImageId(bean2.getImageId());
-        bean.setsImageId(bean2.getsImageId());
-        bean.setKind(bean2.getKind());
+        ContentValues updateValues = convertCategoryBeanToDBbean(bean2);
         String selection = "id = ?";
         String[] selectionArgs = { String.valueOf(bean.getId()) };
         db.update("categorytb", updateValues, selection, selectionArgs);
-
-        updateValues.clear();
+        CategoryBean tempBean = new CategoryBean(bean.getId() , bean.getCategoryName(), bean.getImageId(), bean.getsImageId(), kind);
+        updateValues = convertCategoryBeanToDBbean(tempBean);
         updateValues.put("categoryName", tempBean.getCategoryName());
         updateValues.put("imageId", tempBean.getImageId());
         updateValues.put("sImageId", tempBean.getsImageId());
         updateValues.put("kind", tempBean.getKind());
         selectionArgs = new String[]{String.valueOf(bean2.getId())};
         db.update("categorytb", updateValues, selection, selectionArgs);
-        bean2.setCategoryName(tempBean.getCategoryName());
-        bean2.setImageId(tempBean.getImageId());
-        bean2.setsImageId(tempBean.getsImageId());
-        bean2.setKind(tempBean.getKind());
         return "success";
     }
 
@@ -170,124 +153,57 @@ public class DBManager {
     /**
      *  kind：expense——>1，income——>0
      */
-    public static float setSumMoneyOneDay(int year , int month , int day , int kind){
-        float total = 0.0f;
+    public static float getSumMoneyByDay(int year , int month , int day , int kind){
         String sql = "select sum(money) from accounttb where year=? and month=? and day=? and kind=?";
-        Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", day + "", kind + ""});
-        if (cursor.moveToFirst()) {
-            float money = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
-            total = money;
-        }
-        total = Math.round(total * 100) / 100f;
-        return total;
+        return getSumMoney(sql, new String[]{year + "", month + "", day + "", kind + ""});
     }
 
-    public static float getSumMoneyOneMonth(int year , int month , int kind){
-        float total = 0.0f;
+    public static float getSumMoneyByMonth(int year , int month , int kind){
         String sql = "select sum(money) from accounttb where year=? and month=? and kind=?";
-        Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", kind + ""});
-        if (cursor.moveToFirst()) {
-            float money = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
-            total = money;
-        }
-        total = Math.round(total * 100) / 100f;
-        return total;
+        return getSumMoney(sql,new String[]{year + "", month + "", kind + ""});
     }
 
-    public static float getSumMoneyOneYear(int year  , int kind){
-        float total = 0.0f;
+    public static float getSumMoneyByYear(int year  , int kind){
         String sql = "select sum(money) from accounttb where year=?   and kind=?";
-        Cursor cursor = db.rawQuery(sql, new String[]{year + "", kind + ""});
-        if (cursor.moveToFirst()) {
-            float money = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
-            total = money;
-        }
-        total = Math.round(total * 100) / 100f;
-        return total;
+        return getSumMoney(sql,new String[]{year + "", kind + ""});
     }
-
-
-    public static int getCountItemOneMonth(int year , int month , int kind){
-        int total = 0;
+    public static int getCountItemByMonth(int year , int month , int kind){
         String sql = "select count(money) from accounttb where year=? and month=? and kind=?";
-        Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", kind + ""});
-        if (cursor.moveToFirst()) {
-            int count = cursor.getInt(cursor.getColumnIndex("count(money)"));
-            total = count;
-        }
-        return total;
+        return getCountItem(sql,new String[]{year + "", month + "", kind + ""});
     }
 
-    public static int getCountItemOneYear(int year , int kind){
-        int total = 0;
+    public static int getCountItemByYear(int year , int kind){
         String sql = "select count(money) from accounttb where year=?   and kind=?";
-        Cursor cursor = db.rawQuery(sql, new String[]{year + "" , kind + ""});
-        if (cursor.moveToFirst()) {
-            int count = cursor.getInt(cursor.getColumnIndex("count(money)"));
-            total = count;
-        }
-        return total;
+        return getCountItem(sql,new String[]{year + "" , kind + ""});
     }
 
-    public static float setSumMoneyOneYear(int year, int kind){
-        float total = 0.0f;
-        String sql = "select sum(money) from accounttb where year=? and kind=?";
-        Cursor cursor = db.rawQuery(sql, new String[]{year + "", kind + ""});
-
-        if (cursor.moveToFirst()) {
-            float money = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
-            total = money;
+    public static List<AccountBean> getAccountListByDate(int year , int month , int day){
+        StringBuilder sql = new StringBuilder("select * from accounttb where 1=1 ");
+        Vector<String> vector = new Vector<>();
+        if(StringUtil.isNotNullOrEmpty(String.valueOf(year))) {
+            sql.append(" and year=? ");
+            vector.add(String.valueOf(year));
         }
-        total = Math.round(total * 100) / 100f;
-        return total;
+        if(StringUtil.isNotNullOrEmpty(String.valueOf(month))) {
+            sql.append(" and month=? ");
+            vector.add(String.valueOf(month));
+        }
+        if(StringUtil.isNotNullOrEmpty(String.valueOf(day))) {
+            sql.append(" and day=? ");
+            vector.add(String.valueOf(day));
+        }
+        sql.append(" order by id desc");
+        String[] sqlParams = vector.toArray(new String[vector.size()]);
+        return getAccountList(sql.toString(),sqlParams,0);
     }
 
     public static void insertItemToAccounttb(AccountBean accountBean){
-        ContentValues values = new ContentValues();
-        values.put("categoryName" , accountBean.getCategoryName());
-        values.put("sImageId" , accountBean.getsImageId());
-        values.put("comment" , accountBean.getComment());
-        values.put("money" , accountBean.getMoney());
-        values.put("time" , accountBean.getTime());
-        values.put("year" , accountBean.getYear());
-        values.put("month" , accountBean.getMonth());
-        values.put("day" , accountBean.getDay());
-        values.put("kind" , accountBean.getKind());
-
+        ContentValues values = convertAccountBeanToDBbean(accountBean);
         db.insert("accounttb" , null , values);
     }
 
-    public static List<AccountBean> getOneMonthAccountList(int year , int month , int day){
-        List<AccountBean> list = new ArrayList<>();
-        String sql = "select * from accounttb where year=? and month=? and day=? order by id desc";
-        Cursor cursor = db.rawQuery(sql ,
-                new String[]{String.valueOf(year), String.valueOf(month), String.valueOf(day)});
-        while(cursor.moveToNext()){
-            int id = cursor.getInt(cursor.getColumnIndex("id"));
-            String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
-            String comment = cursor.getString(cursor.getColumnIndex("comment"));
-            String time = cursor.getString(cursor.getColumnIndex("time"));
-            int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
-            int kind = cursor.getInt(cursor.getColumnIndex("kind"));
-            float money = cursor.getFloat(cursor.getColumnIndex("money"));
-            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, comment, money, time, year, month, day, kind);
-            list.add(accountBean);
-        }
-        return list;
-    }
-
     public static void updateItemToAccounttb(AccountBean accountBean) {
-        ContentValues values = new ContentValues();
-        values.put("categoryName" , accountBean.getCategoryName());
-        values.put("sImageId" , accountBean.getsImageId());
-        values.put("comment" , accountBean.getComment());
-        values.put("money" , accountBean.getMoney());
-        values.put("time" , accountBean.getTime());
-        values.put("year" , accountBean.getYear());
-        values.put("month" , accountBean.getMonth());
-        values.put("day" , accountBean.getDay());
-        values.put("kind" , accountBean.getKind());
-
+        ContentValues values = convertAccountBeanToDBbean(accountBean);
         String selection = "id = ?";
         String[] selectionArgs = { String.valueOf(accountBean.getId()) };
         db.update("accounttb", values, selection, selectionArgs);
@@ -299,125 +215,27 @@ public class DBManager {
         return i;
     }
 
-
-    public static List<AccountBean> getAccountListByRemarkFromAccounttb(String comment){
-        List<AccountBean> list = new ArrayList<>();
+    public static List<AccountBean> getAccountListByComment(String comment){
         Calendar calendar = Calendar.getInstance();
         int yeardefault = calendar.get(Calendar.YEAR);
         int monthdefault = calendar.get(Calendar.MONTH) + 1;
         //default current month
         String sql = "select * from accounttb where (comment like '%"+ comment +"%'  or categoryName like '%"+ comment +"%') and year = "+yeardefault+" and month = "+monthdefault;
-        Cursor cursor = db.rawQuery(sql, null);
         float summoney = 0;
-        while (cursor.moveToNext()){
-            int id = cursor.getInt(cursor.getColumnIndex("id"));
-            String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
-            String time = cursor.getString(cursor.getColumnIndex("time"));
-            int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
-            int kind = cursor.getInt(cursor.getColumnIndex("kind"));
-            float money = cursor.getFloat(cursor.getColumnIndex("money"));
-            summoney += money;
-            comment = cursor.getString(cursor.getColumnIndex("comment"));
-            int year = cursor.getInt(cursor.getColumnIndex("year"));
-            int month = cursor.getInt(cursor.getColumnIndex("month"));
-            int day = cursor.getInt(cursor.getColumnIndex("day"));
-            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, comment, money, time, year, month, day, kind);
-            list.add(accountBean);
-        }
-        AccountBean sumaccountBean = new AccountBean();
-        sumaccountBean.setCategoryName("Total");
-        summoney = Math.round(summoney * 100) / 100f;
-        sumaccountBean.setMoney(summoney);
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        String time = sdf.format(date);
-        sumaccountBean.setTime("Today "+time);
-        sumaccountBean.setsImageId(R.mipmap.ic_dollar);
-        sumaccountBean.setComment("Automatic Calculation");
-        list.add(0,sumaccountBean);
+        List<AccountBean> list = getAccountList(sql,null,summoney);
+        list.add(0,getSumAccountBean(summoney));
         return list;
     }
 
-    public static List<AccountBean> getAccountListByRemarkFromAccounttbYearMonth(String comment,int yearparam, int monthparam){
-        List<AccountBean> list = new ArrayList<>();
+    public static List<AccountBean> getAccountListBySearchCondition(String comment, int yearparam, int monthparam){
         String sql = "select * from accounttb where (comment like '%"+ comment +"%'  or categoryName like '%"+ comment +"%') and year = "+yearparam+" and month = "+monthparam;
-        Cursor cursor = db.rawQuery(sql, null);
         float summoney = 0;
-        while (cursor.moveToNext()){
-            int id = cursor.getInt(cursor.getColumnIndex("id"));
-            String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
-            String time = cursor.getString(cursor.getColumnIndex("time"));
-            int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
-            int kind = cursor.getInt(cursor.getColumnIndex("kind"));
-            float money = cursor.getFloat(cursor.getColumnIndex("money"));
-            summoney += money;
-            String dbComment = cursor.getString(cursor.getColumnIndex("comment"));
-            int year = cursor.getInt(cursor.getColumnIndex("year"));
-            int month = cursor.getInt(cursor.getColumnIndex("month"));
-            int day = cursor.getInt(cursor.getColumnIndex("day"));
-            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, dbComment, money, time, year, month, day, kind);
-            list.add(accountBean);
-        }
-        AccountBean sumaccountBean = new AccountBean();
-        sumaccountBean.setCategoryName("Total");
-        summoney = Math.round(summoney * 100) / 100f;
-        sumaccountBean.setMoney(summoney);
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        String time = sdf.format(date);
-        sumaccountBean.setTime("Today "+time);
-        sumaccountBean.setsImageId(R.mipmap.ic_dollar);
-        sumaccountBean.setComment("Automatic Calculation");
-        list.add(0,sumaccountBean);
+        List<AccountBean> list = getAccountList(sql,null,summoney);
+        list.add(0,getSumAccountBean(summoney));
         return list;
     }
 
-    public static List<AccountBean> getOneMonthAccountList(int year , int month){
-        List<AccountBean> list = new ArrayList<>();
-        String sql = "select * from accounttb where year=? and month=? order by time asc";
-        Cursor cursor = db.rawQuery(sql ,
-                new String[]{String.valueOf(year), String.valueOf(month)});
-
-        while(cursor.moveToNext()){
-            int id = cursor.getInt(cursor.getColumnIndex("id"));
-            String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
-            String comment = cursor.getString(cursor.getColumnIndex("comment"));
-            String time = cursor.getString(cursor.getColumnIndex("time"));
-            int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
-            int kind = cursor.getInt(cursor.getColumnIndex("kind"));
-            float money = cursor.getFloat(cursor.getColumnIndex("money"));
-            money = Math.round(money * 100) / 100f;
-            int day = cursor.getInt(cursor.getColumnIndex("day"));
-            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, comment, money, time, year, month, day, kind);
-            list.add(accountBean);
-        }
-        return list;
-    }
-
-    public static List<AccountBean> getAccountListFromAccounttb(int year , int month,int dayparam){
-        List<AccountBean> list = new ArrayList<>();
-        String sql = "select * from accounttb where year=? and month=? and day=? order by time asc";
-        Cursor cursor = db.rawQuery(sql ,
-                new String[]{String.valueOf(year), String.valueOf(month), String.valueOf(dayparam)});
-
-        while(cursor.moveToNext()){
-            int id = cursor.getInt(cursor.getColumnIndex("id"));
-            String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
-            String comment = cursor.getString(cursor.getColumnIndex("comment"));
-            String time = cursor.getString(cursor.getColumnIndex("time"));
-            int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
-            int kind = cursor.getInt(cursor.getColumnIndex("kind"));
-            float money = cursor.getFloat(cursor.getColumnIndex("money"));
-            money = Math.round(money * 100) / 100f;
-            int day = cursor.getInt(cursor.getColumnIndex("day"));
-            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, comment, money, time, year, month, day, kind);
-            list.add(accountBean);
-        }
-        return list;
-    }
-
-
-    public static List<Integer> yearListFromAccounttb(){
+    public static List<Integer> getYearListFromAccounttb(){
         List<Integer> list = new ArrayList<>();
         String sql = "select distinct(year) from accounttb order by year asc";
         Cursor cursor = db.rawQuery(sql, null);
@@ -433,33 +251,48 @@ public class DBManager {
         db.execSQL(sql);
     }
 
+    public static List<BarChartItemBean> getBarChartListGroupByDay(int year , int month , int kind){
+        List<BarChartItemBean> list = new ArrayList<>();
+        String sql = "select day ,sum(money) from accounttb where year=? and month=? " +
+                "and kind=? group by day";
+        Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", kind + ""});
+        while (cursor.moveToNext()) {
+            int day = cursor.getInt(cursor.getColumnIndex("day"));
+            float sumMoney = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
+            sumMoney = Math.round(sumMoney * 100) / 100f;
+            BarChartItemBean bean = new BarChartItemBean(year, month, day, sumMoney);
+            list.add(bean);
+        }
+        return list;
+    }
 
-    public static float getMaxMoneyOneDayInMonth(int year , int month , int kind){
+    public static List<BarChartItemBean> getBarChartListGroupByMonth(int year, int kind){
+        List<BarChartItemBean> list = new ArrayList<>();
+        String sql = "select month ,sum(money) from accounttb where year=?   " +
+                "and kind=? group by month";
+        Cursor cursor = db.rawQuery(sql, new String[]{year + "", kind + ""});
+        while (cursor.moveToNext()) {
+            int month = cursor.getInt(cursor.getColumnIndex("month"));
+            float sumMoney = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
+            sumMoney = Math.round(sumMoney * 100) / 100f;
+            BarChartItemBean bean = new BarChartItemBean(year, month, sumMoney);
+            list.add(bean);
+        }
+        return list;
+    }
+    public static float getSumMoneyGroupByDay(int year , int month , int kind){
         String sql = "select sum(money) from accounttb where year=? and month=? " +
                 "and kind=? group by day order by sum(money) desc";
-        Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", kind + ""});
-        if (cursor.moveToFirst()){
-            float maxMoneyOneDay = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
-            maxMoneyOneDay = Math.round(maxMoneyOneDay * 100) / 100f;
-            return maxMoneyOneDay;
-        }
-        return 0;
+        return getSumMoney(sql,new String[]{year + "", month + "", kind + ""});
     }
 
-    public static float getMaxMoneyOneMonthInYear(int year, int kind){
+    public static float getSumMoneyGroupByMonth(int year, int kind){
         String sql = "select sum(money) from accounttb where year=?  " +
                 "and kind=? group by month order by sum(money) desc";
-        Cursor cursor = db.rawQuery(sql, new String[]{year + "", kind + ""});
-        if (cursor.moveToFirst()){
-            float maxMoneyOneDay = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
-            maxMoneyOneDay = Math.round(maxMoneyOneDay * 100) / 100f;
-            return maxMoneyOneDay;
-        }
-        return 0;
+        return getSumMoney(sql,new String[]{year + "", kind + ""});
     }
 
-
-    public static List<AccountBean> getSumMoneyOneDay(int year , int month , int day){
+    public static List<AccountBean> getSumMoneyOneDayByKind(int year , int month , int day){
         List<AccountBean> list = new ArrayList<>();
         String sql = "select kind ,sum(money) from accounttb where year=? and month=?  " +
                 "and day =? group by kind";
@@ -472,6 +305,100 @@ public class DBManager {
             bean.setKind(kind);
             bean.setMoney(sumMoney);
             list.add(bean);
+        }
+        return list;
+    }
+    public static List<ChartItemBean> getChartListByMonth(int year , int month , int kind){
+        float oneMonth = getSumMoneyByMonth(year, month, kind);
+        String sql = "select categoryName,sImageId,sum(money) as total from accounttb " +
+                "where year=? and month=? and kind=? group by categoryName order by " +
+                "total desc";
+        return getChartList(sql,new String[]{year + "", month + "", kind + ""},oneMonth);
+    }
+
+    public static List<ChartItemBean> getChartListByYear(int year , int kind){
+        float oneYear = getSumMoneyByYear(year, kind);
+        String sql = "select categoryName,sImageId,sum(money) as total from accounttb " +
+                "where year=?  and kind=? group by categoryName order by " +
+                "total desc";
+        return getChartList(sql,new String[]{year + "", kind + ""},oneYear);
+    }
+    private static ContentValues convertAccountBeanToDBbean(AccountBean accountBean){
+        ContentValues values = new ContentValues();
+        values.put("categoryName" , accountBean.getCategoryName());
+        values.put("sImageId" , accountBean.getsImageId());
+        values.put("comment" , accountBean.getComment());
+        values.put("money" , accountBean.getMoney());
+        values.put("time" , accountBean.getTime());
+        values.put("year" , accountBean.getYear());
+        values.put("month" , accountBean.getMonth());
+        values.put("day" , accountBean.getDay());
+        values.put("kind" , accountBean.getKind());
+        return values;
+    }
+    private static AccountBean getSumAccountBean(float summoney){
+        AccountBean sumaccountBean = new AccountBean();
+        sumaccountBean.setCategoryName("Total");
+        summoney = Math.round(summoney * 100) / 100f;
+        sumaccountBean.setMoney(summoney);
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String time = sdf.format(date);
+        sumaccountBean.setTime("Today "+time);
+        sumaccountBean.setsImageId(R.mipmap.ic_dollar);
+        sumaccountBean.setComment("Automatic Calculation");
+        return sumaccountBean;
+    }
+    private static int getCountItem(String sql, String[] sql_params){
+        int total = 0;
+        Cursor cursor = db.rawQuery(sql, sql_params);
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(cursor.getColumnIndex("count(money)"));
+            total = count;
+        }
+        return total;
+    }
+    private static float getSumMoney(String sql, String[] sql_params){
+        Cursor cursor = db.rawQuery(sql, sql_params);
+        if (cursor.moveToFirst()){
+            float sumMoney = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
+            return Math.round(sumMoney * 100) / 100f;
+        }
+        return 0;
+    }
+
+    private static List<ChartItemBean> getChartList(String sql, String[] sql_params, float oneDayMoney){
+        List<ChartItemBean> list= new ArrayList<>();
+        Cursor cursor = db.rawQuery(sql, sql_params);
+        while (cursor.moveToNext()){
+            int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
+            String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
+            float total = cursor.getFloat(cursor.getColumnIndex("total"));
+            String percent = FormatNumberUtil.percent(total, oneDayMoney);
+            total = Math.round(total * 100) / 100f;
+            ChartItemBean bean = new ChartItemBean(sImageId, categoryName, percent, total);
+            list.add(bean);
+        }
+        return list;
+    }
+    private static List<AccountBean> getAccountList(String sql,String[] sql_params,float summoney){
+        List<AccountBean> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery(sql ,sql_params);
+        while(cursor.moveToNext()){
+            int id = cursor.getInt(cursor.getColumnIndex("id"));
+            String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
+            String comment = cursor.getString(cursor.getColumnIndex("comment"));
+            String time = cursor.getString(cursor.getColumnIndex("time"));
+            int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
+            int kind = cursor.getInt(cursor.getColumnIndex("kind"));
+            float money = cursor.getFloat(cursor.getColumnIndex("money"));
+            summoney += money;
+            money = Math.round(money * 100) / 100f;
+            int year = cursor.getInt(cursor.getColumnIndex("year"));
+            int month = cursor.getInt(cursor.getColumnIndex("month"));
+            int day = cursor.getInt(cursor.getColumnIndex("day"));
+            AccountBean accountBean = new AccountBean(id, categoryName, sImageId, comment, money, time, year, month, day, kind);
+            list.add(accountBean);
         }
         return list;
     }

@@ -65,8 +65,8 @@ public class AccountAdapter extends BaseAdapter {
         holder.typeTv.setText(bean.getCategoryName());
         holder.commentTv.setText(bean.getComment());
         holder.moneyTv.setText("$ " + FormatNumberUtil.formatFloat(bean.getMoney()));
+        String[] timeArray = bean.getTime().split(" ");
         if (bean.getYear() == year && bean.getMonth() == month && bean.getDay() == day) {
-            String[] timeArray = bean.getTime().split(" ");
             if(timeArray.length>1) {
                 String time = timeArray[1];
                 holder.timeTv.setText("Today " + time);
@@ -74,7 +74,10 @@ public class AccountAdapter extends BaseAdapter {
                 holder.timeTv.setText("Today " + bean.getTime());
             }
         }else{
-            holder.timeTv.setText(bean.getTime());
+            if(timeArray.length>1) {
+                String time = timeArray[1];
+                holder.timeTv.setText(time);
+            }
         }
         return convertView;
     }

@@ -97,7 +97,7 @@ public class CalendarDialog extends Dialog implements View.OnClickListener {
 
     private void addViewToLayout() {
         yearTvList = new ArrayList<>();
-        yearList = DBManager.yearListFromAccounttb();
+        yearList = DBManager.getYearListFromAccounttb();
         //if can't found year, add this year
         if (yearList.size() == 0) {
             int year = Calendar.getInstance().get(Calendar.YEAR);
