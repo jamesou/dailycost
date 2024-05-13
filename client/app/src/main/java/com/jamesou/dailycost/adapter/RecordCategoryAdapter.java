@@ -14,7 +14,7 @@ import com.jamesou.dailycost.db.CategoryBean;
 import java.util.List;
 
 
-public class CategoryBeanAdapter extends BaseAdapter {
+public class RecordCategoryAdapter extends BaseAdapter {
     Context context;
     List<CategoryBean> categoryBeanList;
 
@@ -28,7 +28,7 @@ public class CategoryBeanAdapter extends BaseAdapter {
 
     int selectPos = 0; // selected index
 
-    public CategoryBeanAdapter(Context context, List<CategoryBean> categoryBeanList) {
+    public RecordCategoryAdapter(Context context, List<CategoryBean> categoryBeanList) {
         this.context = context;
         this.categoryBeanList = categoryBeanList;
     }

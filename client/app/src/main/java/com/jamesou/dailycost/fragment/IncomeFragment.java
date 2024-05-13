@@ -18,7 +18,7 @@ public class IncomeFragment extends BaseRecordFragment {
         List<CategoryBean> incomeList = DBManager.getCategoryList(1);
         categoryBeanList.addAll(incomeList);
         categoryBeanAdapter.notifyDataSetChanged();
-        if(!paramBean) {
+        if(!flag) {
             categoryTv.setText("Wage");
             categoryIv.setImageResource(R.mipmap.in_wage_fs);
         }else{
@@ -30,7 +30,7 @@ public class IncomeFragment extends BaseRecordFragment {
     @Override
     public void saveAccountToDb() {
         accountBean.setKind(1);
-        if(!paramBean) {
+        if(!flag) {
             //if select nothing
             if(accountBean.getCategoryName()==null||accountBean.getCategoryName().trim().equals("")) {
                 accountBean.setCategoryName("Wage");

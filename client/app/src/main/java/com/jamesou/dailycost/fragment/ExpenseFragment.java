@@ -1,8 +1,7 @@
 package com.jamesou.dailycost.fragment;
 
 
-//import com.jamesou.dailycost.HistoryActivity;
-import android.util.Log;
+ import android.util.Log;
 
 import com.jamesou.dailycost.R;
         import com.jamesou.dailycost.db.DBManager;
@@ -20,7 +19,7 @@ public class ExpenseFragment extends BaseRecordFragment {
         List<CategoryBean> expenseList = DBManager.getCategoryList(0);
         categoryBeanList.addAll(expenseList);
         categoryBeanAdapter.notifyDataSetChanged();
-        if(!paramBean) {
+        if(!flag) {
             //new entry
             categoryTv.setText("Catering");
             categoryIv.setImageResource(R.mipmap.ic_catering_fs);
@@ -34,7 +33,7 @@ public class ExpenseFragment extends BaseRecordFragment {
     @Override
     public void saveAccountToDb() {
         accountBean.setKind(0);
-        if(!paramBean) {
+        if(!flag) {
             //if select nothing
             if(accountBean.getCategoryName()==null||accountBean.getCategoryName().trim().equals("")) {
                 accountBean.setCategoryName("Catering");

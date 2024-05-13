@@ -56,12 +56,12 @@ public class DBManager {
         return list;
     }
 
-    public static void insertItemTocategorytb(CategoryBean categoryBean){
+    public static void insertCategorytb(CategoryBean categoryBean){
         ContentValues values = convertCategoryBeanToDBbean(categoryBean);
         db.insert("categorytb" , null , values);
     }
 
-    public static void updateItemTocategorytb(CategoryBean categoryBean) {
+    public static void updateCategorytb(CategoryBean categoryBean) {
         ContentValues values = convertCategoryBeanToDBbean(categoryBean);
         String selection = "id = ?";
         String[] selectionArgs = { String.valueOf(categoryBean.getId()) };
@@ -75,7 +75,7 @@ public class DBManager {
         updateValues.put("kind", categoryBean.getKind());
         return updateValues;
     }
-    public static List<CategoryBean> getTypeListBydry(int kind){
+    public static List<CategoryBean> getNoneValueCategoryList(int kind){
         List<CategoryBean> list = new ArrayList<>();
         if(kind == 0) {
             list.add(new CategoryBean(0,"" , R.mipmap.ic_catering, R.mipmap.ic_catering_fs, 0));
@@ -145,7 +145,7 @@ public class DBManager {
     }
 
 
-    public static int deleteItemFromTypeById(int id){
+    public static int deleteCategoryById(int id){
         int i = db.delete("categorytb" , "id=?" , new String[]{id+""});
         return i;
     }
@@ -210,7 +210,7 @@ public class DBManager {
     }
 
 
-    public static int deleteItemById(int id){
+    public static int deleteRecordById(int id){
         int i = db.delete("accounttb" , "id=?" , new String[]{id+""});
         return i;
     }

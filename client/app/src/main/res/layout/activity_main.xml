@@ -171,7 +171,7 @@
                       android:textSize="16sp"
                       android:textStyle="bold"
                       android:background="@color/white"
-                      android:text="@string/setting"
+                      android:text="@string/categoryBean_record"
                       android:gravity="center_vertical"/>
         </LinearLayout>
         <LinearLayout

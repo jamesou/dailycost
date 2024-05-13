@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                         int click_id = clickBean.getId();
                         //Delete record in local database
-                        DBManager.deleteItemById(click_id);
+                        DBManager.deleteRecordById(click_id);
                         mDatas.remove(clickBean);
                         adapter.notifyDataSetChanged(); // refresh list view
                         setTopTvShow(); // refresh display amount shown on the top view
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent();;
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.main_iv_search:
                 intent = new Intent(this, SearchActivity.class);
@@ -321,7 +321,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 this.startActivity(intent);
                 break;
             case R.id.dialog_more_btn_setting:
-                PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
+                intent = new Intent(this, CategoryActivity.class);
+                this.startActivity(intent);
                 break;
             case R.id.dialog_more_btn_help:
                 PromptMsgUtil.promptMsg(getApplicationContext(),PROMPT_MSG);
