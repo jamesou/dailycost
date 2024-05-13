@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.jamesou.dailycost.R;
-import com.jamesou.dailycost.adapter.CategoryBeanAdapter;
+import com.jamesou.dailycost.adapter.RecordCategoryAdapter;
 
 import com.jamesou.dailycost.db.AccountBean;
 import com.jamesou.dailycost.db.CategoryBean;
@@ -45,9 +45,9 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
     TextView categoryTv, comment , timeTv;
     GridView categoryGv;
     List<CategoryBean> categoryBeanList;// GridView data from Categories
-    CategoryBeanAdapter categoryBeanAdapter;
+    RecordCategoryAdapter categoryBeanAdapter;
     AccountBean accountBean;
-    Boolean paramBean = false;  //determine modify or add
+    Boolean flag = false;  //determine modify or add
     private String direction = "";
     private String commentStr = null;
     private String timeStr = null;
@@ -116,12 +116,12 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
 
     public void setAccountBeanBean(AccountBean objbean){
         accountBean = objbean;
-        paramBean = true;
+        flag = true;
     }
 
     void loadDataToGridView() {
         categoryBeanList = new ArrayList<>();
-        categoryBeanAdapter = new CategoryBeanAdapter(getContext(), categoryBeanList);
+        categoryBeanAdapter = new RecordCategoryAdapter(getContext(), categoryBeanList);
         categoryGv.setAdapter(categoryBeanAdapter);
     }
 
@@ -136,7 +136,7 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         comment.setOnClickListener(this);
         timeTv.setOnClickListener(this);
 
-        if(paramBean) {
+        if(flag) {
             categoryIv.setImageResource(accountBean.getsImageId());
             categoryTv.setText(accountBean.getCategoryName());
             moneyEt.setText(FormatNumberUtil.formatFloat(accountBean.getMoney()));

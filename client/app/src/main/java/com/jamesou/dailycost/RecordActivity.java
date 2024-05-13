@@ -177,7 +177,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                     public void onClick(DialogInterface dialog, int which) {
                         int click_id = clickBean.getId();
                         //Delete record in local database
-                        DBManager.deleteItemById(click_id);
+                        DBManager.deleteRecordById(click_id);
                         mData.remove(clickBean);
                         adapter.notifyDataSetChanged(); // refresh list view
                     }
