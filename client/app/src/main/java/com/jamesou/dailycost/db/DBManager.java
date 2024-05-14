@@ -132,9 +132,14 @@ public class DBManager {
         ContentValues updateValues = convertCategoryBeanToDBbean(bean2);
         String selection = "id = ?";
         String[] selectionArgs = { String.valueOf(bean.getId()) };
+//        System.out.println("bean.toString():"+bean.toString());
+//        System.out.println("bean2.toString():"+bean2.toString());
+//        System.out.println("updateValues:"+updateValues);
         db.update("categorytb", updateValues, selection, selectionArgs);
         CategoryBean tempBean = new CategoryBean(bean.getId() , bean.getCategoryName(), bean.getImageId(), bean.getsImageId(), kind);
         updateValues = convertCategoryBeanToDBbean(tempBean);
+//        System.out.println("tempBean.toString():"+tempBean.toString());
+//        System.out.println("updateValues:"+updateValues.toString());
         updateValues.put("categoryName", tempBean.getCategoryName());
         updateValues.put("imageId", tempBean.getImageId());
         updateValues.put("sImageId", tempBean.getsImageId());
