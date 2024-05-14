@@ -43,6 +43,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         adapter = new CategoryAdapter(this, mData);
         categoryLv.setAdapter(adapter);
         loadData();
+        adapter.notifyDataSetChanged();
         categoryAdd.setOnClickListener(this);
     }
 
@@ -50,7 +51,6 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         List<CategoryBean> list = DBManager.getCategoryList(-1);
         mData.clear();
         mData.addAll(list);
-        adapter.notifyDataSetChanged();
     }
 
 
