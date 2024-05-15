@@ -45,7 +45,7 @@ import com.jamesou.dailycost.utils.PromptMsgUtil;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     ListView todayLv;
     ImageView searchIv;
-    Button btn_add;
+    Button btn_add,btn_scan;
     ImageButton btn_more;
     List<AccountBean> mDatas;
     AccountAdapter adapter;
@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         todayLv = findViewById(R.id.main_lv);
         btn_add = findViewById(R.id.main_btn_add);
+        btn_scan= findViewById(R.id.main_btn_scan);
         btn_more = findViewById(R.id.main_btn_more);
         searchIv = findViewById(R.id.main_iv_search);
 
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btn_more.setOnClickListener(this);
         btn_add.setOnClickListener(this);
+        btn_scan.setOnClickListener(this);
         searchIv.setOnClickListener(this);
         //long press list view will trigger onCreateContextMenu function
         registerForContextMenu(todayLv);
@@ -175,14 +177,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // rapidly scroll screen
                     case SCROLL_STATE_FLING:
                         btn_add.setVisibility(View.INVISIBLE);
+                        btn_scan.setVisibility(View.INVISIBLE);
                         break;
                     //stop scroll, the new entry button visible
                     case SCROLL_STATE_IDLE:
                         btn_add.setVisibility(View.VISIBLE);
+                        btn_scan.setVisibility(View.VISIBLE);
                         break;
                     //touch screen to scroll
                     case SCROLL_STATE_TOUCH_SCROLL:
                         btn_add.setVisibility(View.INVISIBLE);
+                        btn_scan.setVisibility(View.INVISIBLE);
                     default:
                         break;
                 }
@@ -291,8 +296,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.main_btn_scan:
+                intent = new Intent(this, ScanReceipt.class);
+                startActivity(intent);
+                break;
             case R.id.main_btn_add:
-                //@todo  add scan button
                 intent = new Intent(this, NewEntryActivity.class);
                 startActivity(intent);
                 break;
