@@ -7,7 +7,7 @@
             <van-icon name="arrow-left" size="24px"/>
         </template>
         <template #title>
-            <img src="../assets/images/ic_launcher.png" style="padding-top: 10px;" alt="">
+            <img src="../assets/images/ic_launcher.png" style="padding-top: 40px;" alt="">
         </template>
     </van-nav-bar>
 </template>

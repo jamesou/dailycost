@@ -1,8 +1,8 @@
-package com.keepfool.bill.config;
+package com.jamesou.dailycost.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.keepfool.bill.bean.User;
-import com.keepfool.bill.mapper.UserMapper;
+import com.jamesou.dailycost.bean.User;
+import com.jamesou.dailycost.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;

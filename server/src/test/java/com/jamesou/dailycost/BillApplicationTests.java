@@ -1,4 +1,4 @@
-package com.keepfool.bill;
+package com.jamesou.dailycost;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

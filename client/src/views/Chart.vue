@@ -16,16 +16,16 @@
                       title-active-color="#eee"
                       title-inactive-color="#444"
             >
-                <van-tab title="周"/>
-                <van-tab title="月"/>
-                <van-tab title="年"/>
+                <van-tab title="Week"/>
+                <van-tab title="Month"/>
+                <van-tab title="Year"/>
             </van-tabs>
         </div>
         <van-tabs color="#1989fa"
                   title-active-color="#333"
                   title-inactive-color="#999"
         >
-            <van-tab v-for="index in 8" :key="index" :title="'标签 ' + index"/>
+            <van-tab v-for="index in 8" :key="index" :title="'Category ' + index"/>
         </van-tabs>
         <ve-line
                 height="300px"

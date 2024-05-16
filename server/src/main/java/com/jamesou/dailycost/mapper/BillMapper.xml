@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.keepfool.bill.mapper.BillMapper">
+<mapper namespace="com.jamesou.dailycost.mapper.BillMapper">
 
     <!--账单明细-->
-    <resultMap id="billDetails" type="com.keepfool.bill.bean.Bill">
+    <resultMap id="billDetails" type="com.jamesou.dailycost.bean.Bill">
         <id property="billId" column="billId"/>
         <result property="billTime" column="billTime"/>
         <result property="billAmount" column="billAmount"/>
         <result property="billRemark" column="billRemark"/>
-        <association property="category" javaType="com.keepfool.bill.bean.Category">
+        <association property="category" javaType="com.jamesou.dailycost.bean.Category">
             <result property="categoryIcon" column="categoryIcon"/>
         </association>
     </resultMap>
 
     <!--账单分类金额-->
-<!--    <resultMap id="billAmount" type="com.keepfool.bill.bean.Bill">-->
+<!--    <resultMap id="billAmount" type="bean.com.james.dailycost.Bill">-->
 <!--        <result property="billTime" column="billTime"/>-->
 <!--        <result property="billAmount" column="billAmount"/>-->
-<!--        <association property="category" javaType="com.keepfool.bill.bean.Category">-->
+<!--        <association property="category" javaType="bean.com.james.dailycost.Category">-->
 <!--            <result property="categoryState" column="categoryState"/>-->
 <!--        </association>-->
 <!--    </resultMap>-->
 
     <!--月 收入 支出 总和-->
-    <resultMap id="stateAmount" type="com.keepfool.bill.bean.Bill">
+    <resultMap id="stateAmount" type="com.jamesou.dailycost.bean.Bill">
         <result property="billAmount" column="billAmount"/>
-        <association property="category" javaType="com.keepfool.bill.bean.Category">
+        <association property="category" javaType="com.jamesou.dailycost.bean.Category">
             <result property="categoryState" column="categoryState"/>
         </association>
     </resultMap>
 
     <!--单条账单明细-->
-    <resultMap id="billDetail" type="com.keepfool.bill.bean.Bill">
+    <resultMap id="billDetail" type="com.jamesou.dailycost.bean.Bill">
         <id property="billId" column="billId"/>
         <result property="categoryId" column="categoryId"/>
         <result property="billAmount" column="billAmount"/>
         <result property="billTime" column="billTime"/>
         <result property="billRemark" column="billRemark"/>
-        <association property="category" javaType="com.keepfool.bill.bean.Category">
+        <association property="category" javaType="com.jamesou.dailycost.bean.Category">
             <result property="categoryIcon" column="categoryIcon"/>
             <result property="categoryName" column="categoryName"/>
             <result property="categoryState" column="categoryState"/>
         </association>
     </resultMap>
 
-    <resultMap id="billBalance" type="com.keepfool.bill.bean.Bill">
+    <resultMap id="billBalance" type="com.jamesou.dailycost.bean.Bill">
         <result property="billAmount" column="billAmount"/>
-        <association property="category" javaType="com.keepfool.bill.bean.Category">
+        <association property="category" javaType="com.jamesou.dailycost.bean.Category">
             <result property="categoryState" column="categoryState"/>
         </association>
     </resultMap>
 
     <!--记账-->
-    <insert id="bookkeeping" parameterType="com.keepfool.bill.bean.Bill" useGeneratedKeys="true" keyProperty="billId">
+    <insert id="bookkeeping" parameterType="com.jamesou.dailycost.bean.Bill" useGeneratedKeys="true" keyProperty="billId">
         insert into tb_bill
         <trim prefix="(" suffix=")" suffixOverrides=",">
             userId, categoryId, billAmount, billTime,
@@ -70,7 +70,7 @@
     </insert>
 
     <!--修改账单-->
-    <update id="modifyBills" parameterType="com.keepfool.bill.bean.Bill" useGeneratedKeys="true" keyProperty="billId">
+    <update id="modifyBills" parameterType="com.jamesou.dailycost.bean.Bill" useGeneratedKeys="true" keyProperty="billId">
         UPDATE tb_bill
         <set>
             <trim suffixOverrides=",">

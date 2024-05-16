@@ -1,7 +1,7 @@
-package com.keepfool.bill.controller;
+package com.jamesou.dailycost.controller;
 
-import com.keepfool.bill.bean.Category;
-import com.keepfool.bill.service.CategoryService;
+import com.jamesou.dailycost.bean.Category;
+import com.jamesou.dailycost.service.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

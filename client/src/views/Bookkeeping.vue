@@ -4,7 +4,7 @@
         <nav-bar :go-back="true"/>
 
         <van-tabs
-                style="height: calc(100% - 76px)"
+                style="height: calc(100% - 76px);margin: 36px 0px 0px;"
                 v-model="tabActive"
                 type="card"
                 color="#1989fa"
@@ -40,8 +40,8 @@
                 </van-grid>
             </van-tab>
         </van-tabs>
-
-        
+       
+ 
         <van-number-keyboard
                 :show="showKeyboard"
                 theme="custom"
@@ -57,8 +57,8 @@
                     <template #left-icon>
                         <van-button :text="date" size="small" @click="selectDate" round/>
                     </template>
-                </van-field>
-            </template>
+                </van-field>  
+            </template> 
         </van-number-keyboard>
 
         <!--弹出层 日期选择器-->
@@ -154,7 +154,7 @@
             },
             /*敲击数字键盘*/
             keyboardInput(key) {
-                console.log(key)
+
                 this.amount += key;
                 if (this.amount.length === 2 && key !== '.')
                     this.amount = this.amount.replace(/\b(0+)/gi, "");
@@ -245,7 +245,15 @@
         font-size: 18px;
         text-align: right;
         padding-right: 10px;
-    }
+        max-width: 8ch; /* 设置最大字符数 */
+        white-space: nowrap; /* 防止文本换行 */
+        overflow: hidden; /* 隐藏超出容器的文本 */
+        text-overflow: ellipsis; /* 显示省略号 */
+        
+    } 
+    .van-number-keyboard__header {
+        justify-content: right;
+    }  
     .van-field {
         padding: 0;
     }

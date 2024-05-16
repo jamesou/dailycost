@@ -1,6 +1,6 @@
-package com.keepfool.bill.service;
+package com.jamesou.dailycost.service;
 
-import com.keepfool.bill.bean.Category;
+import com.jamesou.dailycost.bean.Category;
 
 import java.util.List;
 import java.util.Map;

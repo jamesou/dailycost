@@ -1,4 +1,4 @@
-package com.keepfool.bill.bean;
+package com.jamesou.dailycost.bean;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

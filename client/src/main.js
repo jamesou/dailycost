@@ -110,7 +110,7 @@ let store = {
     month = month.length < 2 ? `0${month}` : month;
     let day = date.getDate().toString();
     day = day.length < 2 ? `0${day}` : day;
-    let week = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    let week = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thur.', 'Fri.', 'Sat.'];
     return `${date.getFullYear()}年${month}月${day}日 ${week[date.getDay()]}`;
   }
 };

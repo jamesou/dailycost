@@ -1,10 +1,10 @@
 <template>
-    <div style="background-color: #f7f7f7;">
+    <div style="background-color: white;">
         <nav-bar/>
-        <van-row class="row-head-top">
-            <van-col span="8">{{year}}</van-col>
-            <van-col span="8">Income</van-col>
-            <van-col span="8">Expense</van-col>
+        <van-row class="row-head-top" style="margin: 30px 0 0 0;">
+            <van-col span="8" style="color: black; font-weight: bold">{{year}}</van-col>
+            <van-col span="8" style="color: green; font-weight: bold">Monthly Income</van-col>
+            <van-col span="8" style="color: red; font-weight: bold">Monthly Expense</van-col>
         </van-row>
         <van-row class="row-head-bottom">
             <van-col span="8" style="display: flex; justify-content: flex-start;">
@@ -21,8 +21,8 @@
                     </van-dropdown-item>
                 </van-dropdown-menu>
             </van-col>
-            <van-col span="8">{{amount["income"] ? amount['income'] : '0'}}</van-col>
-            <van-col span="8">{{amount["expend"] ? amount['expend'] : '0'}}</van-col>
+            <van-col span="8" style="line-height:50px;">{{amount["income"] ? amount['income'] : '0'}}</van-col>
+            <van-col span="8" style="line-height:50px;">{{amount["expend"] ? amount['expend'] : '0'}}</van-col>
         </van-row>
         <van-row style="height: calc(100% - 148px)">
             <van-overlay :show="loading" class-name="loading-overlay">
@@ -30,12 +30,12 @@
             </van-overlay>
             <van-list style="height: 100%; overflow-y: auto;"
                     :finished="true"
-                    finished-text="没有更多了"
+                    finished-text="No more data"
             >
                 <div v-for="(list, index) in lists" :key="index">
                     <van-cell class="cell-title" :title="list.date">
-                        <span class="amount">Income：{{list['income']}}</span>
-                        <span class="amount">Expense：{{list['expend']}}</span>
+                        <span class="amount">Income: {{list['income']}}</span>
+                        <span class="amount">Expense: {{list['expend']}}</span>
                     </van-cell>
                     <van-cell
                             v-for="(item, key) in list.details"
@@ -83,9 +83,9 @@
             /*格式化下拉时间选择器*/
             formatter(type, val) {
                 if (type === 'year') {
-                    return `${val}年`;
+                    return `${val}`;
                 } else if (type === 'month') {
-                    return `${val}月`;
+                    return `${val}`;
                 }
                 return val;
             },
@@ -121,12 +121,12 @@
             /*时间选择器年标题*/
             year: function () {
                 const year = this.currentDate.getFullYear();
-                return `${year}年`
+                return `${year}`
             },
             /*时间选择器月标题*/
             month: function () {
                 const month = this.currentDate.getMonth() + 1;
-                return `${month < 10 ? '0' + month : month}月`;
+                return `${month < 10 ? '0' + month : month}`;
             }
         }
     }

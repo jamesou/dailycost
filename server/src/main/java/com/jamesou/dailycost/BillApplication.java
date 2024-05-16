@@ -1,4 +1,4 @@
-package com.keepfool.bill;
+package com.jamesou.dailycost;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

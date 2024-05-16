@@ -1,33 +1,33 @@
 <template>
     <div>
         <nav-bar/>
-        <van-divider>结余</van-divider>
+        <van-divider style="margin: 36px 0 0 0; color:black ;font-weight: bold">Total Balance</van-divider>
         <van-overlay :show="loading" class-name="loading-overlay">
             <van-loading color="#1989fa" size="38px"/>
         </van-overlay>
         <van-row id="balance-box">
-            <van-col span="8" offset="8" style="font-size: 28px">{{balanceTotal.toFixed(2)}}</van-col>
+            <van-col span="8" offset="8" style="font-size: 28px;line-height:50px;"  >{{balanceTotal.toFixed(2)}}</van-col>
             <van-col span="8">
                 <van-dropdown-menu>
-                    <van-dropdown-item :title="currentYear + '年'" @close="dropdownItemClose" title-class="dropdown-title">
+                    <van-dropdown-item :title="currentYear " @close="dropdownItemClose" title-class="dropdown-title">
                         <van-picker :columns="years" :default-index="years.length - 1" ref="yearPicker"/>
                     </van-dropdown-item>
                 </van-dropdown-menu>
             </van-col>
         </van-row>
         <van-row>
-            <van-col span="12"><span class="title-span">Income</span><span class="value-span">{{income.toFixed(2)}}</span></van-col>
-            <van-col span="12"><span class="title-span">Expense</span><span class="value-span">{{expend.toFixed(2)}}</span></van-col>
+            <van-col span="12"><span class="title-span" style="color:green">Total Income</span><span class="value-span">{{income.toFixed(2)}}</span></van-col>
+            <van-col span="12"><span class="title-span" style="color:red">Total Expense</span><span class="value-span">{{expend.toFixed(2)}}</span></van-col>
         </van-row>
         <van-cell-group>
             <van-cell>
-                <van-col span="6">月份</van-col>
+                <van-col span="6">Month</van-col>
                 <van-col span="6">Income</van-col>
                 <van-col span="6">Expense</van-col>
-                <van-col span="6">结余</van-col>
+                <van-col span="6">Balance</van-col>
             </van-cell>
             <van-cell v-for="(balance, index) in balances" :key="index">
-                <van-col span="6">{{balance['months']}}月</van-col>
+                <van-col span="6">{{balance['months']}}</van-col>
                 <van-col span="6">{{balance['income'].toFixed(2)}}</van-col>
                 <van-col span="6">{{balance['expend'].toFixed(2)}}</van-col>
                 <van-col span="6">{{balance['balance'].toFixed(2)}}</van-col>
@@ -43,7 +43,7 @@
     import Tabbar from "@/components/Tabbar";
 
     export default {
-        name: "Bill",
+        name: "Summary",
         components: {
             NavBar, Tabbar
         },

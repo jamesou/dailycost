@@ -8,11 +8,11 @@
         <version>2.2.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.keepfool</groupId>
-    <artifactId>bill</artifactId>
+    <groupId>com.jamesou</groupId>
+    <artifactId>dailycost</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>bill</name>
-    <description>Bill for Spring Boot</description>
+    <name>dailycost</name>
+    <description>as dailycost app server</description>
 
     <properties>
         <java.version>1.8</java.version>

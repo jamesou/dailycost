@@ -1,7 +1,7 @@
-package com.keepfool.bill.controller;
+package com.jamesou.dailycost.controller;
 
-import com.keepfool.bill.bean.User;
-import com.keepfool.bill.service.UserService;
+import com.jamesou.dailycost.bean.User;
+import com.jamesou.dailycost.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class UserController {
         Map<String, Object> map = new HashMap<>(16);
         User user = userService.getUser(userId);
         if (user == null) {
-            map.put("message", "用户已注销");
+            map.put("message", "User doesn't exist");
         } else {
             map.put("userId", user.getUserId());
             map.put("userNickname", user.getUserNickname());

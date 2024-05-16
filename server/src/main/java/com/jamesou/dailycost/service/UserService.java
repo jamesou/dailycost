@@ -1,6 +1,6 @@
-package com.keepfool.bill.service;
+package com.jamesou.dailycost.service;
 
-import com.keepfool.bill.bean.User;
+import com.jamesou.dailycost.bean.User;
 
 public interface UserService {
     int register(User user);

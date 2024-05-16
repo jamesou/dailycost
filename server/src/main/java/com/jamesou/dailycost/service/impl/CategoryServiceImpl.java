@@ -1,8 +1,8 @@
-package com.keepfool.bill.service.impl;
+package com.jamesou.dailycost.service.impl;
 
-import com.keepfool.bill.bean.Category;
-import com.keepfool.bill.mapper.CategoryMapper;
-import com.keepfool.bill.service.CategoryService;
+import com.jamesou.dailycost.bean.Category;
+import com.jamesou.dailycost.mapper.CategoryMapper;
+import com.jamesou.dailycost.service.CategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.keepfool.bill.config;
+package com.jamesou.dailycost.config;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

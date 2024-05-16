@@ -1,8 +1,8 @@
-package com.keepfool.bill.service.impl;
+package com.jamesou.dailycost.service.impl;
 
-import com.keepfool.bill.bean.User;
-import com.keepfool.bill.mapper.UserMapper;
-import com.keepfool.bill.service.UserService;
+import com.jamesou.dailycost.bean.User;
+import com.jamesou.dailycost.mapper.UserMapper;
+import com.jamesou.dailycost.service.UserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

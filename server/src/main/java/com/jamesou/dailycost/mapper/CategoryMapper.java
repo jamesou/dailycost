@@ -1,6 +1,6 @@
-package com.keepfool.bill.mapper;
+package com.jamesou.dailycost.mapper;
 
-import com.keepfool.bill.bean.Category;
+import com.jamesou.dailycost.bean.Category;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,7 @@
-package com.keepfool.bill.config;
+package com.jamesou.dailycost.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.keepfool.bill.bean.User;
-import org.springframework.http.MediaType;
+import com.jamesou.dailycost.bean.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 

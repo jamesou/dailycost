@@ -17,14 +17,14 @@
                     <van-field
                             v-model="account"
                             name="account"
-                            placeholder="用户名/手机号/邮箱"
+                            placeholder="Username/Mobile phone/Email"
                             size="large"
                     />
                     <van-field
                             v-model="password"
                             type="password"
                             name="password"
-                            placeholder="输入密码"
+                            placeholder="Please input password"
                             size="large"
                     />
                     <div style="margin: 16px; text-align: center">
@@ -43,42 +43,46 @@
             </van-tab>
             <van-tab title="Register" title-style="font-size: 20px; font-weight: bold;">
                 <van-form @submit="register">
-                    <van-field
+                    <!-- <van-field
                             v-model="userNickname"
                             name="userNickname"
                             placeholder="输入昵称"
                             size="large"
+                            value="adminadmin" 
                             :rules="[{ pattern: /^\S{3,}$/, message: '用户名至少需要3个字符且不包括空格' }]"
-                            required
-                    />
+                            hidden
+                    /> -->
                     <van-field
                             v-model="userName"
                             name="userName"
-                            placeholder="输入用户名"
+                            placeholder="Please input username"
                             size="large"
-                            :rules="[{ pattern: /^[0-9a-zA-Z]{6,}$/, message: '用户名至少需要6个字母或数字' }]"
+                            :rules="[{ pattern: /^\S+$/, message: 'Can not be empty' }]"
                             required
                     />
+                
                     <van-field
                             v-model="userMail"
                             name="userMail"
-                            placeholder="输入邮箱"
+                            placeholder="Please input email address"
                             size="large"
+                            :rules="[{ pattern: /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: 'Incorrect email format' }]"
+                            required
                     />
-                    <van-field
+                    <!-- <van-field
                             v-model="userPhone"
                             name="userPhone"
                             placeholder="输入手机号"
                             size="large"
-                    />
+                    /> -->
                     <van-field
                             @input="passwordCheck"
                             v-model="userPassword"
                             type="password"
                             name="userPassword"
-                            placeholder="设置密码"
+                            placeholder="Please input password"
                             size="large"
-                            :rules="[{ pattern: /^.{6,}$/, message: '密码至少为6位' }]"
+                            :rules="[{ pattern: /^\S+$/, message: 'Password can not be empty' }]"
                             required
                     />
                     <van-field
@@ -86,7 +90,7 @@
                             v-model="againPassword"
                             type="password"
                             name="userPassword"
-                            placeholder="确认密码"
+                            placeholder="Confirm password"
                             size="large"
                             :error="error"
                             :error-message="errorMessage"
@@ -118,10 +122,10 @@
                 account: '',
                 password: '',
                 loginDisabled: true,
-                userNickname: '',
+                userNickname: 'adminadmin',
                 userName: '',
                 userMail: '',
-                userPhone: '',
+                userPhone: '13888888888',
                 userPassword: '',
                 againPassword: '',
                 registerDisabled: true,
@@ -132,6 +136,8 @@
         methods: {
             /*Login*/
             login(params) {
+                params.userNickname='13888888888'
+                params.userPhone='13888888888'
                 this.$axios.post("/login", this.$qs.stringify(params))
                     .then(response => {
                         if (response.status === 200) {
@@ -154,7 +160,7 @@
                 this.$axios.post("/user", params)
                     .then(response => {
                         if (response.status === 200) {
-                            this.$toast.success("RegisterSuccessfully");
+                            this.$toast.success("Register Successfully");
                             let data = {
                                 account: params.userName,
                                 password: params.userPassword
@@ -168,9 +174,9 @@
             },
             /*参数校验*/
             paramsPattern() {
-                return /^\S{3,}$/.test(this.userNickname)
-                    && /^[0-9a-zA-Z]{6,}$/.test(this.userName)
-                    && /^.{6,}$/.test(this.userPassword);
+                return /^\S+$/.test(this.userName)
+                    && /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.userMail)
+                    && /^\S+$/.test(this.userPassword);
             },
             /*密码校验*/
             passwordCheck() {
@@ -182,7 +188,7 @@
                     this.registerDisabled = !this.paramsPattern();// 只有参数校验Successfully才可以启用Register按钮
                 } else {
                     this.error = true;
-                    this.errorMessage = '密码不一致';
+                    this.errorMessage = 'Password is inconsistent, please re-enter';
                     this.registerDisabled = true;
                 }
             }
