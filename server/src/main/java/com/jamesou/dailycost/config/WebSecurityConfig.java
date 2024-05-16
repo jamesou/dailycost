@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keepfool.bill.bean.User;
 import com.keepfool.bill.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -46,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     @Override
                     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
                         Map<String, Object> map = new HashMap<>();
-                        map.put("msg", "注销成功");
+                        map.put("msg", "Logout Successfully");
                         map.put("logoutState", true);
                         httpServletResponse.setContentType("application/json;charset=utf-8");
                         httpServletResponse.getWriter().print(new ObjectMapper().writeValueAsString(map));
@@ -59,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         httpServletResponse.setStatus(403);
                         httpServletResponse.setContentType("application/json;charset=utf-8");
                         Map<String, Object> map = new HashMap<>();
-                        map.put("msg", "权限不足，访问失败");
+                        map.put("msg", "Can't be grant to access");
                         httpServletResponse.getWriter().print(new ObjectMapper().writeValueAsString(map));
                     }
                 })
@@ -69,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
                         httpServletResponse.setContentType("application/json;charset=utf-8");
                         Map<String, Object> map = new HashMap<>();
-                        map.put("msg", "用户未登录，访问失败");
+                        map.put("msg", "User doesn't login in");
                         httpServletResponse.getWriter().print(new ObjectMapper().writeValueAsString(map));
                     }
                 });
@@ -81,10 +80,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             @Override
             public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
                 if (account == "" || account == null)
-                    throw new RuntimeException("用户名不能为空");
+                    throw new RuntimeException("Username can't be empty");
                 User user = userMapper.getUserByAccount(account);
                 if (user == null)
-                    throw new RuntimeException("用户不存在");
+                    throw new RuntimeException("User doesn't exist");
                 return user;
             }
         }).passwordEncoder(new BCryptPasswordEncoder());

@@ -17,22 +17,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    /**
-     * 注册账号
-     * @param user
-     * @return 用户id，-1：用户有重复
-     */
     @ResponseBody
     @PostMapping("/user")
     public int register(@RequestBody User user) {
         return userService.register(user);
     }
 
-    /**
-     * 获取指定id用户
-     * @param userId
-     * @return user对象，null：用户已注销
-     */
     @ResponseBody
     @GetMapping("/user/{userId}")
     public Map<String, Object> getUser(@PathVariable("userId") int userId) {
@@ -50,11 +40,7 @@ public class UserController {
         return map;
     }
 
-    /**
-     * 注销
-     * @param userId
-     * @return 1：注销成功，0：注销失败
-     */
+
     @ResponseBody
     @PutMapping("/user/{userId}")
     public int logoff(@PathVariable("userId") int userId) {

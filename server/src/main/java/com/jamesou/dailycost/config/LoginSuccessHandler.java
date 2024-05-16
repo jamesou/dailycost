@@ -24,7 +24,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         httpServletResponse.setContentType("application/json;charset=utf-8");
         User user = (User) authentication.getPrincipal();
         Map<String, Object> map = new HashMap<>();
-        map.put("msg", "登录成功");
+        map.put("msg", "Login Successfully");
         map.put("loginState", true);
         map.put("userId", user.getUserId());
         map.put("userNickname", user.getUserNickname());
