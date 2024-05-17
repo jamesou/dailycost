@@ -17,7 +17,7 @@
                     <van-field
                             v-model="account"
                             name="account"
-                            placeholder="Username/Mobile phone/Email"
+                            placeholder="Username/Email"
                             size="large"
                     />
                     <van-field
@@ -143,7 +143,7 @@
                         if (response.status === 200) {
                             // 将用户存储在本地
                             response.data.password = params.password;
-                            // localStorage.setItem("user", JSON.stringify(response.data));
+                            localStorage.setItem("user", JSON.stringify(response.data));
                             // 将用户存储在store
                             this.$store.setIsLoginAction(true);
                             this.$store.setUserAction(response.data);

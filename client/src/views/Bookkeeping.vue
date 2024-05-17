@@ -1,3 +1,8 @@
+<style>
+.van-number-keyboard__header{
+        justify-content: right;
+    }
+</style>
 <template>
     <div>
       
@@ -18,9 +23,10 @@
                     <van-grid-item v-for="(item, index) in expendCategories" :key="index">
                         <div
                                 :class="`icon-box${item['categoryId'] == selected ? ` icon-selected` : ''}`"
-                                @click="clickIconBox(item['categoryId'])"
-                        >
-                            <van-icon class-prefix="iconfont" :name="item['categoryIcon']" size="38px"/>
+                                @click="clickIconBox(item['categoryId'])" >
+                                <!-- <van-icon class-prefix="iconfont" name='../assets/images/ic_launcher.png' size="38px"/> -->
+                                <van-icon name="https://b.yzcdn.cn/vant/icon-demo-1126.png" color="#1989fa" size="38px"/>
+                            <!-- <van-icon class-prefix="iconfont" :name="item['categoryIcon']" size="38px"/> -->
                             <span class="category-name">{{item['categoryName']}}</span>
                         </div>
                     </van-grid-item>
@@ -31,8 +37,7 @@
                     <van-grid-item v-for="(item, index) in incomeCategories" :key="index">
                         <div
                                 :class="`icon-box${item['categoryId'] == selected ? ` icon-selected` : ''}`"
-                                @click="clickIconBox(item['categoryId'])"
-                        >
+                                @click="clickIconBox(item['categoryId'])" >
                             <van-icon class-prefix="iconfont" :name="item['categoryIcon']" size="38px"/>
                             <span class="category-name">{{item['categoryName']}}</span>
                         </div>
@@ -53,7 +58,7 @@
                 @close="confirmKeyboard"
         >
             <template #title-left>
-                <van-field v-model="remark" label="Comment: " size="large">
+                <van-field v-model="remark" label="" size="large" placeholder="write comments">
                     <template #left-icon>
                         <van-button :text="date" size="small" @click="selectDate" round/>
                     </template>
@@ -251,9 +256,8 @@
         text-overflow: ellipsis; /* 显示省略号 */
         
     } 
-    .van-number-keyboard__header {
-        justify-content: right;
-    }  
+  
+     
     .van-field {
         padding: 0;
     }
