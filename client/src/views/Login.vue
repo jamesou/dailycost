@@ -136,19 +136,28 @@
         methods: {
             /*Login*/
             login(params) {
-                params.userNickname='13888888888'
+                params.userNickname='adminadmin'
                 params.userPhone='13888888888'
                 this.$axios.post("/login", this.$qs.stringify(params))
                     .then(response => {
+                        // console.log(response)
+                        //network no errors
                         if (response.status === 200) {
-                            // 将用户存储在本地
+                            // console.log(response.data.loginState==false)
+                            if(response.data.loginState == false){
+                                this.$notify({type: 'primary', message: response.data.msg})
+                            }
+                            if(response.data.loginState == true){
+                            this.$notify({type: 'primary', message: response.data.msg})
+                            //store user into localStorage 
                             response.data.password = params.password;
                             localStorage.setItem("user", JSON.stringify(response.data));
-                            // 将用户存储在store
+                            //store user in browser/webview
                             this.$store.setIsLoginAction(true);
                             this.$store.setUserAction(response.data);
                             const redirect = this.$route.query.redirect ? this.$route.query.redirect : "/details";
                             this.$router.replace({path: redirect});
+                            }
                         }
                     })
                     .catch(error => {
@@ -245,6 +254,7 @@
     div >>> .van-nav-bar {
         height: 74px;
         line-height: 74px;
+        margin-top: 40px;
     }
     .van-tabs >>> .van-tabs__wrap {
         margin-bottom: 60px;

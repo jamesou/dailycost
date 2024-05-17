@@ -1,3 +1,8 @@
+<style>
+.nav_img{
+    padding-top: 40px;
+}
+</style>
 <template>
     <van-nav-bar
             :border="false"
@@ -7,7 +12,7 @@
             <van-icon name="arrow-left" size="24px"/>
         </template>
         <template #title>
-            <img src="../assets/images/ic_launcher.png" style="padding-top: 40px;" alt="">
+            <img src="../assets/images/ic_launcher.png" class="nav_img" alt="">
         </template>
     </van-nav-bar>
 </template>
@@ -30,5 +35,7 @@
 </script>
 
 <style scoped>
-
+.van-nav-bar{
+    margin-top: 10px;
+}
 </style>

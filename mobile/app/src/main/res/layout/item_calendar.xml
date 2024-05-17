@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_calendarlayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="2sp">
+
+    <TextView
+        android:id="@+id/tv_day"
+        android:layout_width="40sp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="10sp"
+        tools:text="10" />
+
+
+    <TextView
+            android:id="@+id/tv_expense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="2sp"
+            android:textColor="#DD2C64"
+            android:textSize="10sp"
+            android:ellipsize="end"
+            android:lines="1"
+            tools:text="-200" />
+    <TextView
+            android:id="@+id/tv_income"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="2sp"
+            android:textColor="#172BE1"
+            android:textSize="10sp"
+            android:ellipsize="end"
+            android:lines="1"
+            tools:text="+300" />
+</LinearLayout>

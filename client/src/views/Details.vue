@@ -1,10 +1,16 @@
+<style scoped>
+.van-icon__image {
+    width: 1.5em;
+    height: 1.5em;
+}
+</style>
 <template>
     <div style="background-color: white;">
         <nav-bar/>
-        <van-row class="row-head-top" style="margin: 30px 0 0 0;">
+        <van-row class="row-head-top" style="margin: 50px 0 0 0;">
             <van-col span="8" style="color: black; font-weight: bold">{{year}}</van-col>
-            <van-col span="8" style="color: green; font-weight: bold">Monthly Income</van-col>
-            <van-col span="8" style="color: red; font-weight: bold">Monthly Expense</van-col>
+            <van-col span="8" style="color: green; font-weight: bold">Mthly Inc($)</van-col>
+            <van-col span="8" style="color: red; font-weight: bold">Mthly Exp($)</van-col>
         </van-row>
         <van-row class="row-head-bottom">
             <van-col span="8" style="display: flex; justify-content: flex-start;">
@@ -21,8 +27,8 @@
                     </van-dropdown-item>
                 </van-dropdown-menu>
             </van-col>
-            <van-col span="8" style="line-height:50px;">{{amount["income"] ? amount['income'] : '0'}}</van-col>
-            <van-col span="8" style="line-height:50px;">{{amount["expend"] ? amount['expend'] : '0'}}</van-col>
+            <van-col span="8" style="line-height:50px;">{{amount["income"] ?  amount['income'] : '0'}}</van-col>
+            <van-col span="8" style="line-height:50px;">{{amount["expend"] ?  amount['expend'] : '0'}}</van-col>
         </van-row>
         <van-row style="height: calc(100% - 148px)">
             <van-overlay :show="loading" class-name="loading-overlay">
@@ -34,8 +40,9 @@
             >
                 <div v-for="(list, index) in lists" :key="index">
                     <van-cell class="cell-title" :title="list.date">
-                        <span class="amount">Income: {{list['income']}}</span>
-                        <span class="amount">Expense: {{list['expend']}}</span>
+                        <span class="amount">Inc: {{list['income']}}</span>
+                        
+                        <span class="amount">Exp: {{list['expend']}}</span>
                     </van-cell>
                     <van-cell
                             v-for="(item, key) in list.details"

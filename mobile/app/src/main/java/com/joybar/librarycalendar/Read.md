@@ -1,0 +1,1 @@
+based on a open source component whose link is https://github.com/myjoybar/android-calendar-view to modify this calendar

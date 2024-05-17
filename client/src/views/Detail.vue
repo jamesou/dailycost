@@ -1,3 +1,9 @@
+<style scoped>
+.van-icon__image {
+    width: 1em;
+    height: 1em;
+}
+</style>
 <template>
     <div style="background-color: #F8F8F8">
         <nav-bar :go-back="true"/>
@@ -10,9 +16,9 @@
                 </van-cell>
             </template>
             <div class="panel-body">
-                <van-cell title="Category" :value="categoryState === 0 ? 'Expense' : 'Income'" value-class="cell-value"/>
+                <van-cell title="Type" :value="categoryState === 0 ? 'Expense' : 'Income'" value-class="cell-value"/>
                 <van-cell title="Amount" :value="billAmount" value-class="cell-value"/>
-                <van-cell title="Date" :value="this.$store.formatChinaDate(billTime)" value-class="cell-value"/>
+                <van-cell title="Date" :value="this.$store.formatDate(billTime)" value-class="cell-value"/>
                 <van-cell title="Comment" :value="billRemark" value-class="cell-value"/>
             </div>
         </van-panel>
@@ -83,7 +89,7 @@
             deleteBill() {
                 this.$dialog.confirm({
                     title: 'Prompt',
-                    message: 'Confirm del the record?'
+                    message: 'Confirm to delete thiss record?'
                 }).then(() => {
                     // on confirm
                     this.$axios.delete(`/bill/${this.billId}`)
@@ -112,6 +118,7 @@
     }
     .panel-header {
         margin-left: 10px;
+        margin-top: 4px;
     }
     .panel-body {
         padding: 10px;

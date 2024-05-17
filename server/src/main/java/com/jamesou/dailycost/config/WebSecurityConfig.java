@@ -63,7 +63,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 })
                 .authenticationEntryPoint(new AuthenticationEntryPoint() {
-                    // 重写commence干掉未登录默认跳转的页面从而返回json数据
                     @Override
                     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
                         httpServletResponse.setContentType("application/json;charset=utf-8");
@@ -83,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     throw new RuntimeException("Username can't be empty");
                 User user = userMapper.getUserByAccount(account);
                 if (user == null)
-                    throw new RuntimeException("User doesn't exist");
+                    throw new RuntimeException("User doesn't exist or password incorrect");
                 return user;
             }
         }).passwordEncoder(new BCryptPasswordEncoder());

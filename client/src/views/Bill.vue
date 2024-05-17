@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav-bar/>
-        <van-divider style="margin: 36px 0 0 0; color:black ;font-weight: bold">Total Balance</van-divider>
+        <van-divider style="margin: 50px 0 0 0; color:black ;font-weight: bold">Total Balance($)</van-divider>
         <van-overlay :show="loading" class-name="loading-overlay">
             <van-loading color="#1989fa" size="38px"/>
         </van-overlay>
@@ -16,8 +16,8 @@
             </van-col>
         </van-row>
         <van-row>
-            <van-col span="12"><span class="title-span" style="color:green">Total Income</span><span class="value-span">{{income.toFixed(2)}}</span></van-col>
-            <van-col span="12"><span class="title-span" style="color:red">Total Expense</span><span class="value-span">{{expend.toFixed(2)}}</span></van-col>
+            <van-col span="12"><span class="title-span" style="color:green">Total Inc</span><span class="value-span">{{income.toFixed(2)}}</span></van-col>
+            <van-col span="12"><span class="title-span" style="color:red">Total Exp</span><span class="value-span">{{expend.toFixed(2)}}</span></van-col>
         </van-row>
         <van-cell-group>
             <van-cell>

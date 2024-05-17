@@ -103,7 +103,7 @@ let store = {
     day = day.length < 2 ? `0${day}` : day;
     return `${date.getFullYear()}-${month}-${day}`;
   },
-  formatChinaDate(date) {
+  formatDate(date) {
     if (typeof date !== typeof new Date())
       return null;
     let month = (date.getMonth() + 1).toString();
@@ -111,7 +111,7 @@ let store = {
     let day = date.getDate().toString();
     day = day.length < 2 ? `0${day}` : day;
     let week = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thur.', 'Fri.', 'Sat.'];
-    return `${date.getFullYear()}年${month}月${day}日 ${week[date.getDay()]}`;
+    return `${date.getFullYear()}-${month}-${day} ${week[date.getDay()]}`;
   }
 };
 Vue.prototype.$store = store;

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+   >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFEFF1F2"
+        android:orientation="horizontal"
+        android:paddingTop="10sp"
+        android:paddingBottom="10sp">
+
+        <TextView
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="Mon"
+            android:textColor="#767778"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="Tues"
+            android:textColor="#767778"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="Wed"
+            android:textColor="#767778"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="Thurs"
+            android:textColor="#767778"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="Fri"
+            android:textColor="#767778"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="Sat"
+            android:textColor="#fd9a9a"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="Sun"
+            android:textColor="#fd9a9a"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+    <GridView
+        android:id="@+id/gv_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:horizontalSpacing="4sp"
+        android:listSelector="#00000000"
+        android:drawSelectorOnTop="true"
+        android:numColumns="7"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="4sp" />
+</LinearLayout>

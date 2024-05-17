@@ -4,6 +4,7 @@ import com.jamesou.dailycost.bean.Bill;
 import com.jamesou.dailycost.mapper.BillMapper;
 import com.jamesou.dailycost.service.BillService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -41,11 +42,16 @@ public class BillServiceImpl implements BillService {
 
             List<Map<String, Object>> list = new ArrayList<>();
             billDetails.forEach(detail -> {
+                System.out.println(detail);
                 if (detail.getBillTime().equals(item.get("billTime"))) {
                     Map<String, Object> detailsMap = new HashMap<>();
                     detailsMap.put("billId", detail.getBillId());
                     detailsMap.put("icon", detail.getCategory().getCategoryIcon());
-                    detailsMap.put("remark", detail.getBillRemark());
+                    if(detail.getBillRemark().equals("")){
+                        detailsMap.put("remark", detail.getCategory().getCategoryName());
+                    } else {
+                        detailsMap.put("remark", detail.getBillRemark());
+                    }
                     detailsMap.put("money", detail.getBillAmount());
                     list.add(detailsMap);
                 }

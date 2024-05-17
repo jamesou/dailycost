@@ -10,6 +10,7 @@
         <result property="billRemark" column="billRemark"/>
         <association property="category" javaType="com.jamesou.dailycost.bean.Category">
             <result property="categoryIcon" column="categoryIcon"/>
+            <result property="categoryName" column="categoryName"/>
         </association>
     </resultMap>
 
@@ -83,7 +84,7 @@
                 <if test="billTime != null">
                     billTime = #{billTime},
                 </if>
-                <if test="billRemark != null and billRemark != ''">
+                <if test="billRemark != null">
                     billRemark = #{billRemark}
                 </if>
             </trim>
@@ -93,7 +94,7 @@
 
     <!--查询账单明细-->
     <select id="getBillDetails" resultMap="billDetails">
-        SELECT billId, billTime, categoryIcon, billAmount, IFNULL(billRemark,categoryName) AS billRemark
+        SELECT billId, billTime, categoryIcon,categoryName, billAmount, IFNULL(billRemark,categoryName) AS billRemark
         FROM tb_bill, tb_category
         WHERE tb_bill.categoryId = tb_category.categoryId
         AND tb_bill.userId = #{userId}
