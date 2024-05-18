@@ -11,10 +11,10 @@ import java.util.Collection;
 @Component
 public class User implements UserDetails {
     private int userId;
-    private String userNickname="adminadmin";
+    private String userNickname="admin";
     private String userName;
     private String userMail;
-    private String userPhone="13888888888";
+    private String userPhone;
     private String userPassword;
     private int userState;
 

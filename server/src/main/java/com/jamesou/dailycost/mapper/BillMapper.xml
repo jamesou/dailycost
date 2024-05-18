@@ -84,9 +84,10 @@
                 <if test="billTime != null">
                     billTime = #{billTime},
                 </if>
-                <if test="billRemark != null">
-                    billRemark = #{billRemark}
-                </if>
+<!--                <if test="billRemark != null">-->
+<!--                    billRemark = #{billRemark}-->
+<!--                </if>-->
+                billRemark = #{billRemark}
             </trim>
         </set>
         WHERE billId = #{billId}

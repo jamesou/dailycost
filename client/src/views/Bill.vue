@@ -73,10 +73,11 @@
                 this.setBalances();
             },
             setBalances() {
+                // console.log(this.currentYear)
                 this.$axios.get('/getBalance', {
                     params: {
                         userId: this.$store.jsonParse(this.$store.state.user)["userId"],
-                        year: this.currentYear
+                        year: this.currentYear? this.currentYear :new Date().getFullYear()
                     }
                 })
                     .then(response => {

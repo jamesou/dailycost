@@ -3,14 +3,16 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import qs from 'qs'
-import {Notify, Toast, Dialog} from 'vant'
+import {Notify, Toast, Dialog,Locale} from 'vant'
+import enUS from 'vant/es/locale/lang/en-US';
 import {Col, Row, Field, Button, Form, Tab, Tabs, NavBar, Tabbar, TabbarItem, Icon, DropdownMenu, DropdownItem,
-  DatetimePicker, List, CellGroup, Cell, Grid, GridItem, NumberKeyboard, Popup, Panel, Picker, Divider, Loading, Overlay} from 'vant';
+  DatetimePicker, List, CellGroup, Cell, Grid, GridItem, NumberKeyboard, Popup, Panel, Picker, Divider, Loading, Overlay } from 'vant';
 import './assets/css/iconfont.css'
 import VeLine from 'v-charts/lib/line.common.min'
 // 引用echarts模块文件是为了将echarts属性用在v-charts
 import 'echarts/lib/component/title'
 
+Locale.use('en-US', enUS);
 Vue.config.productionTip = true;
 
 axios.defaults.baseURL = '/api';

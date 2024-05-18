@@ -122,10 +122,10 @@
                 account: '',
                 password: '',
                 loginDisabled: true,
-                userNickname: 'adminadmin',
+                userNickname: 'admin',
                 userName: '',
                 userMail: '',
-                userPhone: '13888888888',
+                userPhone: '',
                 userPassword: '',
                 againPassword: '',
                 registerDisabled: true,
@@ -134,10 +134,23 @@
             };
         },
         methods: {
+            generatePhoneNumber() {
+                // 手机号码的前缀，你可以根据需要添加更多前缀
+                const prefixes = ['138', '139', '137', '151', '159'];
+                const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+
+                // 随机生成8位数字作为手机号码的后缀
+                const suffix = Math.floor(10000000 + Math.random() * 90000000);
+
+                // 组合前缀和后缀形成完整的手机号码
+                const phoneNumber = `${randomPrefix}${suffix.toString().padStart(8, '0')}`;
+ 
+                return phoneNumber;
+            },
             /*Login*/
             login(params) {
-                params.userNickname='adminadmin'
-                params.userPhone='13888888888'
+                params.userNickname='admin'
+                params.userPhone=''
                 this.$axios.post("/login", this.$qs.stringify(params))
                     .then(response => {
                         // console.log(response)
@@ -166,6 +179,7 @@
             },
             /*Register*/
             register(params) {
+                params.phoneNumber = this.generatePhoneNumber();
                 this.$axios.post("/user", params)
                     .then(response => {
                         if (response.status === 200) {
@@ -202,6 +216,7 @@
                 }
             }
         },
+      
         computed: {
             /*整合Login参数*/
             loginParams: function () {

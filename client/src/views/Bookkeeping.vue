@@ -117,7 +117,7 @@
                 // 可选择最新日期
                 maxDate: new Date(),
                 // 备注
-                remark: "",
+                remark: " ",
                 // Expense账单类型列表
                 expendCategories: [],
                 // Income账单类型列表
