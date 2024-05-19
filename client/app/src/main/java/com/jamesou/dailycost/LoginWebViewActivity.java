@@ -29,7 +29,7 @@ public class LoginWebViewActivity extends AppCompatActivity {
         });
         webView.getSettings().setJavaScriptEnabled(true);
         clearWebViewData();
-        String url = getResources().getString(R.string.web_login_url);
+        String url = "";
         webView.loadUrl(url);
     }
     private void clearWebViewData() {

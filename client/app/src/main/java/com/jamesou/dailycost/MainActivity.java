@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.main_btn_scan:
-                intent = new Intent(this, ScanReceipt.class);
+                intent = new Intent(this, ScanReceiptActivity.class);
                 startActivity(intent);
                 break;
             case R.id.main_btn_add:

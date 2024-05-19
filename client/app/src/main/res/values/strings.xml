@@ -66,6 +66,5 @@
     <string name="close">Close</string>
     <string name="go_turn"><![CDATA[>]]></string>
     <string name="introduce">Track your spending</string>
-    <string name="web_login_url">http://192.168.68.67:8080/</string>
-<!--    <string name="web_login_url">http://148.100.78.14:8080/</string>-->
+
 </resources>
