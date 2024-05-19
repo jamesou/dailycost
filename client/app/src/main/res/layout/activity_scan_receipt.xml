@@ -29,28 +29,56 @@
             android:layout_height="wrap_content">
             <Button android:id="@+id/btn_camera"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dip"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/main_recordbtn_bg"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
                 android:text="take photo" />
 
             <Button android:id="@+id/btn_select_photo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dip"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/main_recordbtn_bg"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
                 android:text="select photo" />
+            <Button android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/main_recordbtn_bg"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:text="save" />
 
         </LinearLayout>
         <ImageView
             android:id="@+id/iv_show_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
+            android:visibility="gone"  />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:visibility="gone" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_display_result"
+        <ListView
+            android:id="@+id/display_result_lv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:visibility="gone"
+            android:padding="10sp" />
+
     </LinearLayout>
 </LinearLayout>
 
