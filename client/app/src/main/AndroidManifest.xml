@@ -2,16 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.jamesou.dailycost">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
 
     <application
             android:name=".config.GlobalApplication"
@@ -33,35 +27,13 @@
             </activity>
 <!--        <activity android:name=".LoginWebViewActivity"></activity>-->
         <activity android:name=".NewEntryActivity"></activity>
-        <activity android:name=".ScanReceiptActivity"></activity>
+        <activity android:name=".ScanReceiptActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
         <activity android:name=".SearchActivity"></activity>
         <activity android:name=".RecordActivity"></activity>
         <activity android:name=".ChartActivity"></activity>
         <activity android:name=".CategoryActivity"></activity>
         <activity android:name=".CategoryAddActivity"></activity>
-
-        <activity
-            android:name="me.iwf.photopicker.PhotoPickerActivity"
-            android:theme="@style/customTheme" />
-
-        <activity
-            android:name="me.iwf.photopicker.PhotoPagerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="423ff17515038a50c41085cc2dbd0087d2e51cbb" />
     </application>
-
-
-
-
-
 </manifest>

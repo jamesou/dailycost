@@ -22,6 +22,7 @@ import com.jamesou.dailycost.adapter.RecordCategoryAdapter;
 import com.jamesou.dailycost.db.AccountBean;
 import com.jamesou.dailycost.db.CategoryBean;
 import com.jamesou.dailycost.dialog.CommentDialog;
+import com.jamesou.dailycost.utils.DatetimeUtil;
 import com.jamesou.dailycost.utils.FormatNumberUtil;
 import com.jamesou.dailycost.utils.KeyBoardUtils;
 import com.jamesou.dailycost.dialog.SelectTimeDialog;
@@ -70,10 +71,11 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
 
     private void initTime() {
         accountBean = new AccountBean();
-        String time = getCurrentDateTime();
+        String time = DatetimeUtil.getCurrentDateTime();;
         timeTv.setText(time);
         refreshTime(accountBean,time);
     }
+
     private void refreshTime(AccountBean accountBean,String time){
         accountBean.setTime(time);
         Calendar calendar = Calendar.getInstance();
@@ -85,14 +87,10 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         accountBean.setDay(day);
     }
     private void refreshTime(AccountBean accountBean){
-        String time = getCurrentDateTime();
+        String time = DatetimeUtil.getCurrentDateTime();
         refreshTime(accountBean,time);
     }
-    private String getCurrentDateTime(){
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        return sdf.format(date);
-    }
+
 
     /*pick category icon*/
     private void getGridViewListener() {
