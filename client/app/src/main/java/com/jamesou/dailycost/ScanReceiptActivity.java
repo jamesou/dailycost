@@ -1,16 +1,19 @@
 package com.jamesou.dailycost;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -21,19 +24,27 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jamesou.dailycost.adapter.ReceiptAdapter;
+import com.jamesou.dailycost.db.AccountBean;
+import com.jamesou.dailycost.db.DBManager;
 import com.jamesou.dailycost.db.ReceiptBean;
 import com.jamesou.dailycost.network.ApiService;
 import com.jamesou.dailycost.network.RetrofitClient;
+import com.jamesou.dailycost.utils.DatetimeUtil;
 import com.jamesou.dailycost.utils.PromptMsgUtil;
+import com.jamesou.dailycost.utils.TakePhotoHelper;
+import com.jph.takephoto.app.TakePhoto;
+import com.jph.takephoto.app.TakePhotoActivity;
+import com.jph.takephoto.model.TResult;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-import me.iwf.photopicker.PhotoPicker;
+//import me.iwf.photopicker.PhotoPicker;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -42,7 +53,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ScanReceiptActivity extends Activity {
+
+public class ScanReceiptActivity extends TakePhotoActivity {
 
     private ImageView iv_show_image;
     private ListView resultLv;
@@ -52,6 +64,8 @@ public class ScanReceiptActivity extends Activity {
 
     private ReceiptAdapter receiptAdapter;
     private List<ReceiptBean> dataList;
+
+    private TakePhotoHelper takePhotoHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,54 +87,123 @@ public class ScanReceiptActivity extends Activity {
         findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo save to db
+                if(dataList!=null&&dataList.size()>0){
+                    saveToDB(dataList);
+                    PromptMsgUtil.promptMsg(view.getContext(),"Save successfully");
+                    finish();
+                }else{
+                    PromptMsgUtil.promptMsg(view.getContext(),"Receipt list is empty, please select an image to recognise");
+                }
             }
         });
+
+        takePhotoHelper = new TakePhotoHelper();
 
         findViewById(R.id.btn_camera).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PhotoPicker.builder()
-                        .setOpenCamera(true)
-                        .setCrop(true)
-                        .start(ScanReceiptActivity.this);
+                takePhotoHelper.onClick(TakePhotoHelper.ACTION_TAKE_PHOTO,getTakePhoto());
             }
         });
         findViewById(R.id.btn_select_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PhotoPicker.builder()
-                        .setPhotoCount(1)
-                        .setPreviewEnabled(false)
-                        .setCrop(true)
-                        .setCropXY(1, 1)
-                        .setCropColors(R.color.colorPrimary, R.color.colorPrimaryDark)
-                        .start(ScanReceiptActivity.this);
+                takePhotoHelper.onClick(TakePhotoHelper.ACTION_PICK_PHOTO,getTakePhoto());
             }
         });
     }
 
-
+    private void saveToDB(List<ReceiptBean> dataList){
+        float totalAmount = 0;
+        for(ReceiptBean receiptBean:dataList){
+            System.out.println("receiptBean-->"+receiptBean.toString());
+            if(receiptBean.getItem_amount()!=null
+                    &&!receiptBean.getItem_amount().trim().equals("")
+                    &&receiptBean.getItem_qty()!=null
+                    &&!receiptBean.getItem_qty().trim().equals("")
+            ){
+                String[] amountArray = receiptBean.getItem_amount().split("\\$");
+                int qty = Integer.parseInt(receiptBean.getItem_qty());
+                System.out.println("amountArray.length-->"+amountArray.length);
+                if(amountArray.length>=2){
+                    float amount = Float.parseFloat(amountArray[1]);
+                    if(amountArray[0].equals("-")){//negative
+                        totalAmount = totalAmount - amount;
+                    } else{//positive
+                        totalAmount = totalAmount + amount;
+                    }
+                }else{
+                    Log.i("saveToDB"," amount["+receiptBean.getItem_amount()+"] format is not correct");
+                }
+            }else{
+                Log.i("saveToDB",receiptBean.getItem_name()+", amount is null, skip it");
+            }
+        }
+        AccountBean accountBean = new AccountBean();
+        accountBean.setKind(0);
+        accountBean.setCategoryName("Shopping");
+        accountBean.setsImageId(R.mipmap.ic_shopping_fs);
+        accountBean.setComment("Pak Save");
+        accountBean.setMoney(totalAmount);
+        accountBean.setTime(DatetimeUtil.getCurrentDateTime());
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        accountBean.setYear(year);
+        accountBean.setMonth(month);
+        accountBean.setDay(day);
+        DBManager.insertItemToAccounttb(accountBean);
+    }
     public void onClick(View v){
         finish();
     }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        //show image and recognised result
+//        if (resultCode == RESULT_OK && requestCode == PhotoPicker.CROP_CODE) {
+////        if (resultCode == RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE) {
+//            iv_show_image.setVisibility(View.VISIBLE);
+//            Uri imageUri = Uri.fromFile(new File(data.getStringExtra(PhotoPicker.KEY_CAMEAR_PATH)));
+////            System.out.println("imageUri:"+imageUri);
+//            Glide.with(getApplicationContext()).load(imageUri).into(iv_show_image);
+//            uploadImage(imageUri);
+//        }
+//    }
+@Override
+public void takeCancel() {
+    super.takeCancel();
+    PromptMsgUtil.promptMsg(this,"Cancel");
+}
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //show image and recognised result
-        if (resultCode == RESULT_OK && requestCode == PhotoPicker.CROP_CODE) {
-            iv_show_image.setVisibility(View.VISIBLE);
-            Uri imageUri = Uri.fromFile(new File(data.getStringExtra(PhotoPicker.KEY_CAMEAR_PATH)));
-//            System.out.println("imageUri:"+imageUri);
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
+        PromptMsgUtil.promptMsg(this,"Get the image failed");
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        iv_show_image.setVisibility(View.VISIBLE);
+//        System.out.println(result.getImage());
+//        System.out.println(result.getImages());
+//        System.out.println(result.getImage().getCompressPath());
+        if(result.getImage().getCompressPath()!=null) {
+            Uri imageUri = Uri.fromFile(new File(result.getImage().getCompressPath()));
+            System.out.println(imageUri);
             Glide.with(getApplicationContext()).load(imageUri).into(iv_show_image);
             uploadImage(imageUri);
+        }else{
+            PromptMsgUtil.promptMsg(this,"Can not get image from storage");
         }
     }
     private void uploadImage(Uri imageUri) {
         progressBar.setVisibility(View.VISIBLE);
         progressBar.playAnimation();
         progressBar.loop(true); // 设置重复播放次数
-
+        Context context = this;
         try {
             InputStream inputStream = getContentResolver().openInputStream(imageUri);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
@@ -148,6 +231,7 @@ public class ScanReceiptActivity extends Activity {
                         }
                     } else {
                         Log.e("Upload", "Upload failed: " + response.message());
+                        PromptMsgUtil.promptMsg(context,"Upload failed: "+response.message());
                     }
                 }
 
@@ -155,6 +239,7 @@ public class ScanReceiptActivity extends Activity {
                 public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                     progressBar.setVisibility(View.GONE);
                     Log.e("Upload", "Upload error: ", t);
+                    PromptMsgUtil.promptMsg(context,"Upload error: "+t.getMessage());
                 }
             });
         } catch (IOException e) {
@@ -179,7 +264,7 @@ public class ScanReceiptActivity extends Activity {
                 receiptBean.setItem_amount(jsonObj.get("item_amount")!=null?jsonObj.get("item_amount").getAsString():"");
                 dataList.add(receiptBean);
             }
-            System.out.println("dataList:"+dataList);
+//            System.out.println("dataList:"+dataList);
         }else{
             PromptMsgUtil.promptMsg(this,"Ocr result incorrect! please try again!");
         }
