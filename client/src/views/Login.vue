@@ -156,7 +156,7 @@
                         // console.log(response)
                         //network no errors
                         if (response.status === 200) {
-                            // console.log(response.data.loginState==false)
+                            // console.log(response.data)
                             if(response.data.loginState == false){
                                 this.$notify({type: 'primary', message: response.data.msg})
                             }
