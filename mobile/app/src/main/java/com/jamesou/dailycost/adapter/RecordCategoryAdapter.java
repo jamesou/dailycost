@@ -50,7 +50,6 @@ public class RecordCategoryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //@todo need to adjust it while developing categories management
         convertView = LayoutInflater.from(context).inflate(R.layout.item_recordfrag_gv, parent, false);
         ImageView iv = convertView.findViewById(R.id.item_recordfrag_iv);
         TextView tv = convertView.findViewById(R.id.item_recordfrag_tv);

@@ -16,7 +16,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-//@todo refine
+
 public class NewEntryActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;

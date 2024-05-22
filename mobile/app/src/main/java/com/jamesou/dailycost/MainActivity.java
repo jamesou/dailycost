@@ -38,8 +38,6 @@ import com.jamesou.dailycost.utils.PromptMsgUtil;
 /**
  * @Author: Jamesou
  * @Date: 7/04/24 01:44
- * @TODO 1.category moveup movedown the activity doesn't refresh
- *  2. scan feature
  */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
