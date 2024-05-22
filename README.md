@@ -8,20 +8,25 @@ To get started with the Daily Cost Tracker App, follow these steps:
 - Maven (version 3.8.1 or later for back-end build tool)
 - Gradle (version 6.1.1 or later for front-end build tool)
 - Android (version 12 as target)
+- Vue (version 2.6.11)
+- Vant (version 2.13.2)
 ## Repository Structure
 
-The repository is organized into two main folders:
+The repository is organized into three main folders:
+### 1. `mobile`
 
-### 1. `client`
+This folder contains the source code for the mobile client application, built using Android 12 SDK and Gradle. The client provides an android client for user.
 
-This folder contains the source code for the mobile client application, built using Android 12 SDK and Gradle. The client application is responsible for the user interface, expense tracking, and communication with the back-end server.
+### 2. `client`
 
-### 2. `server`
+This folder contains the source code for the webpages, built using Vue2. It provides the UI pages for user.
 
-This folder contains the source code for the back-end service, built using Spring Boot. The server application handles data storage, user authentication, and API endpoints for the mobile client to interact with.
+### 3. `server`
+
+This folder contains the source code for the back-end service, built using Spring Boot. The server application handles data storage, user authentication, and API endpoints for the front-end to interact with.
 
 ## Snapshots
-![wireframe_v1](snapshots/wireframe_V1.jpeg)
+![wireframe_v2](snapshots/wireframe_V2.jpg)
 ## License
 
 The Daily Cost Tracker App is released under the [MIT License](LICENSE).
