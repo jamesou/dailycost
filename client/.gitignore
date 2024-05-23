@@ -18,3 +18,4 @@ local.properties
 .idea/
 target/
 build
+/daily-cost-tracker.jks

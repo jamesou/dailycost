@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-//import me.iwf.photopicker.PhotoPicker;
 
 
 public class ScanReceiptActivity extends TakePhotoActivity {

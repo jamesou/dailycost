@@ -27,30 +27,41 @@ def index():
     
 @app.route('/ocr', methods=['POST', 'GET'])
 def detect():
-    file = request.files['file']
-    if file and allowed_file(file.filename):
-        ext = file.filename.rsplit('.', 1)[1]
-        random_name = '{}.{}'.format(uuid.uuid4().hex, ext)
-        savepath = os.path.join('caches', secure_filename(random_name))
-        file.save(savepath)
-        # time-1
-        t1 = time.time()
-        # save_folder = './'
-        # img_path = 'Image_20240417151759.jpg'
-        # # img_path = 'Image_20240417154200.jpg'
-        # # img_path = 'Image_20240419145953.jpg'
-        # # img_path = 'Image_20240419150034.jpg'
-        img = cv2.imread(savepath)
-        result = table_engine(img)
-        structured_data = paksave_receipt_parser.parse_result(result=result)
-        # time-2
-        t2 = time.time()
-        return jsonify({
-            'status': 'success',
-            'reg_res': structured_data,
-            'time_consuming': '{:.4f}s'.format(t2-t1)
-        })
-    return jsonify({'status': 'faild'})
+    try:
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            ext = file.filename.rsplit('.', 1)[1]
+            random_name = '{}.{}'.format(uuid.uuid4().hex, ext)
+            savepath = os.path.join('caches', secure_filename(random_name))
+            file.save(savepath)
+            # time-1
+            t1 = time.time()
+            # save_folder = './'
+            # img_path = 'Image_20240417151759.jpg'
+            # # img_path = 'Image_20240417154200.jpg'
+            # # img_path = 'Image_20240419145953.jpg'
+            # # img_path = 'Image_20240419150034.jpg'
+            img = cv2.imread(savepath)
+            result = table_engine(img)
+            structured_data = paksave_receipt_parser.parse_result(result=result)
+            # time-2
+            t2 = time.time()
+            return jsonify({
+                'status': 'success',
+                'reg_res': structured_data,
+                'time_consuming': '{:.4f}s'.format(t2-t1)
+            })
+        else:
+            response = {
+            "error": "Value Error",
+            "message": str(e)
+            }
+    except ValueError as e:
+        response = {
+            "error": "Value Error",
+            "message": str(e)
+        }
+    return jsonify(response)
 
 if __name__ == '__main__':
     table_engine = PPStructure()
