@@ -19,6 +19,7 @@ def parse_result(result):
         res_list = result[0]['res']
         structured_list = []
         for item in res_list:
+            # print(f"item['text']:{item['text']}")
             text = item['text'].strip('.').strip()
             if len(text)>1:
                 if text.find("Bag ") != -1 and text.find("deducted") != -1 :
@@ -56,7 +57,7 @@ def parse_result(result):
                 else:
                     structured_list.append(text)
             else:
-                 print(f"length < 1, maybe recognise error, the text is {text}")
+                 print(f"length < 1, maybe recognise error,ignore it, the text is {text}")
         group_size = 4
         item_info = {}
         print(f"structured_list:{structured_list}")

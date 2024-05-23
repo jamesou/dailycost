@@ -1,0 +1,1 @@
+nohup python ocr_server.py >> ocr_server.log 2>&1 &

@@ -12,3 +12,5 @@
 /.gradle/vcs-1/gc.properties
 .idea
 target
+server/__pycache__/
+server/caches/

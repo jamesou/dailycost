@@ -68,8 +68,9 @@
             android:visibility="gone"  />
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:visibility="gone" />
         <ListView
             android:id="@+id/display_result_lv"

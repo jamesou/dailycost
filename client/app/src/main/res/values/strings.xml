@@ -33,7 +33,7 @@
     <string name="categoryBean_record">Catagories</string>
     <string name="at_info">Analysis</string>
     <string name="app_help">Help</string>
-    <string name="account_info">Bill Analysis</string>
+    <string name="account_info">Analysis</string>
     <string name="history_info">Bill Records Monthly</string>
     <string name="not_data">No data exists</string>
     <string name="clear_data">Clear data</string>
