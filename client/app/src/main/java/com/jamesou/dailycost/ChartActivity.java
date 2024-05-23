@@ -83,7 +83,7 @@ public class ChartActivity extends AppCompatActivity {
         float expenseSumMonthly = DBManager.getSumMoneyByMonth(year, month, 0);
         int incomeCountMonthly = DBManager.getCountItemByMonth(year, month, 1);
         int expenseCountMonthly = DBManager.getCountItemByMonth(year, month, 0);
-        dateTv.setText(year + "/" + month + " Bill");
+        dateTv.setText(year + "/" + month + " Cost");
         inTv.setText("Total [" + incomeCountMonthly + "]， $" + FormatNumberUtil.formatFloat(incomeSumMonthly));
         outTv.setText("Total [" + expenseCountMonthly + "]， $" + FormatNumberUtil.formatFloat(expenseSumMonthly));
 

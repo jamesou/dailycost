@@ -55,7 +55,7 @@ public class TakePhotoHelper {
     public CropOptions getCropOptions() {
         int height = 800;
         int width = 800;
-        boolean withSystemCrop = true ;
+        boolean withSystemCrop = false ;
         CropOptions.Builder builder = new CropOptions.Builder();
         builder.setOutputX(width).setOutputY(height);
         builder.setWithOwnCrop(withSystemCrop);

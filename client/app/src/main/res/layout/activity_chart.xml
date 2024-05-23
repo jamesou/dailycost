@@ -38,7 +38,7 @@
                   android:layout_marginTop="20sp">
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:id="@+id/chart_tv_date"
-                  android:text="2024/7 Bill"
+                  android:text="2024/7 Cost"
                   android:textColor="@color/black"
                   android:textStyle="bold"
                   android:textSize="16sp"/>

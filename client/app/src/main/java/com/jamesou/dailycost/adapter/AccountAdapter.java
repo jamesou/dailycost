@@ -15,7 +15,6 @@ import com.jamesou.dailycost.utils.FormatNumberUtil;
 import java.util.Calendar;
 import java.util.List;
 
-//@todo line break for comment field
 public class AccountAdapter extends BaseAdapter {
     Context context;
     List<AccountBean> mDatas;

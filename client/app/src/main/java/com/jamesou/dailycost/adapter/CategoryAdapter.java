@@ -78,22 +78,24 @@ public class CategoryAdapter extends BaseAdapter implements View.OnClickListener
         final int kind = bean.getKind();
         switch (v.getId()){
             case R.id.typebean_iv_mvup:
-                String msg = DBManager.updateCategoryBeanById(select_id,kind,1,mDatas);
-                if("first".equals(msg)) {
+                String mvup_msg = DBManager.updateCategoryBeanById(select_id,kind,1,mDatas);
+                if("first".equals(mvup_msg)) {
                     PromptMsgUtil.promptMsg(context,"This has been the first row already!");
                 }else{
                     PromptMsgUtil.promptMsg(context,"Move Up successfully");
                 }
-                this.notifyDataSetChanged();
+                loadData();
+                notifyDataSetChanged();
                 break;
             case R.id.typebean_iv_mvdown:
-                String msg2 = DBManager.updateCategoryBeanById(select_id,kind,0,mDatas);
-                if("first".equals(msg2)) {
+                String mvdown_msg = DBManager.updateCategoryBeanById(select_id,kind,0,mDatas);
+                if("tail".equals(mvdown_msg)) {
                     PromptMsgUtil.promptMsg(context,"This has been the last row already!");
                 }else{
                     PromptMsgUtil.promptMsg(context,"Move Down successfully");
                 }
-                this.notifyDataSetChanged();
+                loadData();
+                notifyDataSetChanged();
                 break;
             case R.id.typebean_iv_eidt:
                 ArrayList<String> stringList = new ArrayList<String>();
@@ -112,7 +114,11 @@ public class CategoryAdapter extends BaseAdapter implements View.OnClickListener
                 break;
         }
     }
-
+    private void loadData() {
+        List<CategoryBean> list = DBManager.getCategoryList(-1);
+        mDatas.clear();
+        mDatas.addAll(list);
+    }
 
     private void delectItem(final CategoryBean bean) {
         final int deleci_id = bean.getId();

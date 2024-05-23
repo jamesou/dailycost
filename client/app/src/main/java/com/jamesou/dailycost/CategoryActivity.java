@@ -43,8 +43,8 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         adapter = new CategoryAdapter(this, mData);
         categoryLv.setAdapter(adapter);
         loadData();
-        adapter.notifyDataSetChanged();
         categoryAdd.setOnClickListener(this);
+        adapter.notifyDataSetChanged();
     }
 
     private void loadData() {
@@ -73,5 +73,6 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         super.onResume();
         //automatically refresh data
         loadData();
+        adapter.notifyDataSetChanged();
     }
 }
