@@ -21,15 +21,11 @@ This folder contains the source code for the mobile client application, built us
 This folder contains the source code for the back-end service, built using Flask. The server application provides API endpoints for the mobile client to recognise receipt.
 
 ## Snapshots
-![Main](snapshots/Main.jpg)
-![NewRecord](snapshots/NewRecord.jpg)
-![ScanReceipt_1](snapshots/ScanReceipt_1.jpg)
-![ScanReceipt_2](snapshots/ScanReceipt_2.jpg)
-![ScanReceipt](snapshots/ScanReceipt.jpg)
-![History](snapshots/History.jpg)
-![Search](snapshots/Search.jpg)
-![ChartAnalysis](snapshots/ChartAnalysis.jpg)
-![Categories](snapshots/Categories.jpg)
+![Main](snapshots/Main.jpg) ![NewRecord](snapshots/NewRecord.jpg) ![History](snapshots/History.jpg)
+
+![ScanReceipt_1](snapshots/ScanReceipt_1.jpg) ![ScanReceipt_2](snapshots/ScanReceipt_2.jpg) ![ScanReceipt](snapshots/ScanReceipt.jpg)
+
+![Search](snapshots/Search.jpg) ![ChartAnalysis](snapshots/ChartAnalysis.jpg) ![Categories](snapshots/Categories.jpg)
 ## License
 
 The Daily Cost Tracker App is released under the [MIT License](LICENSE).
