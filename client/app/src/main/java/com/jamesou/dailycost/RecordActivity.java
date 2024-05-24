@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-//@todo 2个bug 1.在record页面，删除和修改出错。2在Research页面没有自动计划总额. 3search 显示日期
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener,
         CalendarViewPagerFragment.OnPageChangeListener,
         CalendarViewFragment.OnDateClickListener,
