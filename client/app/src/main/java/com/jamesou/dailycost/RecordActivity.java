@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+//@todo 2个bug 1.在record页面，删除和修改出错。2在Research页面没有自动计划总额. 3search 显示日期
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener,
         CalendarViewPagerFragment.OnPageChangeListener,
         CalendarViewFragment.OnDateClickListener,
@@ -87,7 +88,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         //selected item
         int posMenu=cmi.position;
         //getItem from adapter list
-        AccountBean bean=(AccountBean) adapter.getItem(posMenu-1);
+//        System.out.println("posMenu:"+posMenu);
+        AccountBean bean=(AccountBean) adapter.getItem(posMenu);
         switch(item.getItemId()){
             case 0:
                 ArrayList<String> stringList = new ArrayList<>();
