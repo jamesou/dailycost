@@ -99,7 +99,7 @@ public class ScanReceiptActivity extends TakePhotoActivity {
     private void saveToDB(List<ReceiptBean> dataList){
         float totalAmount = 0;
         for(ReceiptBean receiptBean:dataList){
-            System.out.println("receiptBean-->"+receiptBean.toString());
+//            System.out.println("receiptBean-->"+receiptBean.toString());
             if(receiptBean.getItem_amount()!=null
                     &&!receiptBean.getItem_amount().trim().equals("")
                     &&receiptBean.getItem_qty()!=null
@@ -107,7 +107,7 @@ public class ScanReceiptActivity extends TakePhotoActivity {
             ){
                 String[] amountArray = receiptBean.getItem_amount().split("\\$");
                 int qty = Integer.parseInt(receiptBean.getItem_qty().trim());
-                System.out.println("amountArray.length-->"+amountArray.length);
+//                System.out.println("amountArray.length-->"+amountArray.length);
                 if(amountArray.length>=2){
                     float amount = Float.parseFloat(amountArray[1]);
                     if(amountArray[0].equals("-")){//negative
