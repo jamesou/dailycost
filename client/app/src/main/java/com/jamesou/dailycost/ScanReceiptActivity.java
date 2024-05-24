@@ -106,7 +106,6 @@ public class ScanReceiptActivity extends TakePhotoActivity {
                     &&!receiptBean.getItem_qty().trim().equals("")
             ){
                 String[] amountArray = receiptBean.getItem_amount().split("\\$");
-                int qty = Integer.parseInt(receiptBean.getItem_qty().trim());
 //                System.out.println("amountArray.length-->"+amountArray.length);
                 if(amountArray.length>=2){
                     float amount = Float.parseFloat(amountArray[1]);
@@ -199,37 +198,6 @@ public void takeCancel() {
                     PromptMsgUtil.promptMsg(context,"Upload error: "+error);
                 }
             });
-
-
-//            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
-//            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-//
-//            Call<ResponseBody> call = apiService.recogniseImage(body);
-//            call.enqueue(new Callback<ResponseBody>() {
-//                @Override
-//                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-//                    if (response.isSuccessful()) {
-//                        progressBar.setVisibility(View.GONE);
-//                        try {
-//                            String jsonResponse = response.body().string();
-////                            System.out.println("jsonResponse:"+jsonResponse);
-//                            updateListView(jsonResponse);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    } else {
-//                        Log.e("Upload", "Upload failed: " + response.message());
-//                        PromptMsgUtil.promptMsg(context,"Upload failed: "+response.message());
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-//                    progressBar.setVisibility(View.GONE);
-//                    Log.e("Upload", "Upload error: ", t);
-//                    PromptMsgUtil.promptMsg(context,"Upload error: "+t.getMessage());
-//                }
-//            });
         } catch (IOException e) {
             e.printStackTrace();
         }
