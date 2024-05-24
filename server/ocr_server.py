@@ -17,7 +17,7 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-table_engine = PPStructure(use_gpu=True,lang="en")
+table_engine = PPStructure(lang="en", use_gpu=True)
 
 @app.route("/")
 def index():
