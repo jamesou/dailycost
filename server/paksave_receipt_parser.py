@@ -1,6 +1,9 @@
- 
 import json
 import re
+import logging
+ 
+logger = logging.getLogger('paksave')
+
 def is_numeric(s):
     return s.isdigit() or s.isnumeric() or is_float(s)
 
@@ -19,45 +22,53 @@ def parse_result(result):
         res_list = result[0]['res']
         structured_list = []
         for item in res_list:
+            # logger.info(f"type(item): {type(item)}")
             # print(f"item['text']:{item['text']}")
-            text = item['text'].strip('.').strip()
-            if len(text)>1:
-                if text.find("Bag ") != -1 and text.find("deducted") != -1 :
-                    print(f"find 'Bag' and 'deducted' keyword dispose the text:{text}")
-                    continue
-                if text == '':
-                    print(f"find '' keyword dispose the text:{text}")
-                    continue
-                if text.find("@") != -1:
-                    print(f"find '@' keyword remove the @")
-                    text = text.strip('@')
-                if text.find("*") != -1:
-                    print(f"find '*' keyword remove the *")
-                    text = text.strip('*')
-                dot_index = text.find('.')
-                lenth = len(text)
-                before, after = get_neighbor_chars(text,dot_index)
-                if dot_index!=-1 and after.isdigit() \
-                and text[0] != '-' and text[0] != '$'\
-                and text[lenth-1] != 'L':  #item_name contains qty,split it
-                    item_name_array = [p for p in text.split(' ') if p] #remove '' character
-                    item_length = len(item_name_array)-1
-                    if item_length>0:
-                        item_name = ''
-                        for i in range(0,item_length):
-                            item_name = item_name+ ' '+ item_name_array[i]
-                        print(f"item_name_array:{item_name_array}")
-                        item_name = item_name.strip()
-                        item_qty=item_name_array[item_length].replace('O','0')
-                        print(f"item_name:{item_name},item_qty:{item_qty}")
-                        structured_list.append(item_name)
-                        structured_list.append(item_qty)
+            if type(item) is dict:
+                text = item.get('text')
+                if text is not None:
+                    text = text.strip('.').strip()
+                    if len(text)>1:
+                        if text.find("Bag ") != -1 and text.find("deducted") != -1 :
+                            print(f"find 'Bag' and 'deducted' keyword dispose the text:{text}")
+                            continue
+                        if text == '':
+                            print(f"find '' keyword dispose the text:{text}")
+                            continue
+                        if text.find("@") != -1:
+                            print(f"find '@' keyword remove the @")
+                            text = text.strip('@')
+                        if text.find("*") != -1:
+                            print(f"find '*' keyword remove the *")
+                            text = text.strip('*')
+                        dot_index = text.find('.')
+                        lenth = len(text)
+                        before, after = get_neighbor_chars(text,dot_index)
+                        if dot_index!=-1 and after.isdigit() \
+                        and text[0] != '-' and text[0] != '$'\
+                        and text[lenth-1] != 'L':  #item_name contains qty,split it
+                            item_name_array = [p for p in text.split(' ') if p] #remove '' character
+                            item_length = len(item_name_array)-1
+                            if item_length>0:
+                                item_name = ''
+                                for i in range(0,item_length):
+                                    item_name = item_name+ ' '+ item_name_array[i]
+                                print(f"item_name_array:{item_name_array}")
+                                item_name = item_name.strip()
+                                item_qty=item_name_array[item_length].replace('O','0')
+                                print(f"item_name:{item_name},item_qty:{item_qty}")
+                                structured_list.append(item_name)
+                                structured_list.append(item_qty)
+                            else:
+                                structured_list.append(text)
+                        else:
+                            structured_list.append(text)
                     else:
-                        structured_list.append(text)
+                        logger.info(f"length < 1, maybe recognise error,ignore it, the text is {text}")
                 else:
-                    structured_list.append(text)
+                    logger.info(f"text not exist {item}")
             else:
-                 print(f"length < 1, maybe recognise error,ignore it, the text is {text}")
+                logger.info(f"{item},item type is not dict, instead of {type(item)}")
         group_size = 4
         item_info = {}
         print(f"structured_list:{structured_list}")
