@@ -199,7 +199,7 @@ public class DBManager {
         }
         sql.append(" order by id desc");
         String[] sqlParams = vector.toArray(new String[vector.size()]);
-        return getAccountList(sql.toString(),sqlParams,0);
+        return getAccountList(sql.toString(),sqlParams,new FloatWrapper(0));
     }
 
     public static void insertItemToAccounttb(AccountBean accountBean){
@@ -226,17 +226,20 @@ public class DBManager {
         int monthdefault = calendar.get(Calendar.MONTH) + 1;
         //default current month
         String sql = "select * from accounttb where (comment like '%"+ comment +"%'  or categoryName like '%"+ comment +"%') and year = "+yeardefault+" and month = "+monthdefault;
-        float summoney = 0;
+        sql+= " order by time desc";
+        FloatWrapper summoney = new FloatWrapper(0);
         List<AccountBean> list = getAccountList(sql,null,summoney);
-        list.add(0,getSumAccountBean(summoney));
+        System.out.println("summoney.getTotalMoeny():"+summoney.getTotalMoeny());
+        list.add(0,getSumAccountBean(summoney.getTotalMoeny()));
         return list;
     }
 
     public static List<AccountBean> getAccountListBySearchCondition(String comment, int yearparam, int monthparam){
         String sql = "select * from accounttb where (comment like '%"+ comment +"%'  or categoryName like '%"+ comment +"%') and year = "+yearparam+" and month = "+monthparam;
-        float summoney = 0;
+        sql+= " order by time desc";
+        FloatWrapper summoney = new FloatWrapper(0);
         List<AccountBean> list = getAccountList(sql,null,summoney);
-        list.add(0,getSumAccountBean(summoney));
+        list.add(0,getSumAccountBean(summoney.getTotalMoeny()));
         return list;
     }
 
@@ -386,9 +389,10 @@ public class DBManager {
         }
         return list;
     }
-    private static List<AccountBean> getAccountList(String sql,String[] sql_params,float summoney){
+    private static List<AccountBean> getAccountList(String sql,String[] sql_params,FloatWrapper floatWrapper){
         List<AccountBean> list = new ArrayList<>();
         Cursor cursor = db.rawQuery(sql ,sql_params);
+        float summoney = floatWrapper.getTotalMoeny();
         while(cursor.moveToNext()){
             int id = cursor.getInt(cursor.getColumnIndex("id"));
             String categoryName = cursor.getString(cursor.getColumnIndex("categoryName"));
@@ -405,6 +409,8 @@ public class DBManager {
             AccountBean accountBean = new AccountBean(id, categoryName, sImageId, comment, money, time, year, month, day, kind);
             list.add(accountBean);
         }
+//        System.out.println("summoney:"+summoney);
+        floatWrapper.setTotalMoeny(summoney);
         return list;
     }
 }

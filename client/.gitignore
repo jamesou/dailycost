@@ -19,3 +19,5 @@ local.properties
 target/
 build
 /daily-cost-tracker.jks
+release
+/pepk.jar

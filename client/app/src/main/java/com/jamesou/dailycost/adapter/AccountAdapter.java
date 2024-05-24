@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jamesou.dailycost.R;
+import com.jamesou.dailycost.SearchActivity;
 import com.jamesou.dailycost.db.AccountBean;
 import com.jamesou.dailycost.utils.FormatNumberUtil;
 
@@ -40,6 +41,7 @@ public class AccountAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
+//        System.out.println("mDatas:"+mDatas);
         return mDatas.get(position);
     }
 
@@ -64,18 +66,27 @@ public class AccountAdapter extends BaseAdapter {
         holder.typeTv.setText(bean.getCategoryName());
         holder.commentTv.setText(bean.getComment());
         holder.moneyTv.setText("$ " + FormatNumberUtil.formatFloat(bean.getMoney()));
+//        System.out.println("bean.getTime():"+bean.getTime());
+//        System.out.println("bean.getYear():"+bean.getYear());
+//        System.out.println("bean.getMonth():"+bean.getMonth());
+//        System.out.println("bean.getDay():"+bean.getDay());
+//        System.out.println("this:context:"+context);
         String[] timeArray = bean.getTime().split(" ");
         if (bean.getYear() == year && bean.getMonth() == month && bean.getDay() == day) {
             if(timeArray.length>1) {
                 String time = timeArray[1];
                 holder.timeTv.setText("Today " + time);
             }else {
-                holder.timeTv.setText("Today " + bean.getTime());
+                holder.timeTv.setText(bean.getTime());
             }
         }else{
-            if(timeArray.length>1) {
-                String time = timeArray[1];
-                holder.timeTv.setText(time);
+            if(context instanceof SearchActivity) { //search page
+                holder.timeTv.setText(bean.getTime());
+            }else{
+                if (timeArray.length > 1) {
+                    String time = timeArray[1];
+                    holder.timeTv.setText(time);
+                }
             }
         }
         return convertView;
