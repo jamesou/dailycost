@@ -9,17 +9,15 @@ from flask import Flask, render_template, request, jsonify
 from werkzeug.utils import secure_filename
 from paddleocr import PPStructure
 import paksave_receipt_parser
-# import logging
-# logging.disable(logging.DEBUG)   
-# logging.disable(logging.WARNING)
 
 def allowed_file(fname):
     return '.' in fname and fname.rsplit('.', 1)[1].lower() in ['png', 'jpg', 'jpeg']
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(hours=1)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
+table_engine = PPStructure()
 
 @app.route("/")
 def index():
@@ -63,6 +61,5 @@ def detect():
         }
     return jsonify(response)
 
-if __name__ == '__main__':
-    table_engine = PPStructure()
-    app.run(host='0.0.0.0', port=8090, debug=True, threaded=False, processes=1)
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=8090)

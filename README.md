@@ -8,6 +8,7 @@ To get started with the Daily Cost Tracker App, follow these steps:
 - Android (minSdkVersion 16 and targetSdkVersion 31)
 - Python  (version 3.8.19 or later)
 - PaddleOcr (version 2.6.1 or later for back-end ocr service)
+- pywsgi.WSGIServer(24.2.1),Flask(3.0.3) 
 ## Repository Structure
 
 The repository is organized into two main folders:
@@ -18,7 +19,7 @@ This folder contains the source code for the mobile client application, built us
 
 ### 2. `server`
 
-This folder contains the source code for the back-end service, built using Flask. The server application provides API endpoints for the mobile client to recognise receipt.
+This folder contains the source code for the back-end service. The server application provides API endpoints for the mobile client to recognise receipt.
 
 ## Snapshots
 ![Main](snapshots/Main.jpg) ![NewRecord](snapshots/NewRecord.jpg) ![History](snapshots/History.jpg)
