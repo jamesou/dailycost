@@ -98,17 +98,25 @@ public class ScanReceiptActivity extends TakePhotoActivity {
 
     private void saveToDB(List<ReceiptBean> dataList){
         float totalAmount = 0;
+        System.out.println("dataList-->"+dataList);
+        int dataSize = dataList.size();
+        int count = 1;
         for(ReceiptBean receiptBean:dataList){
-//            System.out.println("receiptBean-->"+receiptBean.toString());
-            if(receiptBean.getItem_amount()!=null
-                    &&!receiptBean.getItem_amount().trim().equals("")
-                    &&receiptBean.getItem_qty()!=null
-                    &&!receiptBean.getItem_qty().trim().equals("")
-            ){
+            if(count==dataSize){ //don't calculate last row
+                break;
+            }
+            if(receiptBean.getItem_amount()!=null){
                 String[] amountArray = receiptBean.getItem_amount().split("\\$");
 //                System.out.println("amountArray.length-->"+amountArray.length);
+//                for(String amount:amountArray)
+//                    System.out.println("amount-->"+amount);
                 if(amountArray.length>=2){
-                    float amount = Float.parseFloat(amountArray[1]);
+                    float amount = 0;
+                    if(amountArray[1].indexOf("EA")!=-1){
+                        amount = Float.parseFloat(amountArray[1].split("EA")[0]);
+                    }else{
+                        amount = Float.parseFloat(amountArray[1]);
+                    }
                     if(amountArray[0].equals("-")){//negative
                         totalAmount = totalAmount - amount;
                     } else{//positive
@@ -119,6 +127,16 @@ public class ScanReceiptActivity extends TakePhotoActivity {
                 }
             }else{
                 Log.i("saveToDB",receiptBean.getItem_name()+", amount is null, skip it");
+            }
+            count+=1;
+        }
+        System.out.println("calculate total money:"+totalAmount);
+        if(dataSize>0){
+            ReceiptBean receiptBean = dataList.get(dataSize-1);
+            if(receiptBean.getItem_amount()!=null){
+                String[] amountArray = receiptBean.getItem_amount().split("\\$");
+                totalAmount =  Float.parseFloat(amountArray[1]);
+                System.out.println("get from image total money:"+totalAmount);
             }
         }
         AccountBean accountBean = new AccountBean();
@@ -219,7 +237,7 @@ public void takeCancel() {
                 receiptBean.setItem_amount(jsonObj.get("item_amount")!=null?jsonObj.get("item_amount").getAsString():"");
                 dataList.add(receiptBean);
             }
-//            System.out.println("dataList:"+dataList);
+            System.out.println("dataList:"+dataList);
         }else{
             PromptMsgUtil.promptMsg(this,"Ocr result incorrect! please try again!");
         }

@@ -64,7 +64,7 @@
             android:id="@+id/iv_show_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_gravity="top"
             android:visibility="gone"  />
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progress_bar"

@@ -20,7 +20,7 @@ import okhttp3.Response;
 public class ImageUploader {
 
     private static final String SERVER_URL =  "http://110.41.187.73:8090/ocr"; //huawei elastic cloud server
-//private static final String SERVER_URL =  "http://192.168.68.67:8090/ocr";
+//    private static final String SERVER_URL =  "http://192.168.68.55:8090/ocr";
     public interface OnImageUploadListener {
         void onSuccess(String response);
         void onError(String error);
@@ -39,9 +39,9 @@ public class ImageUploader {
             this.fileParam = fileParam;
             this.listener = listener;
             client = new OkHttpClient.Builder()
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(60, TimeUnit.SECONDS)
-                    .readTimeout(90, TimeUnit.SECONDS).build();
+                    .connectTimeout(30, TimeUnit.MINUTES)
+                    .writeTimeout(30, TimeUnit.MINUTES)
+                    .readTimeout(30, TimeUnit.MINUTES).build();
         }
 
         @Override
