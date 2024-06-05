@@ -48,17 +48,6 @@ public class ChartActivity extends AppCompatActivity {
         initFrag();
         setVPSelectListener();
     }
-
-    //horizontally scroll the chart
-    private void setVPSelectListener() {
-        chartVp.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
-            @Override
-            public void onPageSelected(int position) {
-                setBtnStyle(position);
-            }
-        });
-    }
-
     private void initFrag() {
         chartFragList = new ArrayList<>();
         incomeChartFragment = new IncomeChartFragment();
@@ -69,14 +58,12 @@ public class ChartActivity extends AppCompatActivity {
         bundle.putInt("month" , month);
         incomeChartFragment.setArguments(bundle);
         expenseChartFragment.setArguments(bundle);
-
         chartFragList.add(expenseChartFragment);
         chartFragList.add(incomeChartFragment);
-
         chartVpAdapter = new ChartVpAdapter(getSupportFragmentManager(), chartFragList);
         chartVp.setAdapter(chartVpAdapter);
-
     }
+
 
     private void initDatas(int year, int month) {
         float incomeSumMonthly = DBManager.getSumMoneyByMonth(year, month, 1);
@@ -132,6 +119,16 @@ public class ChartActivity extends AppCompatActivity {
             }
         });
     }
+    //horizontally scroll the chart
+    private void setVPSelectListener() {
+        chartVp.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            @Override
+            public void onPageSelected(int position) {
+                setBtnStyle(position);
+            }
+        });
+    }
+
     public void onClick(View v){
         switch (v.getId()){
             case R.id.chart_iv_back:

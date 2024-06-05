@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
    >
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,7 +11,6 @@
         android:orientation="horizontal"
         android:paddingTop="10sp"
         android:paddingBottom="10sp">
-
         <TextView
             android:layout_width="0sp"
             android:layout_height="wrap_content"
@@ -21,7 +19,6 @@
             android:text="Mon"
             android:textColor="#767778"
             android:textSize="12sp" />
-
         <TextView
             android:layout_width="0sp"
             android:layout_height="wrap_content"
@@ -30,7 +27,6 @@
             android:text="Tues"
             android:textColor="#767778"
             android:textSize="12sp" />
-
         <TextView
             android:layout_width="0sp"
             android:layout_height="wrap_content"
@@ -39,7 +35,6 @@
             android:text="Wed"
             android:textColor="#767778"
             android:textSize="12sp" />
-
         <TextView
             android:layout_width="0sp"
             android:layout_height="wrap_content"
@@ -48,7 +43,6 @@
             android:text="Thurs"
             android:textColor="#767778"
             android:textSize="12sp" />
-
         <TextView
             android:layout_width="0sp"
             android:layout_height="wrap_content"
@@ -57,7 +51,6 @@
             android:text="Fri"
             android:textColor="#767778"
             android:textSize="12sp" />
-
         <TextView
             android:layout_width="0sp"
             android:layout_height="wrap_content"
@@ -66,7 +59,6 @@
             android:text="Sat"
             android:textColor="#fd9a9a"
             android:textSize="12sp" />
-
         <TextView
             android:layout_width="0sp"
             android:layout_height="wrap_content"
@@ -75,10 +67,7 @@
             android:text="Sun"
             android:textColor="#fd9a9a"
             android:textSize="12sp" />
-
     </LinearLayout>
-
-
     <GridView
         android:id="@+id/gv_calendar"
         android:layout_width="wrap_content"

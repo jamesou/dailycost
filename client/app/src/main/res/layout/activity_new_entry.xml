@@ -5,11 +5,9 @@
         android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:background="@color/grey_f3f3f3">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50sp">
-
         <ImageView
             android:id="@+id/record_iv_back"
             android:layout_width="30sp"
@@ -18,7 +16,6 @@
             android:layout_marginTop="5sp"
             android:onClick="onClick"
             android:src="@mipmap/it_back" />
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/record_tabs"
             android:layout_width="wrap_content"
@@ -32,7 +29,6 @@
             app:tabTextAppearance="@style/TabLayoutTextStyle"
             app:tabTextColor="@color/lightBlue" />
     </RelativeLayout>
-
     <androidx.viewpager.widget.ViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"

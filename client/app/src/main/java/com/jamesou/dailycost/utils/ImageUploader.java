@@ -31,7 +31,6 @@ public class ImageUploader {
     }
 
     private static class SendImageTask extends AsyncTask<Void, Void, String> {
-
         private final File fileParam;
         private final OnImageUploadListener listener;
         private OkHttpClient client;
@@ -43,7 +42,6 @@ public class ImageUploader {
                     .writeTimeout(30, TimeUnit.MINUTES)
                     .readTimeout(30, TimeUnit.MINUTES).build();
         }
-
         @Override
         protected String doInBackground(Void... params) {
             RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), fileParam);
@@ -67,7 +65,6 @@ public class ImageUploader {
                 return "Error: " + e.getMessage();
             }
         }
-
         @Override
         protected void onPostExecute(String result) {
             if (listener != null) {
@@ -80,20 +77,5 @@ public class ImageUploader {
             // 请求完成后关闭 OkHttpClient 实例
             client.dispatcher().executorService().shutdown();
         }
-    }
-    private static byte[] readFileToBytes(File file) {
-        byte[] bytes = null;
-        try (FileInputStream fis = new FileInputStream(file);
-             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = fis.read(buffer)) != -1) {
-                bos.write(buffer, 0, length);
-            }
-            bytes = bos.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bytes;
     }
 }

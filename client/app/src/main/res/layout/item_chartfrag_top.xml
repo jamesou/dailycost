@@ -13,6 +13,4 @@
               android:textStyle="bold"
               android:gravity="center"
               android:visibility="gone"/>
-
-
 </RelativeLayout>

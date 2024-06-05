@@ -56,16 +56,12 @@ public class ScanReceiptActivity extends TakePhotoActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_receipt);
         iv_show_image = (ImageView) findViewById(R.id.iv_show_image);
-
         progressBar = findViewById(R.id.progress_bar);
         progressBar.setAnimation(R.raw.scanning);
-
         resultLv = findViewById(R.id.display_result_lv);
         dataList = new ArrayList<ReceiptBean>();
         receiptAdapter = new ReceiptAdapter(this,dataList);
         resultLv.setAdapter(receiptAdapter);
-
-
         //Save to DB
         findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,9 +75,7 @@ public class ScanReceiptActivity extends TakePhotoActivity {
                 }
             }
         });
-
         takePhotoHelper = new TakePhotoHelper();
-
         findViewById(R.id.btn_camera).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

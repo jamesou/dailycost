@@ -30,16 +30,12 @@ import java.io.File;
 public class TakePhotoHelper {
     public static final String ACTION_TAKE_PHOTO="ACTION_TAKE_PHOTO";
     public static final String ACTION_PICK_PHOTO="ACTION_PICK_PHOTO";
-
-
     public  void configTakePhotoOption(TakePhoto takePhoto) {
         TakePhotoOptions.Builder builder = new TakePhotoOptions.Builder();
         takePhoto.setTakePhotoOptions(builder.create());
     }
-
     public  void configCompress(TakePhoto takePhoto) {
-//        takePhoto.onEnableCompress(null, false);
-//compress configuration
+    //compress configuration
         int maxSize = 102400;
         int width = 800;
         int height = 800;
@@ -51,7 +47,6 @@ public class TakePhotoHelper {
                 .create();
         takePhoto.onEnableCompress(config, showProgressBar);
     }
-
     public CropOptions getCropOptions() {
         int height = 800;
         int width = 800;
@@ -61,7 +56,6 @@ public class TakePhotoHelper {
         builder.setWithOwnCrop(withSystemCrop);
         return builder.create();
     }
-
     public void onClick(String action,TakePhoto takePhoto){
         File file = new File(Environment.getExternalStorageDirectory(), "/dailycost_temp/" + System.currentTimeMillis() + ".jpg");
         if (!file.getParentFile().exists()) {

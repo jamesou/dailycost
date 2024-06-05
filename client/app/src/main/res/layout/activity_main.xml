@@ -3,7 +3,6 @@
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     <LinearLayout
             android:id="@+id/listLayout"
             android:layout_width="match_parent"
@@ -11,7 +10,6 @@
             android:background="#F1F1F1"
             android:layout_margin="5sp"
             android:orientation="vertical">
-
         <RelativeLayout
                 xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -52,7 +50,6 @@
                       android:dividerHeight="6sp"
                       android:scrollbars="none"
                       android:background="@color/grey_f3f3f3"/>
-
             <Button android:layout_width="75sp" android:layout_height="50sp"
                 android:id="@+id/main_btn_scan"
                 android:background="@drawable/main_recordbtn_bg"
@@ -76,7 +73,6 @@
                     android:textColor="@color/white"/>
         </RelativeLayout>
     </LinearLayout>
-
     <!-- Left Menu -->
     <LinearLayout
             android:id="@+id/menu_frame"
